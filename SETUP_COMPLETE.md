@@ -11,7 +11,7 @@ You now have a **production-ready fluid typography system** inspired by Daylight
    - Proxima Nova (sans-serif) for body text
 2. **Tailwind Configuration**
    - Complete fluid type scale (text-fluid-xs → text-fluid-9xl)
-   - Fluid spacing utilities
+   - **Complete fluid spacing system** (use with `p-[var(--spacing-fluid-*)]`)
    - Custom color palette (cream, night, pink)
 3. **Custom CSS Utilities**
    - Pre-built heading styles (.heading-xl, .heading-lg, etc.)

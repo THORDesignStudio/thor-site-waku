@@ -28,6 +28,111 @@ export default function TypographyDemo() {
         </div>
       </section>
 
+      {/* Two Approaches Demo */}
+      <section className="py-20 px-6 bg-night text-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="heading-lg mb-4">Two Ways to Use Fluid Typography</h2>
+          <p className="body-lg text-white/70 mb-16 max-w-3xl">
+            Choose between convenience and control based on your needs.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Approach 1: Custom Utilities */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+              <div className="inline-block px-3 py-1 bg-pink/20 text-pink rounded-full text-sm mb-6">
+                Recommended
+              </div>
+              <h3 className="heading-md mb-4 text-white">
+                1. Custom Utilities
+              </h3>
+              <p className="body-md text-white/70 mb-8">
+                Pre-configured classes for common patterns. Includes font
+                family, size, line-height, and letter-spacing.
+              </p>
+
+              <div className="space-y-6">
+                <div>
+                  <code className="text-pink text-sm block mb-2">
+                    className="heading-xl"
+                  </code>
+                  <p className="heading-xl text-white">Quick Setup</p>
+                </div>
+
+                <div>
+                  <code className="text-pink text-sm block mb-2">
+                    className="body-lg"
+                  </code>
+                  <p className="body-lg text-white/90">
+                    Perfect for standard layouts with consistent typography.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Approach 2: Arbitrary Values */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+              <div className="inline-block px-3 py-1 bg-cream/20 text-cream rounded-full text-sm mb-6">
+                Advanced
+              </div>
+              <h3 className="heading-md mb-4 text-white">
+                2. Tailwind Arbitrary Values
+              </h3>
+              <p className="body-md text-white/70 mb-8">
+                Use variables directly for complete control. Combine with any
+                Tailwind utility or variant.
+              </p>
+
+              <div className="space-y-6">
+                <div>
+                  <code className="text-pink text-sm block mb-2">
+                    className="text-[var(--text-fluid-8xl)]"
+                  </code>
+                  <p className="text-[var(--text-fluid-8xl)] font-[var(--font-family-display)] leading-tight text-white">
+                    Full Control
+                  </p>
+                </div>
+
+                <div>
+                  <code className="text-pink text-sm block mb-2">
+                    className="text-[var(--text-fluid-lg)]
+                    md:text-[var(--text-fluid-xl)]"
+                  </code>
+                  <p className="text-[var(--text-fluid-lg)] md:text-[var(--text-fluid-xl)] text-white/90">
+                    Add responsive variants for precise control.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Code Examples */}
+          <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+            <h4 className="heading-sm mb-6 text-white">Code Examples</h4>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <p className="text-sm text-white/60 mb-3">Custom Utility:</p>
+                <pre className="bg-black/40 rounded-lg p-4 text-sm text-cream overflow-x-auto">
+                  {`<h1 className="heading-xl">
+  Amazing Title
+</h1>`}
+                </pre>
+              </div>
+
+              <div>
+                <p className="text-sm text-white/60 mb-3">Arbitrary Value:</p>
+                <pre className="bg-black/40 rounded-lg p-4 text-sm text-cream overflow-x-auto">
+                  {`<h1 className="text-[var(--text-fluid-8xl)] 
+     font-[var(--font-family-display)]">
+  Amazing Title
+</h1>`}
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Typography Scale Demo */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">

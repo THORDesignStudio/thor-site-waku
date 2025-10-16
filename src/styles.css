@@ -25,8 +25,8 @@
   --color-cream: #faf5f2;
   --color-cream-dark: #e8ded8;
   --color-cream-darker: #d1c9c3;
-  --color-night: #18190f;
-  --color-night-light: #262626;
+  --color-night: #002947;
+  --color-night-light: #003d5c;
   --color-pink: #ff003b;
   --color-pink-light: #ff3366;
   --color-pink-dark: #cc002f;
@@ -52,12 +52,86 @@
   --tracking-fluid-normal: clamp(0em, 0.005em + -0.1vw, -0.015em);
   --tracking-fluid-wide: clamp(0.01em, 0.015em + 0.1vw, 0.03em);
 
-  /* Fluid Spacing */
-  --spacing-fluid-xs: clamp(0.5rem, 0.45rem + 0.25vw, 0.75rem);
-  --spacing-fluid-sm: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
-  --spacing-fluid-md: clamp(2rem, 1.8rem + 1vw, 3rem);
-  --spacing-fluid-lg: clamp(3rem, 2.7rem + 1.5vw, 4.5rem);
-  --spacing-fluid-xl: clamp(4rem, 3.6rem + 2vw, 6rem);
+  /* Viewport-based Spacing - Pure viewport width units for fluid layouts */
+  --spacing-vw-1: 0.2083333333vw;
+  --spacing-vw-2: 0.4166666667vw;
+  --spacing-vw-3: 0.625vw;
+  --spacing-vw-4: 0.8333333333vw;
+  --spacing-vw-5: 1.0416666667vw;
+  --spacing-vw-6: 1.25vw;
+  --spacing-vw-7: 1.4583333333vw;
+  --spacing-vw-8: 1.6666666667vw;
+  --spacing-vw-9: 1.875vw;
+  --spacing-vw-10: 2.0833333333vw;
+  --spacing-vw-11: 2.2916666667vw;
+  --spacing-vw-12: 2.5vw;
+  --spacing-vw-14: 2.9166666667vw;
+  --spacing-vw-16: 3.3333333333vw;
+  --spacing-vw-18: 3.75vw;
+  --spacing-vw-20: 4.1666666667vw;
+  --spacing-vw-24: 5vw;
+  --spacing-vw-28: 5.8333333333vw;
+  --spacing-vw-32: 6.6666666667vw;
+  --spacing-vw-40: 8.3333333333vw;
+  --spacing-vw-44: 9.1666666667vw;
+  --spacing-vw-48: 10vw;
+  --spacing-vw-56: 11.6666666667vw;
+  --spacing-vw-64: 13.3333333333vw;
+  --spacing-vw-72: 15vw;
+  --spacing-vw-80: 16.6666666667vw;
+  --spacing-vw-96: 20vw;
+
+  /* Fluid Spacing Scale - Comprehensive system for padding, margins, gaps */
+  /* Extra Small (0-0.5rem range) */
+  --spacing-fluid-0: 0;
+  --spacing-fluid-px: 1px;
+  --spacing-fluid-0\.5: clamp(0.125rem, 0.1rem + 0.125vw, 0.25rem);
+
+  /* Small (0.5-1rem range) */
+  --spacing-fluid-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);
+  --spacing-fluid-1\.5: clamp(0.375rem, 0.3rem + 0.375vw, 0.75rem);
+  --spacing-fluid-2: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);
+  --spacing-fluid-2\.5: clamp(0.625rem, 0.5rem + 0.625vw, 1.25rem);
+  --spacing-fluid-3: clamp(0.75rem, 0.6rem + 0.75vw, 1.5rem);
+
+  /* Medium (1-2rem range) */
+  --spacing-fluid-3\.5: clamp(0.875rem, 0.7rem + 0.875vw, 1.75rem);
+  --spacing-fluid-4: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --spacing-fluid-5: clamp(1.25rem, 1rem + 1.25vw, 2.5rem);
+  --spacing-fluid-6: clamp(1.5rem, 1.2rem + 1.5vw, 3rem);
+
+  /* Large (2-4rem range) */
+  --spacing-fluid-7: clamp(1.75rem, 1.4rem + 1.75vw, 3.5rem);
+  --spacing-fluid-8: clamp(2rem, 1.6rem + 2vw, 4rem);
+  --spacing-fluid-9: clamp(2.25rem, 1.8rem + 2.25vw, 4.5rem);
+  --spacing-fluid-10: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+
+  /* Extra Large (4-8rem range) */
+  --spacing-fluid-11: clamp(2.75rem, 2.2rem + 2.75vw, 5.5rem);
+  --spacing-fluid-12: clamp(3rem, 2.4rem + 3vw, 6rem);
+  --spacing-fluid-14: clamp(3.5rem, 2.8rem + 3.5vw, 7rem);
+  --spacing-fluid-16: clamp(4rem, 3.2rem + 4vw, 8rem);
+
+  /* 2XL (8-12rem range) */
+  --spacing-fluid-20: clamp(5rem, 4rem + 5vw, 10rem);
+  --spacing-fluid-24: clamp(6rem, 4.8rem + 6vw, 12rem);
+
+  /* 3XL (12-16rem range) */
+  --spacing-fluid-28: clamp(7rem, 5.6rem + 7vw, 14rem);
+  --spacing-fluid-32: clamp(8rem, 6.4rem + 8vw, 16rem);
+
+  /* 4XL (16rem+ range) */
+  --spacing-fluid-36: clamp(9rem, 7.2rem + 9vw, 18rem);
+  --spacing-fluid-40: clamp(10rem, 8rem + 10vw, 20rem);
+  --spacing-fluid-44: clamp(11rem, 8.8rem + 11vw, 22rem);
+  --spacing-fluid-48: clamp(12rem, 9.6rem + 12vw, 24rem);
+  --spacing-fluid-52: clamp(13rem, 10.4rem + 13vw, 26rem);
+  --spacing-fluid-56: clamp(14rem, 11.2rem + 14vw, 28rem);
+  --spacing-fluid-60: clamp(15rem, 12rem + 15vw, 30rem);
+  --spacing-fluid-64: clamp(16rem, 12.8rem + 16vw, 32rem);
+  --spacing-fluid-72: clamp(18rem, 14.4rem + 18vw, 36rem);
+  --spacing-fluid-80: clamp(20rem, 16rem + 20vw, 40rem);
+  --spacing-fluid-96: clamp(24rem, 19.2rem + 24vw, 48rem);
 }
 
 @layer base {
@@ -82,6 +156,19 @@
 }
 
 @layer utilities {
+  /* 
+   * Typography Usage:
+   * 
+   * Option 1 - Custom utility classes (recommended for common patterns):
+   *   <h1 className="heading-xl">
+   * 
+   * Option 2 - Tailwind arbitrary values (for custom control):
+   *   <h1 className="text-[var(--text-fluid-8xl)] font-[var(--font-family-display)]">
+   *   <p className="text-[var(--text-fluid-base)] md:text-[var(--text-fluid-lg)]">
+   * 
+   * Both approaches work with full Tailwind features (responsive variants, hover states, etc.)
+   */
+
   /* Custom typography utilities */
   .text-display {
     font-family: var(--font-family-display);
@@ -151,4 +238,10 @@
     font-family: var(--font-family-sans);
     line-height: var(--leading-normal);
   }
+
+  /* 
+   * Note: For fluid spacing, use Tailwind's arbitrary value syntax:
+   * Example: p-[var(--spacing-fluid-4)], mx-[var(--spacing-fluid-8)]
+   * This gives you full access to Tailwind's responsive and state variants.
+   */
 }

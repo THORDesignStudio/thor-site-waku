@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <link rel="icon" type="image/png" href={data.icon} />
       <link rel="stylesheet" href="https://use.typekit.net/wmf2hcd.css" />
       <Header />
-      <main className="flex items-center justify-center">{children}</main>
+      <main>{children}</main>
       <Footer />
     </div>
   );
