@@ -4,7 +4,7 @@ export const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 py-4 md:py-6">
       <div className="px-4 md:px-6 lg:px-8 flex items-center justify-between gap-4">
-        <nav className="flex items-center justify-between bg-night backdrop-blur-md rounded-full p-2 shadow-lg max-w-6xl w-full mx-auto border-2 border-white/60">
+        <nav className="flex items-center justify-between bg-night/50 hover:bg-night/90 transition-colors duration-300 hover:cursor-pointer rounded-full p-2 shadow-lg max-w-6xl w-full mx-auto border-2 border-white/60">
           <Link to="/" className="flex items-center pl-6">
             <img
               src="/images/THOR_logo_WHITE.svg"
@@ -33,7 +33,7 @@ export const Header = () => {
             </Link>
             <Link
               to="/contact"
-              className="hidden md:block px-6 lg:px-8 py-3 lg:py-4 bg-pink text-white text-sm font-medium rounded-full hover:bg-pink-dark transition-colors shadow-lg whitespace-nowrap"
+              className="hidden md:block px-6 lg:px-8 py-3 lg:py-4 bg-pink text-white text-sm font-medium rounded-full transition-colors shadow-lg whitespace-nowrap"
             >
               Work With Us
             </Link>
