@@ -11,15 +11,16 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\""
   },
   "dependencies": {
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "react-server-dom-webpack": "19.1.1",
-    "waku": "0.26.1"
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-server-dom-webpack": "19.2.0",
+    "waku": "0.27.1",
+    "@emotion/css": "11.13.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.1.13",
-    "@types/react": "19.1.12",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
     "prettier": "^3.3.3",
     "tailwindcss": "4.1.13",
     "typescript": "5.9.2"
