@@ -28,8 +28,17 @@ const DEFAULT_GRADIENT = [
   'hsl(55deg 100% 50%)',
 ];
 
+const THOR_GRADIENT = [
+  'hsl(255deg 59.5% 14.5%)', // deep blue almost purple
+  'hsl(226deg 54% 19.6%)', // flat gray-blue
+  'hsl(281deg 63.4% 27.8%)', // spicy purple
+  'hsl(319deg 96.4% 32.9%)', // flat pink
+  'hsl(328deg 100% 40.6%)', // bold pink
+  'hsl(337deg 100% 48.2%)', // kinda salmon pink
+];
+
 const colorConfiguration = {
-  gradient: DEFAULT_GRADIENT,
+  gradient: THOR_GRADIENT,
 };
 
 function calculateWebGLCanvasDimensions(
@@ -62,6 +71,8 @@ export interface WebGLShaderProps {
   seed?: number;
 }
 
+// Adapted from Alex Harri's incredible shader tutorial:
+// https://alexharri.com/blog/webgl-gradients
 export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

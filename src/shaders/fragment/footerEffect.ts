@@ -5,6 +5,8 @@ import {
   FragmentShaderUniforms,
 } from '../../types/shader';
 
+// Adapated from Alex Harri's incredible shader walkthrough:
+// https://alexharri.com/blog/webgl-gradients
 const createFragmentShader: CreateFragmentShader = () => {
   const uniforms: FragmentShaderUniforms = {};
   const shader = /* glsl */ `
@@ -34,7 +36,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       const float F = 0.034;
       
       float x = gl_FragCoord.x;
-      float time = u_time + offset;
+      float time = u_time * 0.15 + offset;
       float blur_t = (simplex_noise(vec2(x * L + F * time, time * S)) + 1.0) / 2.0;
       blur_t = pow(blur_t, 1.8);
       
@@ -47,7 +49,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       const float S = 0.04;
       const float F = 0.031;
 
-      float t = u_time + offset;
+      float t = u_time * 0.15 + offset;
 
       float sum = 0.0;
       sum += simplex_noise(vec2(x * (L / 1.00) + F * t, t * S * 1.00)) * 0.85;
@@ -65,6 +67,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       
       float dist = wave_y - y;
       float blur = calc_blur(offset);
+      blur *= 2.5;
 
       float alpha = clamp(0.5 + dist / blur, 0.0, 1.0);
       alpha = smoothstep(alpha);
@@ -80,13 +83,29 @@ const createFragmentShader: CreateFragmentShader = () => {
       float x = gl_FragCoord.x;
       float y = gl_FragCoord.y * Y_SCALE;
 
-      float time = u_time + offset;
+      float time = u_time * 0.5 + offset;
       
       float sum = 0.5;
       sum += simplex_noise(vec3(x * L * 1.0 +  F * 1.0, y * L * 1.00, time * S)) * 0.30;
       sum += simplex_noise(vec3(x * L * 0.6 + -F * 0.6, y * L * 0.85, time * S)) * 0.26;
       sum += simplex_noise(vec3(x * L * 0.4 +  F * 0.8, y * L * 0.70, time * S)) * 0.22;
       return clamp(sum, 0.0, 1.0);
+    }
+
+    float screenPattern(vec2 fragCoord) {
+      
+      const float SPACING = 6.0; // Distance between dot centers in pixels
+      
+      const float RADIUS = 2.0; // Dot radius and softness
+      const float EDGE   = 1.5; // Dot edge softness
+      
+      vec2 cell = mod(fragCoord, SPACING) - vec2(SPACING * 0.5); // Move into a repeating grid cell
+      
+      float d = length(cell); // Distance from the center of the cell
+      
+      float dot = 1.0 - smoothstep(RADIUS, RADIUS + EDGE, d); // Soft circular dot: 1 at center, fades to 0
+
+      return dot; // 0..1
     }
 
     void main() {
@@ -101,7 +120,19 @@ const createFragmentShader: CreateFragmentShader = () => {
       lightness = mix(lightness, w1_lightness, w1_alpha);
       lightness = mix(lightness, w2_lightness, w2_alpha);
 
-      gl_FragColor = texture2D(u_gradient, vec2(lightness, 0.5));
+      // Treat base color as the background 
+      vec4 baseColor = texture2D(u_gradient, vec2(lightness, 0.5));
+
+      // Screen pattern
+      float mask = screenPattern(gl_FragCoord.xy);
+
+      // Darken the base color to simulate the “material” of the screen
+      vec3 darkLayer = baseColor.rgb * 0.45;
+
+      // mask value will end up being 0 or 1, so we can use it to mix between the dark layer and the base color
+      vec3 finalRgb = mix(darkLayer, baseColor.rgb, mask);
+
+      gl_FragColor = vec4(finalRgb, 1.0);
     }
   `;
   return { shader, uniforms };

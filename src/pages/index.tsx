@@ -15,6 +15,25 @@ export default async function HomePage() {
           Typography
         </Link>
       </div>
+      <div
+        style={{
+          width: '100%',
+          height: '140px',
+          borderRadius: '8px',
+          background:
+            'linear-gradient(to right, hsl(240deg 100% 20%), hsl(281deg 100% 21%), hsl(304deg 100% 23%), hsl(319deg 100% 30%), hsl(329deg 100% 36%), hsl(336deg 100% 41%), hsl(346deg 83% 51%), hsl(3deg 95% 61%), hsl(17deg 100% 59%), hsl(30deg 100% 55%), hsl(40deg 100% 50%), hsl(48deg 100% 50%), hsl(55deg 100% 50%) )',
+        }}
+      ></div>
+
+      <div
+        style={{
+          width: '100%',
+          height: '140px',
+          borderRadius: '8px',
+          background:
+            'linear-gradient(to right, hsl(255deg 59.5% 14.5%), hsl(226deg 54% 19.6%), hsl(281deg 63.4% 27.8%), hsl(319deg 96.4% 32.9%), hsl(328deg 100% 40.6%) )',
+        }}
+      ></div>
     </div>
   );
 }

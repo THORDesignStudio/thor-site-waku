@@ -1,7 +1,10 @@
+// Adapted from Alex Harri's incredible shader tutorial:
+// https://alexharri.com/blog/webgl-gradients
+
 const N_TIME_VALUES = 2;
 
 function timeKey(index: number) {
-  let key = "u_time";
+  let key = 'u_time';
   if (index > 0) key += String(index + 1);
   return key;
 }
@@ -34,17 +37,21 @@ export class WebGLRenderer {
     vertexShader: string,
     fragmentShader: string,
     colorConfig: ColorConfiguration,
-    seed: number | undefined,
+    seed: number | undefined
   ) {
-    const gl = canvas.getContext("webgl", { premultipliedAlpha: false });
+    const gl = canvas.getContext('webgl', { premultipliedAlpha: false });
     if (!gl) {
-      throw new Error("Failed to acquire WebGL context");
+      throw new Error('Failed to acquire WebGL context');
     }
     this.gl = gl;
-    this.program = WebGLRenderer.createProgram(gl, vertexShader, fragmentShader);
+    this.program = WebGLRenderer.createProgram(
+      gl,
+      vertexShader,
+      fragmentShader
+    );
     this.positionBuffer = gl.createBuffer();
     this.gradientTexture = gl.createTexture();
-    this.a_position = gl.getAttribLocation(this.program, "a_position");
+    this.a_position = gl.getAttribLocation(this.program, 'a_position');
 
     seed ??= Math.random() * 100_000;
     this.timeStates = Array.from({ length: N_TIME_VALUES }).map(() => ({
@@ -54,25 +61,44 @@ export class WebGLRenderer {
       timeSpeed: 1,
     }));
 
-    WebGLRenderer.writeGradientToTexture(gl, colorConfig.gradient, this.gradientTexture, 1000, 2);
+    WebGLRenderer.writeGradientToTexture(
+      gl,
+      colorConfig.gradient,
+      this.gradientTexture,
+      1000,
+      2
+    );
 
-    gl.vertexAttribPointer(this.a_position, /* vec2 */ 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(
+      this.a_position,
+      /* vec2 */ 2,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
     gl.useProgram(this.program);
   }
 
   public setColorConfig(colorConfig: ColorConfiguration) {
     const { gl } = this;
-    WebGLRenderer.writeGradientToTexture(gl, colorConfig.gradient, this.gradientTexture, 1000, 2);
+    WebGLRenderer.writeGradientToTexture(
+      gl,
+      colorConfig.gradient,
+      this.gradientTexture,
+      1000,
+      2
+    );
   }
 
   public getSeed() {
     const state = this.timeStates[0];
-    return state.seed;
+    return state?.seed;
   }
 
   public getTime() {
     const state = this.timeStates[0];
-    return state.elapsed / 1000;
+    return state && state.elapsed / 1000;
   }
 
   public render() {
@@ -84,24 +110,31 @@ export class WebGLRenderer {
     // Set uniforms
     for (let i = 0; i < N_TIME_VALUES; i++) {
       const state = this.timeStates[i];
-      state.elapsed += (now - state.lastTime) * state.timeSpeed;
-      state.lastTime = now;
-      const time = state.seed + state.elapsed / 1000;
-      gl.uniform1f(this.getUniformLocation(timeKey(i)), time);
+      state && (state.elapsed += (now - state.lastTime) * state.timeSpeed);
+      state && (state.lastTime = now);
+      const time = state && state.seed + state.elapsed / 1000;
+      time && gl.uniform1f(this.getUniformLocation(timeKey(i)), time);
     }
-    gl.uniform1f(this.getUniformLocation("u_w"), gl.canvas.width);
-    gl.uniform1f(this.getUniformLocation("u_h"), gl.canvas.height);
+    gl.uniform1f(this.getUniformLocation('u_w'), gl.canvas.width);
+    gl.uniform1f(this.getUniformLocation('u_h'), gl.canvas.height);
 
     // Pass gradient texture
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, this.gradientTexture);
-    gl.uniform1i(this.getUniformLocation("u_gradient"), 0);
+    gl.uniform1i(this.getUniformLocation('u_gradient'), 0);
 
     // Clear canvas
     this.clear();
 
     // Draw 2 triangles forming quad
-    gl.vertexAttribPointer(this.a_position, /* vec2 */ 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(
+      this.a_position,
+      /* vec2 */ 2,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
     gl.enableVertexAttribArray(this.a_position);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
     gl.drawArrays(gl.TRIANGLES, 0, this.positions().length / 2);
@@ -120,7 +153,7 @@ export class WebGLRenderer {
   }
 
   public setTimeSpeed(index: number, value: number) {
-    this.timeStates[index].timeSpeed = value;
+    this.timeStates[index] && (this.timeStates[index].timeSpeed = value);
   }
 
   public setDimensions(width: number, height: number) {
@@ -132,7 +165,11 @@ export class WebGLRenderer {
 
     // Place positions into buffer
     gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.positions()), gl.STATIC_DRAW);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array(this.positions()),
+      gl.STATIC_DRAW
+    );
   }
 
   private getUniformLocation(key: string): WebGLUniformLocation | null {
@@ -163,14 +200,14 @@ export class WebGLRenderer {
     gradient: string[],
     texture: WebGLTexture | null,
     width: number,
-    height: number,
+    height: number
   ) {
     // Create canvas
-    const canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
     canvas.height = height;
     canvas.width = width;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Failed to get canvas 2D context");
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Failed to get canvas 2D context');
 
     // Render gradient to texture
     const linearGradient = ctx.createLinearGradient(0, 0, width, 0);
@@ -195,12 +232,14 @@ export class WebGLRenderer {
 
   private static createShader(
     gl: WebGLRenderingContext,
-    type: WebGLRenderingContext["VERTEX_SHADER"] | WebGLRenderingContext["FRAGMENT_SHADER"],
-    source: string,
+    type:
+      | WebGLRenderingContext['VERTEX_SHADER']
+      | WebGLRenderingContext['FRAGMENT_SHADER'],
+    source: string
   ): WebGLShader {
     const shader = gl.createShader(type);
     if (!shader) {
-      throw new Error("Failed to create shader");
+      throw new Error('Failed to create shader');
     }
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
@@ -211,20 +250,26 @@ export class WebGLRenderer {
 
     console.log(gl.getShaderInfoLog(shader));
     gl.deleteShader(shader);
-    throw new Error("Failed to compile shader");
+    throw new Error('Failed to compile shader');
   }
 
   private static createProgram(
     gl: WebGLRenderingContext,
     vertexShader: string,
-    fragmentShader: string,
+    fragmentShader: string
   ) {
     const program = gl.createProgram();
     if (!program) {
-      throw new Error("Failed to create program");
+      throw new Error('Failed to create program');
     }
-    gl.attachShader(program, this.createShader(gl, gl.VERTEX_SHADER, vertexShader));
-    gl.attachShader(program, this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShader));
+    gl.attachShader(
+      program,
+      this.createShader(gl, gl.VERTEX_SHADER, vertexShader)
+    );
+    gl.attachShader(
+      program,
+      this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShader)
+    );
     gl.linkProgram(program);
     const success = gl.getProgramParameter(program, gl.LINK_STATUS);
     if (success) {
@@ -233,6 +278,6 @@ export class WebGLRenderer {
 
     console.log(gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
-    throw new Error("Failed to create shader");
+    throw new Error('Failed to create shader');
   }
 }

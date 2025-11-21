@@ -12,8 +12,8 @@ export const Footer = () => {
       </footer>
       <WebGLShader
         minWidth={600}
-        height={400}
-        maintainHeight={0.7}
+        height={600}
+        maintainHeight={0.8}
         seed={30005}
       />
     </>
