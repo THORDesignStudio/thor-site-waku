@@ -11,34 +11,15 @@ import { useViewportWidth } from '../../hooks/useViewportWidth';
 const DEFAULT_HEIGHT = 250;
 const SKEW_DEG = 6;
 
-// Color gradient configuration
-const DEFAULT_GRADIENT = [
-  'hsl(240deg 100% 20%)',
-  'hsl(281deg 100% 21%)',
-  'hsl(304deg 100% 23%)',
-  'hsl(319deg 100% 30%)',
-  'hsl(329deg 100% 36%)',
-  'hsl(336deg 100% 41%)',
-  'hsl(346deg 83% 51%)',
-  'hsl(3deg 95% 61%)',
-  'hsl(17deg 100% 59%)',
-  'hsl(30deg 100% 55%)',
-  'hsl(40deg 100% 50%)',
-  'hsl(48deg 100% 50%)',
-  'hsl(55deg 100% 50%)',
-];
-
-const THOR_GRADIENT = [
-  'hsl(255deg 59.5% 14.5%)', // deep blue almost purple
-  'hsl(226deg 54% 19.6%)', // flat gray-blue
-  'hsl(281deg 63.4% 27.8%)', // spicy purple
-  'hsl(319deg 96.4% 32.9%)', // flat pink
-  'hsl(328deg 100% 40.6%)', // bold pink
-  'hsl(337deg 100% 48.2%)', // kinda salmon pink
-];
-
 const colorConfiguration = {
-  gradient: THOR_GRADIENT,
+  gradient: [
+    'hsl(255deg 59.5% 14.5%)',
+    'hsl(226deg 54% 19.6%)',
+    'hsl(281deg 63.4% 27.8%)',
+    'hsl(319deg 96.4% 32.9%)',
+    'hsl(328deg 100% 40.6%)',
+    'hsl(337deg 100% 48.2%)',
+  ],
 };
 
 function calculateWebGLCanvasDimensions(
