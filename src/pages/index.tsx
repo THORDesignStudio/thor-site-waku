@@ -9,30 +9,6 @@ export default async function HomePage() {
       <h1 className="heading-xl mb-8">THOR Site Samples</h1>
       <div className="flex flex-col gap-4">
         <Link
-          to="/hero-space"
-          className="px-8 py-4 bg-pink text-white rounded-lg hover:bg-pink-dark transition-colors text-fluid-base font-medium text-center"
-        >
-          Hero Space
-        </Link>
-        <Link
-          to="/hero-landscape"
-          className="px-8 py-4 bg-pink text-white rounded-lg hover:bg-pink-dark transition-colors text-fluid-base font-medium text-center"
-        >
-          Hero Landscape
-        </Link>
-        <Link
-          to="/hero-centex"
-          className="px-8 py-4 bg-pink text-white rounded-lg hover:bg-pink-dark transition-colors text-fluid-base font-medium text-center"
-        >
-          Hero Centex
-        </Link>
-        <Link
-          to="/hero-intercom"
-          className="px-8 py-4 bg-pink text-white rounded-lg hover:bg-pink-dark transition-colors text-fluid-base font-medium text-center"
-        >
-          Hero Intercom
-        </Link>
-        <Link
           to="/typography"
           className="px-8 py-4 bg-night text-white rounded-lg hover:bg-night/80 transition-colors text-fluid-base font-medium text-center"
         >
