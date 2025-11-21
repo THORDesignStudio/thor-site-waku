@@ -346,6 +346,279 @@ export default function TypographyDemo() {
         </div>
       </section>
 
+      {/* Color Palette */}
+      <section className="py-20 px-6 bg-cream">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="heading-lg mb-4">Color Palette</h2>
+          <p className="body-lg text-night/70 mb-12 max-w-3xl">
+            Our color system is built on a vibrant gradient that flows from deep
+            blues through purples to energetic pinks. Each color is defined as a
+            CSS variable for consistency across the entire design system.
+          </p>
+
+          {/* Gradient Showcase */}
+          <div className="mb-16">
+            <h3 className="heading-sm mb-6 text-pink">Brand Gradient</h3>
+            <div
+              style={{
+                width: '100%',
+                height: '180px',
+                borderRadius: '12px',
+                background:
+                  'linear-gradient(to right, hsl(255deg 59.5% 14.5%), hsl(226deg 54% 19.6%), hsl(281deg 63.4% 27.8%), hsl(319deg 96.4% 32.9%), hsl(328deg 100% 40.6%), hsl(337deg 100% 48.2%))',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+              }}
+            />
+            <p className="text-fluid-sm text-night/60 mt-4">
+              Used in the WebGL footer shader and key brand moments
+            </p>
+          </div>
+
+          {/* Color Table */}
+          <div>
+            <h3 className="heading-sm mb-6 text-pink">Color Reference</h3>
+            <div className="bg-white rounded-2xl overflow-hidden border border-night/10">
+              {/* Table Header */}
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 bg-night text-cream text-fluid-sm font-medium border-b border-night/10">
+                <div>Color</div>
+                <div>Variable Name</div>
+                <div>Hex</div>
+                <div>HSL</div>
+              </div>
+
+              {/* Gradient Colors */}
+              <div className="border-b border-night/5 bg-cream-dark/30">
+                <div className="px-4 py-3 text-fluid-xs uppercase tracking-wider text-night/60 font-medium">
+                  Gradient Colors
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#18133e' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-night
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #18133e
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(255deg 59.5% 14.5%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#172341' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-gray-blue
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #172341
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(226deg 54% 19.6%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#592674' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-spicy-purple
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #592674
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(281deg 63.4% 27.8%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#b32674' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-pink-flat
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #b32674
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(319deg 96.4% 32.9%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#ea2b6f' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-pink
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #ea2b6f
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(328deg 100% 40.6%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#ff568a' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-pink-dark
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #ff568a
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(337deg 100% 48.2%)
+                </div>
+              </div>
+
+              {/* Accent Colors */}
+              <div className="border-b border-night/5 bg-cream-dark/30">
+                <div className="px-4 py-3 text-fluid-xs uppercase tracking-wider text-night/60 font-medium">
+                  Accent Colors
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#003d5c' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-night-light
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #003d5c
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(202deg 100% 18%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#ef4f86' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-pink-light
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #ef4f86
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(330deg 100% 42.5%)
+                </div>
+              </div>
+
+              {/* Neutral Colors */}
+              <div className="border-b border-night/5 bg-cream-dark/30">
+                <div className="px-4 py-3 text-fluid-xs uppercase tracking-wider text-night/60 font-medium">
+                  Neutral Colors
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#faf5f2' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-cream
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #faf5f2
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(22deg 56% 97%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 border-b border-night/5 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#e8ded8' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-cream-dark
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #e8ded8
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(22deg 34% 89%)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[80px_1fr_120px_200px] gap-4 p-4 hover:bg-cream-dark/50 transition-colors">
+                <div className="flex items-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border border-night/10"
+                    style={{ backgroundColor: '#d1c9c3' }}
+                  />
+                </div>
+                <div className="flex items-center font-mono text-fluid-sm">
+                  --color-cream-darker
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  #d1c9c3
+                </div>
+                <div className="flex items-center text-fluid-sm text-night/70">
+                  hsl(22deg 18% 81%)
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 bg-night/5 rounded-xl p-6">
+              <p className="text-fluid-sm text-night/70">
+                <span className="font-medium text-pink">Pro tip:</span> Use
+                these colors with Tailwind's arbitrary value syntax:
+                <code className="ml-2 px-2 py-1 bg-white rounded text-pink text-fluid-xs">
+                  bg-[var(--color-pink)]
+                </code>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Custom Utility Classes */}
       <section className="py-20 px-6 bg-cream-dark">
         <div className="max-w-6xl mx-auto">
@@ -455,20 +728,6 @@ export default function TypographyDemo() {
               </ul>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-32 px-6 bg-gradient-to-br from-pink to-pink-dark text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="heading-xl mb-6">Ready to Scale?</h2>
-          <p className="text-fluid-xl mb-12 opacity-90">
-            This fluid typography system adapts beautifully to any device, from
-            the smallest phone to the largest desktop display.
-          </p>
-          <button className="px-12 py-5 bg-white text-night rounded-lg hover:bg-cream transition-colors text-fluid-lg font-medium">
-            Start Building
-          </button>
         </div>
       </section>
     </div>
