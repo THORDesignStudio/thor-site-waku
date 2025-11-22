@@ -25,11 +25,20 @@ export const Footer = () => {
 
         <div className="relative z-10 container flex flex-col justify-between w-full h-full xl:flex-row gap-x-vw-12 gap-y-vw-12 lg:gap-y-vw-20 paragraph-md p-16 text-white max-w-8xl mx-auto">
           <div className="flex flex-col w-full gap-y-[2em] flex-1 justify-between">
-            <img
-              src="/images/THOR_logo_WHITE.svg"
-              alt="THOR Digital and THOR Studio"
-              className="max-w-[500px]"
-            />
+            <div>
+              <img
+                src="/images/THOR_logo_WHITE.svg"
+                alt="THOR Digital and THOR Studio"
+                className="max-w-[500px]"
+              />
+              <p className="text-fluid-2xl font-sans font-extrabold uppercase mt-6 tracking-[var(--tracking-fluid-widest)]">
+                Discovers of elusive solutions.
+              </p>
+              <p className="text-fluid-2xl font-sans font-extrabold uppercase mt-0 tracking-[var(--tracking-fluid-widest)]">
+                Purveyors of fine design.
+              </p>
+            </div>
+
             <ul className="text-fluid-sm flex flex-col">
               <li>THOR Digital LLC • 2025</li>
               <li>
@@ -44,6 +53,7 @@ export const Footer = () => {
               </li>
             </ul>
           </div>
+
           <div className="xl:max-w-[max(700px,37vw)] grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[2.33em] gap-[1.25em] font-sans md:gap-y-[2em]">
             {/* What */}
             <div>
