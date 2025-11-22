@@ -36,7 +36,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       const float F = 0.034;
       
       float x = gl_FragCoord.x;
-      float time = u_time * 0.15 + offset;
+      float time = u_time * 0.5 + offset;
       float blur_t = (simplex_noise(vec2(x * L + F * time, time * S)) + 1.0) / 2.0;
       blur_t = pow(blur_t, 1.8);
       
@@ -49,7 +49,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       const float S = 0.04;
       const float F = 0.031;
 
-      float t = u_time * 0.15 + offset;
+      float t = u_time * 0.5 + offset;
 
       float sum = 0.0;
       sum += simplex_noise(vec2(x * (L / 1.00) + F * t, t * S * 1.00)) * 0.85;
