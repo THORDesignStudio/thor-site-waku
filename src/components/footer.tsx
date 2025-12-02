@@ -1,6 +1,10 @@
 'use client';
 
 import { WebGLShader } from './WebGLShader/WebGLShader';
+import { footerMenu } from '../data/menus';
+
+const linkClassName =
+  'inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]';
 
 export const Footer = () => {
   return (
@@ -32,7 +36,7 @@ export const Footer = () => {
                 className="max-w-[500px]"
               />
               <p className="text-fluid-2xl font-sans font-extrabold uppercase mt-6 tracking-[var(--tracking-fluid-widest)]">
-                Discovers of elusive solutions.
+                Discoverers of elusive solutions.
               </p>
               <p className="text-fluid-2xl font-sans font-extrabold uppercase mt-0 tracking-[var(--tracking-fluid-widest)]">
                 Purveyors of fine design.
@@ -55,138 +59,26 @@ export const Footer = () => {
           </div>
 
           <div className="xl:max-w-[max(700px,37vw)] grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[2.33em] gap-[1.25em] font-sans md:gap-y-[2em]">
-            {/* What */}
-            <div>
-              <span className="text-fluid-sm font-sans font-extrabold">
-                What
-              </span>
-              <ul className="paragraph-md space-y-vw-2 mt-2">
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-home-link"
-                    href="/"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-about-link"
-                    href="/about"
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-capabilities-link"
-                    href="/capabilities"
-                  >
-                    Capabilities
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-featured-work-link"
-                    href="/featured-work"
-                  >
-                    Featured Work
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* How */}
-            <div>
-              <span className="text-fluid-sm font-sans font-extrabold">
-                How
-              </span>
-              <ul className="paragraph-md space-y-vw-2 mt-2">
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-discovery-link"
-                    href="/writing/discovery"
-                  >
-                    Discovery
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-architecture-link"
-                    href="/writing/architecture"
-                  >
-                    Architecture
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-design-link"
-                    href="/writing/design"
-                  >
-                    Design
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-development-link"
-                    href="/writing/development"
-                  >
-                    Development
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-project-management-link"
-                    href="/writing/project-management"
-                  >
-                    Project Management
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* Where */}
-            <div>
-              <span className="text-fluid-sm font-sans font-extrabold">
-                Where
-              </span>
-              <ul className="paragraph-md space-y-vw-2 mt-2">
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-associations-link"
-                    href="/verticals/associations"
-                  >
-                    Associations
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-engineering-link"
-                    href="/verticals/engineering"
-                  >
-                    Engineering
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
-                    id="footer-nav-outdoor-link"
-                    href="/verticals/outdoor"
-                  >
-                    Outdoor
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {footerMenu.sections.map((section) => (
+              <div key={section.title}>
+                <span className="text-fluid-sm font-sans font-extrabold">
+                  {section.title}
+                </span>
+                <ul className="paragraph-md space-y-vw-2 mt-2">
+                  {section.links.map((link) => (
+                    <li key={link.url}>
+                      <a
+                        className={linkClassName}
+                        id={`footer-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}-link`}
+                        href={link.url}
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>
