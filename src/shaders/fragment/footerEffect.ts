@@ -86,9 +86,8 @@ const createFragmentShader: CreateFragmentShader = () => {
       float time = u_time * 0.5 + offset;
       
       float sum = 0.5;
-      sum += simplex_noise(vec3(x * L * 1.0 +  F * 1.0, y * L * 1.00, time * S)) * 0.30;
-      sum += simplex_noise(vec3(x * L * 0.6 + -F * 0.6, y * L * 0.85, time * S)) * 0.26;
-      sum += simplex_noise(vec3(x * L * 0.4 +  F * 0.8, y * L * 0.70, time * S)) * 0.22;
+      sum += simplex_noise(vec3(x * L + F, y * L, time * S)) * 0.35;
+      sum += simplex_noise(vec3(x * L * 0.6 - F * 0.6, y * L * 0.85, time * S)) * 0.30;
       return clamp(sum, 0.0, 1.0);
     }
 
