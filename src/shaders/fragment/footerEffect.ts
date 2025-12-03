@@ -28,21 +28,6 @@ const createFragmentShader: CreateFragmentShader = () => {
 
     float smoothstep(float t)
       { return t * t * t * (t * (6.0 * t - 15.0) + 10.0); }
-    
-    float calc_blur(float offset) {
-      const float BLUR_AMOUNT = 130.0;
-      const float L = 0.0018;
-      const float S = 0.1;
-      const float F = 0.034;
-      
-      float x = gl_FragCoord.x;
-      float time = u_time * 0.5 + offset;
-      float blur_t = (simplex_noise(vec2(x * L + F * time, time * S)) + 1.0) / 2.0;
-      blur_t = pow(blur_t, 1.8);
-      
-      float blur = mix(1.0, 1.0 + BLUR_AMOUNT, blur_t);
-      return blur;
-    }
 
     float noise(float x, float offset) {
       const float L = 0.0012;
@@ -54,8 +39,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       float sum = 0.0;
       sum += simplex_noise(vec2(x * (L / 1.00) + F * t, t * S * 1.00)) * 0.85;
       sum += simplex_noise(vec2(x * (L / 1.30) + F * t, t * S * 1.26)) * 1.15;
-      sum += simplex_noise(vec2(x * (L / 1.86) + F * t, t * S * 1.09)) * 0.60;
-      sum += simplex_noise(vec2(x * (L / 3.25) + F * t, t * S * 0.89)) * 0.40;
+      sum += simplex_noise(vec2(x * (L / 1.86) + F * t, t * S * 1.09)) * 0.65;
       return sum;
     }
 
@@ -63,12 +47,15 @@ const createFragmentShader: CreateFragmentShader = () => {
       float x = gl_FragCoord.x;
       float y = gl_FragCoord.y;
 
-      float wave_y = Y + noise(x, offset) * wave_height;
+      float noise_val = noise(x, offset);
+      float wave_y = Y + noise_val * wave_height;
+      
+      float blur_t = (noise_val + 3.0) / 6.0;  // Normalize to ~0-1
+      blur_t = clamp(blur_t, 0.0, 1.0);
+      blur_t = blur_t * blur_t;  // Cheap curve (replaces pow)
+      float blur = mix(1.0, 131.0, blur_t) * 2.5;
       
       float dist = wave_y - y;
-      float blur = calc_blur(offset);
-      blur *= 2.5;
-
       float alpha = clamp(0.5 + dist / blur, 0.0, 1.0);
       alpha = smoothstep(alpha);
       return alpha;
