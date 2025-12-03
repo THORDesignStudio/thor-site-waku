@@ -4,7 +4,7 @@ export const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 py-4 md:py-6">
       <div className="px-4 md:px-6 lg:px-8 flex items-center justify-between gap-4">
-        <nav className="flex items-center justify-between bg-night/50 hover:bg-night/60 backdrop-blur-[5px] transition-colors duration-300 hover:cursor-pointer rounded-full p-2 shadow-lg max-w-6xl w-full mx-auto border-2 border-white/60">
+        <nav className="flex items-center justify-between bg-night/50 hover:bg-night/60 backdrop-blur-[5px] transition-colors duration-300 hover:cursor-pointer rounded-full p-2 shadow-lg max-w-6xl w-full mx-auto border-2 border-white/60 backface-visible will-change-scroll">
           <Link to="/" className="flex items-center pl-6">
             <img
               src="/images/THOR_logo_WHITE.svg"
