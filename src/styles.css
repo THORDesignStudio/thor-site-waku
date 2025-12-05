@@ -194,6 +194,12 @@
    * Both approaches work with full Tailwind features (responsive variants, hover states, etc.)
    */
 
+  /* Font family utilities - weights match Typekit kit availability */
+  .font-display {
+    font-family: var(--font-family-display);
+    font-weight: 400; /* rift only has 400 */
+  }
+
   /* Custom typography utilities */
   .text-display {
     font-family: var(--font-family-display);
@@ -250,6 +256,13 @@
     letter-spacing: var(--tracking-fluid-normal);
   }
 
+  .body-xl {
+    font-size: var(--text-fluid-xl);
+    font-family: var(--font-family-sans);
+    line-height: var(--leading-loose);
+    letter-spacing: var(--tracking-fluid-widest);
+  }
+
   .body-lg {
     font-size: var(--text-fluid-lg);
     font-family: var(--font-family-sans);
@@ -268,9 +281,39 @@
     line-height: var(--leading-normal);
   }
 
+  .text-stroke {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--color-cream);
+    color: transparent;
+  }
+
   /* 
    * Note: For fluid spacing, use Tailwind's arbitrary value syntax:
    * Example: p-[var(--spacing-fluid-4)], mx-[var(--spacing-fluid-8)]
    * This gives you full access to Tailwind's responsive and state variants.
    */
+
+  /* Skills Scroll Section - Animation-specific styles only */
+  .skill-slide {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .skill-slide.skill-0 {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .skill-slide .char {
+    display: inline-block;
+  }
+
+  .skill-slide .title .char {
+    -webkit-text-stroke: 1px var(--color-cream);
+    color: transparent;
+  }
+
+  .skill-slide .desc .char {
+    color: transparent;
+  }
 }
