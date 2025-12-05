@@ -20,7 +20,7 @@ export const skills: Skills = {
       name: 'Discovery',
       description:
         'Listening to our clients and building architecture around their needs underpins all our work.',
-      url: '/skills/architecture',
+      url: '/skills/discovery',
       skills: [
         'User Research',
         'User Interviews',

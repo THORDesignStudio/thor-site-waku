@@ -17,9 +17,10 @@ interface Skill {
 
 interface SkillsScrollProps {
   skills: Skill[];
+  onOpenSkill?: (skill: Skill) => void;
 }
 
-export function SkillsScroll({ skills }: SkillsScrollProps) {
+export function SkillsScroll({ skills, onOpenSkill }: SkillsScrollProps) {
   const containerRef = useRef<HTMLElement>(null);
   const lenis = useLenis();
 
@@ -66,6 +67,13 @@ export function SkillsScroll({ skills }: SkillsScrollProps) {
           duration: 1.2,
         });
 
+        // Fade in the button
+        tl.to(`.skill-${i} .skill-btn`, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+        });
+
         // Hold the completed skill in place
         tl.to({}, { duration: 2 });
 
@@ -98,6 +106,25 @@ export function SkillsScroll({ skills }: SkillsScrollProps) {
             <p className="desc body-xl font-extrabold mt-[var(--spacing-fluid-3)] max-w-6xl text-cream/70">
               {splitTextToSpans(skill.description)}
             </p>
+            <button
+              onClick={() => onOpenSkill?.(skill)}
+              className="skill-btn inline-flex items-center gap-2 mt-[var(--spacing-fluid-4)] px-[var(--spacing-fluid-4)] py-[var(--spacing-fluid-2)] bg-pink text-white rounded-full hover:bg-pink-dark transition-colors body-md font-medium opacity-0 translate-y-4"
+            >
+              Learn More
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       ))}
