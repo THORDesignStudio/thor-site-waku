@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useLenis } from 'lenis/react';
 import { capabilities } from '../data/capabilities';
 
 // ============================================================================
@@ -18,6 +19,33 @@ const THUMBNAIL_SIZE = 'clamp(100px, 10vmin, 150px)';
 const CARD_WIDTH = '380px';
 const CARD_HEIGHT = '380px';
 
+// Parallax layers - ordered back-to-front (lowest z-index first)
+// Higher number file = further back = slower parallax
+// speed: how fast the layer moves relative to scroll (higher = faster)
+// offset: initial Y position shift (negative = start higher)
+const PARALLAX_LAYERS = [
+  {
+    src: '/images/space-scene/THOR_Space_0003_Front-Clouds.png',
+    speed: 0.02,
+    offset: 0,
+  },
+  {
+    src: '/images/space-scene/THOR_Space_0002_Nebula.png',
+    speed: 0.05,
+    offset: 0,
+  },
+  {
+    src: '/images/space-scene/THOR_Space_0001_Blue-Nebula.png',
+    speed: 0.08,
+    offset: 0,
+  },
+  {
+    src: '/images/space-scene/THOR_Space_0000_Stars.png',
+    speed: 0.13,
+    offset: -150,
+  },
+];
+
 // ============================================================================
 // Types
 // ============================================================================
@@ -25,6 +53,32 @@ const CARD_HEIGHT = '380px';
 interface ItemPosition {
   x: number;
   y: number;
+}
+
+// ============================================================================
+// Space Parallax Background
+// ============================================================================
+
+function SpaceParallaxBackground({ scrollY }: { scrollY: number }) {
+  return (
+    <div className="space-parallax">
+      {/* Gradient background layer */}
+      <div className="space-parallax__gradient" />
+
+      {/* Image layers - rendered in array order (back to front) */}
+      {PARALLAX_LAYERS.map((layer, i) => (
+        <div
+          key={layer.src}
+          className="space-parallax__layer"
+          style={{
+            zIndex: i + 1,
+            backgroundImage: `url(${layer.src})`,
+            transform: `translate3d(0, ${layer.offset + scrollY * layer.speed}px, 0)`,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 // ============================================================================
@@ -53,6 +107,12 @@ function getItemPosition(index: number): ItemPosition {
 export function CapabilitiesCarousel() {
   // null means no item is active - all on the outer circle
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  // Track scroll position for parallax effect
+  useLenis(({ scroll }) => {
+    setScrollY(scroll);
+  });
 
   const items = capabilities.capabilities;
 
@@ -86,10 +146,13 @@ export function CapabilitiesCarousel() {
   const containerSize = 'min(90vw, 90vh)';
 
   return (
-    <section className="relative w-full h-screen bg-cream overflow-hidden flex items-center justify-center">
+    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+      {/* Space parallax background */}
+      <SpaceParallaxBackground scrollY={scrollY} />
+
       {/* Main container */}
       <div
-        className="relative"
+        className="relative z-10"
         style={{
           width: containerSize,
           height: containerSize,
@@ -103,10 +166,38 @@ export function CapabilitiesCarousel() {
             height: `${RING_RADIUS * 2}%`,
             left: `${50 - RING_RADIUS}%`,
             top: `${50 - RING_RADIUS}%`,
-            border: '1px dashed rgba(0, 41, 71, 0.2)',
+            border: '1px dashed rgba(255, 255, 255, 0.2)',
             borderRadius: '50%',
           }}
         />
+
+        {/* Orbiting planet - wrapper handles the orbit rotation */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            width: `${RING_RADIUS * 2}%`,
+            height: `${RING_RADIUS * 2}%`,
+            left: `${50 - RING_RADIUS}%`,
+            top: `${50 - RING_RADIUS}%`,
+            animation: 'orbit-rotate 30s linear infinite',
+            zIndex: 0,
+          }}
+        >
+          {/* The planet itself - positioned at the top center of the orbit wrapper */}
+          <div
+            className="absolute rounded-full"
+            style={{
+              width: '25px',
+              height: '25px',
+              left: '50%',
+              top: '0',
+              transform: 'translate(-50%, -50%)',
+              background:
+                'linear-gradient(135deg, var(--color-pink) 0%, var(--color-spicy-purple) 100%)',
+              boxShadow: '0 0 10px rgba(234, 43, 111, 0.4)',
+            }}
+          />
+        </div>
 
         {/* Thumbnails / Cards */}
         {items.map((item, index) => {
@@ -122,7 +213,7 @@ export function CapabilitiesCarousel() {
                 left: `${isActive ? 50 : position.x}%`,
                 top: `${isActive ? 50 : position.y}%`,
                 transform: 'translate(-50%, -50%)',
-                zIndex: isActive ? 100 : 1,
+                zIndex: isActive ? 10 : 1,
                 willChange: 'left, top',
                 transitionProperty: 'left, top, z-index',
                 transitionDuration: 'var(--spring-common-duration)',
@@ -257,14 +348,14 @@ export function CapabilitiesCarousel() {
       </div>
 
       {/* Navigation arrows */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 z-10">
         <button
           onClick={goToPrev}
-          className="p-4 rounded-full bg-night/5 hover:bg-night/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+          className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
           aria-label="Previous capability"
         >
           <svg
-            className="w-6 h-6 text-night"
+            className="w-6 h-6 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -279,11 +370,11 @@ export function CapabilitiesCarousel() {
         </button>
         <button
           onClick={goToNext}
-          className="p-4 rounded-full bg-night/5 hover:bg-night/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+          className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
           aria-label="Next capability"
         >
           <svg
-            className="w-6 h-6 text-night"
+            className="w-6 h-6 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

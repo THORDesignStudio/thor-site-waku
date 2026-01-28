@@ -506,6 +506,16 @@
   }
 }
 
+/* Orbit animation for capabilities carousel planet */
+@keyframes orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @layer utilities {
   /* 
    * Typography Usage:
@@ -641,5 +651,41 @@
 
   .skill-slide .desc .char {
     color: transparent;
+  }
+
+  /* Space Parallax Background */
+  .space-parallax {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    background-color: var(--color-night);
+  }
+
+  .space-parallax__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        500px circle at 0% calc(100% - 100px),
+        #1468d7,
+        transparent
+      ),
+      radial-gradient(
+        500px circle at 100% 100%,
+        var(--color-spicy-purple),
+        transparent
+      );
+    z-index: 0;
+  }
+
+  .space-parallax__layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 60%;
+    background-repeat: no-repeat;
+    will-change: transform;
+    pointer-events: none;
   }
 }
