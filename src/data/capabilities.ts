@@ -1,5 +1,3 @@
-// Skills on homepage
-
 interface Capability {
   name: string;
   dek: string;

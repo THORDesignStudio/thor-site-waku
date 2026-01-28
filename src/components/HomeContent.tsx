@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { SkillsScroll } from './SkillsScroll';
 import { Drawer } from './Drawer';
+import { CapabilitiesCarousel } from './CapabilitiesCarousel';
 import { skills } from '../data/skills';
 
 interface Skill {
@@ -51,6 +52,9 @@ export function HomeContent() {
           </div>
         </div>
       </section>
+
+      {/* Capabilities Section - Circle carousel */}
+      <CapabilitiesCarousel />
 
       {/* Skills Section - Scroll-driven character reveal */}
       <SkillsScroll skills={skills.skills} onOpenSkill={handleOpenSkill} />
