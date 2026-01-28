@@ -44,7 +44,7 @@ export const Footer = () => {
             </div>
 
             <ul className="text-fluid-sm flex flex-col">
-              <li>THOR Digital LLC • 2025</li>
+              <li>THOR Digital LLC • {new Date().getFullYear()}</li>
               <li>
                 The site is{' '}
                 <a
