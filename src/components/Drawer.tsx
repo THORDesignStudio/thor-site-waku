@@ -64,21 +64,23 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
                   {item.description}
                 </VaulDrawer.Description>
 
-                {/* Items list */}
-                <div className="mb-8">
-                  <h2 className="heading-sm mb-4 text-night/90">What we do</h2>
-                  <ul className="grid gap-3">
-                    {item.skills.map((skill) => (
-                      <li
-                        key={skill}
-                        className="flex items-center gap-3 body-md text-night/80"
-                      >
-                        <span className="w-2 h-2 rounded-full bg-pink shrink-0" />
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Items list - only render if skills exist */}
+                {item.skills.length > 0 && (
+                  <div className="mb-8">
+                    <h2 className="heading-sm mb-4 text-night/90">What we do</h2>
+                    <ul className="grid gap-3">
+                      {item.skills.map((skill) => (
+                        <li
+                          key={skill}
+                          className="flex items-center gap-3 body-md text-night/80"
+                        >
+                          <span className="w-2 h-2 rounded-full bg-pink shrink-0" />
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* CTA */}
                 <div className="pt-4">

@@ -2,13 +2,14 @@
 
 import { useState, useCallback } from 'react';
 import { useLenis } from 'lenis/react';
-import { capabilities } from '../data/capabilities';
+import { capabilities, type Capability } from '../data/capabilities';
+import { CapabilityDrawer } from './CapabilityDrawer';
 
 // ============================================================================
 // Constants
 // ============================================================================
 
-// Fixed angles for each item (degrees from top, 0° = 12 o'clock)
+// Fixed angles around the carousel for each item (degrees from top, 0° = 12 o'clock)
 const ITEM_ANGLES = [45, 110, 180, 250, 315];
 const ITEM_COUNT = 5;
 
@@ -17,7 +18,7 @@ const RING_RADIUS = 40; // percentage of container
 // Card dimensions (fixed to avoid transitioning to 'auto')
 const THUMBNAIL_SIZE = 'clamp(100px, 10vmin, 150px)';
 const CARD_WIDTH = '380px';
-const CARD_HEIGHT = '380px';
+const CARD_HEIGHT = '440px';
 
 // Parallax layers - ordered back-to-front (lowest z-index first)
 // Higher number file = further back = slower parallax
@@ -108,6 +109,10 @@ export function CapabilitiesCarousel() {
   // null means no item is active - all on the outer circle
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
+  // Track which capability drawer is open (null = none)
+  const [drawerCapability, setDrawerCapability] = useState<Capability | null>(
+    null
+  );
 
   // Track scroll position for parallax effect
   useLenis(({ scroll }) => {
@@ -139,6 +144,18 @@ export function CapabilitiesCarousel() {
     setActiveIndex((prev) => (prev === index ? null : index));
   }, []);
 
+  const openCapabilityDrawer = useCallback(
+    (capability: Capability, e: React.MouseEvent) => {
+      e.stopPropagation(); // Prevent card toggle when clicking the button
+      setDrawerCapability(capability);
+    },
+    []
+  );
+
+  const closeDrawer = useCallback(() => {
+    setDrawerCapability(null);
+  }, []);
+
   // --------------------------------------------------------------------------
   // Render
   // --------------------------------------------------------------------------
@@ -166,7 +183,7 @@ export function CapabilitiesCarousel() {
             height: `${RING_RADIUS * 2}%`,
             left: `${50 - RING_RADIUS}%`,
             top: `${50 - RING_RADIUS}%`,
-            border: '1px dashed rgba(255, 255, 255, 0.2)',
+            border: '1px dashed rgba(255, 255, 255, 0.4)',
             borderRadius: '50%',
           }}
         />
@@ -298,7 +315,7 @@ export function CapabilitiesCarousel() {
                     alt={item.name}
                     className="w-full h-full object-contain p-[15%]"
                     style={{
-                      filter: 'grayscale(0.3)',
+                      filter: 'grayscale(0.2)',
                     }}
                   />
                 </div>
@@ -336,9 +353,19 @@ export function CapabilitiesCarousel() {
                     </p>
 
                     {/* Description */}
-                    <p className="text-fluid-sm text-night/60 leading-relaxed">
+                    <p className="text-fluid-sm text-night/60 leading-relaxed flex-1">
                       {item.description}
                     </p>
+
+                    {/* Learn More button */}
+                    <div className="mt-fluid-3 text-center">
+                      <button
+                        onClick={(e) => openCapabilityDrawer(item, e)}
+                        className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
+                      >
+                        Learn More
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -388,6 +415,11 @@ export function CapabilitiesCarousel() {
           </svg>
         </button>
       </div>
+
+      {/* Capability Drawer - opens when Learn More is clicked */}
+      {drawerCapability && (
+        <CapabilityDrawer capability={drawerCapability} onClose={closeDrawer} />
+      )}
     </section>
   );
 }
