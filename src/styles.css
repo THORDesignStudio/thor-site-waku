@@ -506,7 +506,7 @@
   }
 }
 
-/* Orbit animation for capabilities carousel planet */
+/* Orbit animation for programs carousel planet */
 @keyframes orbit-rotate {
   from {
     transform: rotate(0deg);

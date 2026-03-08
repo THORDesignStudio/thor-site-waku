@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from 'react';
 import { useLenis } from 'lenis/react';
-import { capabilities, type Capability } from '../data/capabilities';
-import { CapabilityDrawer } from './CapabilityDrawer';
+import { programs, type Program } from '../data/programs';
+import { ProgramDrawer } from './ProgramDrawer';
 
 // ============================================================================
 // Constants
@@ -105,12 +105,12 @@ function getItemPosition(index: number): ItemPosition {
 // Component
 // ============================================================================
 
-export function CapabilitiesCarousel() {
+export function ProgramsCarousel() {
   // null means no item is active - all on the outer circle
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
-  // Track which capability drawer is open (null = none)
-  const [drawerCapability, setDrawerCapability] = useState<Capability | null>(
+  // Track which program drawer is open (null = none)
+  const [drawerProgram, setDrawerProgram] = useState<Program | null>(
     null
   );
 
@@ -119,7 +119,7 @@ export function CapabilitiesCarousel() {
     setScrollY(scroll);
   });
 
-  const items = capabilities.capabilities;
+  const items = programs.programs;
 
   // --------------------------------------------------------------------------
   // Navigation handlers
@@ -144,16 +144,16 @@ export function CapabilitiesCarousel() {
     setActiveIndex((prev) => (prev === index ? null : index));
   }, []);
 
-  const openCapabilityDrawer = useCallback(
-    (capability: Capability, e: React.MouseEvent) => {
+  const openProgramDrawer = useCallback(
+    (program: Program, e: React.MouseEvent) => {
       e.stopPropagation(); // Prevent card toggle when clicking the button
-      setDrawerCapability(capability);
+      setDrawerProgram(program);
     },
     []
   );
 
   const closeDrawer = useCallback(() => {
-    setDrawerCapability(null);
+    setDrawerProgram(null);
   }, []);
 
   // --------------------------------------------------------------------------
@@ -222,10 +222,9 @@ export function CapabilitiesCarousel() {
           const position = getItemPosition(index);
 
           return (
-            <button
+            <div
               key={item.name}
-              onClick={() => goToIndex(index)}
-              className="absolute focus:outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2 text-left"
+              className="absolute text-left"
               style={{
                 left: `${isActive ? 50 : position.x}%`,
                 top: `${isActive ? 50 : position.y}%`,
@@ -236,8 +235,6 @@ export function CapabilitiesCarousel() {
                 transitionDuration: 'var(--spring-common-duration)',
                 transitionTimingFunction: 'var(--spring-common)',
               }}
-              aria-label={`View ${item.name}`}
-              aria-current={isActive ? 'true' : undefined}
             >
               {/* Card header thumbnail - positioned outside the clipped container */}
               <div
@@ -292,8 +289,10 @@ export function CapabilitiesCarousel() {
                 }}
               >
                 {/* Thumbnail state - always rendered, fades out when active */}
-                <div
-                  className="absolute inset-0"
+                <button
+                  className="absolute inset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2"
+                  onClick={() => goToIndex(index)}
+                  aria-label={`View ${item.name}`}
                   style={{
                     opacity: isActive ? 0 : 1,
                     pointerEvents: isActive ? 'none' : 'auto',
@@ -318,7 +317,7 @@ export function CapabilitiesCarousel() {
                       filter: 'grayscale(0.2)',
                     }}
                   />
-                </div>
+                </button>
 
                 {/* Card content - always rendered, fades in when active */}
                 <div
@@ -332,6 +331,29 @@ export function CapabilitiesCarousel() {
                     transitionDelay: isActive ? '500ms' : '0ms',
                   }}
                 >
+                  <button
+                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-night/10 hover:bg-night/20 transition-colors cursor-pointer"
+                    aria-label="Close"
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveIndex(null);
+                    }}
+                  >
+                    <svg
+                      className="w-4 h-4 text-night"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
                   {/* Card content - starts below the thumbnail overlap */}
                   <div
                     className="h-full flex flex-col"
@@ -343,7 +365,7 @@ export function CapabilitiesCarousel() {
                     }}
                   >
                     {/* Title centered below thumbnail */}
-                    <h3 className="text-fluid-xl heading-sm font-semibold text-night leading-tight text-center mt-fluid-3 mb-fluid-2">
+                    <h3 className="text-fluid-xl heading-sm font-semibold text-night leading-tight text-center mt-fluid-5 mb-fluid-2">
                       {item.name}
                     </h3>
 
@@ -360,7 +382,7 @@ export function CapabilitiesCarousel() {
                     {/* Learn More button */}
                     <div className="mt-fluid-3 text-center">
                       <button
-                        onClick={(e) => openCapabilityDrawer(item, e)}
+                        onClick={(e) => openProgramDrawer(item, e)}
                         className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
                       >
                         Learn More
@@ -369,7 +391,7 @@ export function CapabilitiesCarousel() {
                   </div>
                 </div>
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
@@ -379,7 +401,7 @@ export function CapabilitiesCarousel() {
         <button
           onClick={goToPrev}
           className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
-          aria-label="Previous capability"
+          aria-label="Previous program"
         >
           <svg
             className="w-6 h-6 text-white"
@@ -398,7 +420,7 @@ export function CapabilitiesCarousel() {
         <button
           onClick={goToNext}
           className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
-          aria-label="Next capability"
+          aria-label="Next program"
         >
           <svg
             className="w-6 h-6 text-white"
@@ -416,9 +438,9 @@ export function CapabilitiesCarousel() {
         </button>
       </div>
 
-      {/* Capability Drawer - opens when Learn More is clicked */}
-      {drawerCapability && (
-        <CapabilityDrawer capability={drawerCapability} onClose={closeDrawer} />
+      {/* Program Drawer - opens when Learn More is clicked */}
+      {drawerProgram && (
+        <ProgramDrawer program={drawerProgram} onClose={closeDrawer} />
       )}
     </section>
   );

@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { Drawer } from './Drawer';
-import type { Capability } from '../data/capabilities';
+import type { Program } from '../data/programs';
 
-interface CapabilityDrawerProps {
-  capability: Capability;
+interface ProgramDrawerProps {
+  program: Program;
   onClose?: () => void;
 }
 
-export function CapabilityDrawer({ capability, onClose }: CapabilityDrawerProps) {
+export function ProgramDrawer({ program, onClose }: ProgramDrawerProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleOpenChange = (open: boolean) => {
@@ -20,12 +20,12 @@ export function CapabilityDrawer({ capability, onClose }: CapabilityDrawerProps)
     }
   };
 
-  // Adapt Capability to the Drawer's Item interface
+  // Adapt Program to the Drawer's Item interface
   const item = {
-    name: capability.name,
-    description: capability.description,
-    url: capability.url,
-    skills: [], // Capabilities don't have skills - Drawer will hide this section
+    name: program.name,
+    description: program.description,
+    url: program.url,
+    skills: [], // Programs don't have skills - Drawer will hide this section
   };
 
   return <Drawer item={item} open={isOpen} onOpenChange={handleOpenChange} />;
