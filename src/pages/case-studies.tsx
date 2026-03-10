@@ -12,7 +12,6 @@ export default function TypographyDemo() {
         </div>
       </section>
 
-      {/* Two Approaches Demo */}
       <section className="py-20 px-6 bg-linear-to-b from-cream to-cream-dark text-black">
         <div className="max-w-6xl mx-auto"></div>
       </section>

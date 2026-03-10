@@ -20,7 +20,7 @@ We had to pull together many teachings to make the site you're seeing a reality.
 ## Typography
 
 - [Daylight Computer](https://www.daylightcomputer.com) website and the [Vercel Geist Font](https://github.com/vercel/geist-font) by Basement Studio helps us build a fluid type system for this site that works with Tailwind.
-- Dropbox's new font, DB Sharp Grotesk, and the accompanying [Typography Website](https://brand.dropbox.com/typography) they built gave us some ideas on how to do the skills section of our site.
+- Dropbox's new font, DB Sharp Grotesk, and the accompanying [Typography Website](https://brand.dropbox.com/typography) they built gave us some ideas on how to do the capabilities section of our site.
 
 ## Fluid Typography with clamp()
 
