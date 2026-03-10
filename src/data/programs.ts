@@ -57,12 +57,12 @@ export const programs: Programs = {
       backgroundColor: 'var(--color-pink-flat)',
     },
     {
-      name: 'Interactive Design',
-      slug: 'interactive-design',
+      name: 'Interactive Campaigns',
+      slug: 'interactive-campaigns',
       dek: 'Make a space as big as your vision.',
       description:
-        'Tired designs communicate a lack of vision. THOR can infuse a new world of creativity into your mission with data from your operations. We close the gap between your brand and your customers with an aesthetic all your own.',
-      url: '/programs/interactive-design',
+        'Tired designs communicate a lack of vision. THOR can infuse a new world of creativity into your mission with engaging campaigns. We experiment with new aesthetics that close the gap between your dreams and your customers.',
+      url: '/programs/interactive-campaigns',
       image: '/images/programs/04-satellite-interactive-design.png',
       backgroundColor: 'var(--color-gray-blue)',
     },
