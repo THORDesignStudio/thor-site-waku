@@ -23,16 +23,18 @@ export function HeroScene() {
   }, []);
 
   return (
-    <section
-      className="relative h-screen overflow-hidden"
-      style={{
-        backgroundColor: '#0a0a12',
-        backgroundImage: "url('/images/THOR_Hammer_Bkgd.jpg')",
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    >
+    <section className="relative h-screen overflow-hidden bg-[var(--color-night)]">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "url('/images/THOR_Hammer_Bkgd-purplish.jpg')",
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          maskImage: 'linear-gradient(to bottom, black 80vh, transparent 100vh)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 80vh, transparent 100vh)',
+        }}
+      />
       {/* Text - left side */}
       <div className="absolute inset-0 flex items-center z-10 pointer-events-none">
         <div className="max-w-6xl w-full mx-auto px-fluid-6">

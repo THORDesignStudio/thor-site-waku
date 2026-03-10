@@ -47,6 +47,9 @@ export function HeroText() {
           <br className="hidden sm:block" />a lot better.
         </span>
       </h1>
+      <p className="text-fluid-2xl text-cream mt-[var(--spacing-fluid-2)] font-extralight">
+        Learn how THOR brings our clients to the next level.
+      </p>
     </div>
   );
 }
