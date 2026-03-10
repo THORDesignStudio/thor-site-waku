@@ -321,63 +321,71 @@ export function CaseStudyCarousel() {
   }, []);
 
   return (
-    <section className="min-h-screen bg-linear-to-b from-cream to-cream-dark py-[var(--spacing-fluid-12)] px-[var(--spacing-fluid-3)]">
-      <div>
-        {/* Desktop Layout: Sidebar + Carousel */}
-        <div className="flex flex-col lg:flex-row gap-[var(--spacing-fluid-8)]">
-          {/* Sidebar */}
-          <Sidebar
-            studies={studies}
-            activeIndex={activeIndex}
-            onSelectIndex={handleSelectIndex}
-          />
+    <section className="bg-linear-to-b from-cream to-cream-dark py-fluid-12 px-fluid-6">
+      {/* Section Title */}
+      <h1 className="mb-fluid-12 leading-none">
+        <span className="block font-sans font-extrabold text-fluid-8xl text-night uppercase tracking-tight">
+          Case Studies
+        </span>
+        <p className="font-sans font-light text-fluid-2xl text-night pl-fluid-1 mt-fluid-2">
+          See the results of our work.
+        </p>
+      </h1>
 
-          {/* Main Content Area */}
-          <div className="flex-1 min-w-0">
-            {/* Controls - Above carousel on desktop, below on mobile */}
-            <div className="hidden lg:flex justify-start">
-              <CarouselControls
-                onPrev={goToPrev}
-                onNext={goToNext}
-                canGoPrev={activeIndex > 0}
-                canGoNext={activeIndex < studies.length - 1}
-              />
-            </div>
+      {/* Desktop Layout: Sidebar + Carousel */}
+      <div className="flex flex-col lg:flex-row gap-fluid-8">
+        {/* Sidebar */}
+        <Sidebar
+          studies={studies}
+          activeIndex={activeIndex}
+          onSelectIndex={handleSelectIndex}
+        />
 
-            {/* Carousel Container */}
-            <div
-              ref={scrollContainerRef}
-              className="flex gap-[var(--spacing-fluid-3)] overflow-x-auto scroll-smooth snap-x snap-mandatory pr-[var(--spacing-fluid-6)]"
-              style={{
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none',
-              }}
-            >
-              {studies.map((study, index) => (
-                <div
-                  key={study.slug}
-                  ref={(el) => {
-                    slideRefs.current[index] = el;
-                  }}
-                  className="shrink-0 snap-start"
-                  style={{
-                    width: 'clamp(450px, 35vw, 650px)',
-                  }}
-                >
-                  <CaseStudyCard study={study} onReadMore={handleReadMore} />
-                </div>
-              ))}
-            </div>
+        {/* Main Content Area */}
+        <div className="flex-1 min-w-0">
+          {/* Controls - Above carousel on desktop, below on mobile */}
+          <div className="hidden lg:flex justify-start">
+            <CarouselControls
+              onPrev={goToPrev}
+              onNext={goToNext}
+              canGoPrev={activeIndex > 0}
+              canGoNext={activeIndex < studies.length - 1}
+            />
+          </div>
 
-            {/* Mobile Controls - Below carousel */}
-            <div className="lg:hidden flex justify-center mt-[var(--spacing-fluid-6)]">
-              <CarouselControls
-                onPrev={goToPrev}
-                onNext={goToNext}
-                canGoPrev={activeIndex > 0}
-                canGoNext={activeIndex < studies.length - 1}
-              />
-            </div>
+          {/* Carousel Container */}
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-[var(--spacing-fluid-3)] overflow-x-auto scroll-smooth snap-x snap-mandatory pr-[var(--spacing-fluid-6)]"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {studies.map((study, index) => (
+              <div
+                key={study.slug}
+                ref={(el) => {
+                  slideRefs.current[index] = el;
+                }}
+                className="shrink-0 snap-start"
+                style={{
+                  width: 'clamp(450px, 35vw, 650px)',
+                }}
+              >
+                <CaseStudyCard study={study} onReadMore={handleReadMore} />
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Controls - Below carousel */}
+          <div className="lg:hidden flex justify-center mt-[var(--spacing-fluid-6)]">
+            <CarouselControls
+              onPrev={goToPrev}
+              onNext={goToNext}
+              canGoPrev={activeIndex > 0}
+              canGoNext={activeIndex < studies.length - 1}
+            />
           </div>
         </div>
       </div>
