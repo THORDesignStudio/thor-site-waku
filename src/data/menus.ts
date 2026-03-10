@@ -33,9 +33,18 @@ export const footerMenu: FooterMenu = {
           name: 'About',
           url: '/about',
         },
+      ],
+    },
+    {
+      title: 'How',
+      links: [
         {
           name: 'Capabilities',
           url: '/capabilities',
+        },
+        {
+          name: 'Programs',
+          url: '/programs',
         },
         {
           name: 'Case Studies',
@@ -44,40 +53,23 @@ export const footerMenu: FooterMenu = {
       ],
     },
     {
-      title: 'How',
-      links: [
-        {
-          name: 'Discovery',
-          url: '/writing/discovery',
-        },
-        {
-          name: 'Architecture',
-          url: '/writing/architecture',
-        },
-        {
-          name: 'Design',
-          url: '/writing/design',
-        },
-        {
-          name: 'Development',
-          url: '/writing/development',
-        },
-        {
-          name: 'Project Management',
-          url: '/writing/project-management',
-        },
-      ],
-    },
-    {
       title: 'Where',
       links: [
         {
-          name: 'Associations',
-          url: '/verticals/associations',
+          name: 'Associations & Non-Profits',
+          url: '/verticals/associations-non-profits',
         },
         {
-          name: 'Engineering',
-          url: '/verticals/engineering',
+          name: 'Construction & Engineering',
+          url: '/verticals/construction-engineering',
+        },
+        {
+          name: 'Health Care',
+          url: '/verticals/health-care',
+        },
+        {
+          name: 'Media',
+          url: '/verticals/media',
         },
         {
           name: 'Outdoor',
