@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
+import { useAtom } from 'jotai';
+import { activeCaseStudyIndexAtom } from '../atoms/carouselAtoms';
 import { caseStudies, type CaseStudy } from '../data/case-studies';
 
 // ============================================================================
@@ -215,7 +217,7 @@ function CarouselControls({
 
 export function CaseStudyCarousel() {
   const studies = caseStudies.caseStudies;
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useAtom(activeCaseStudyIndexAtom);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
@@ -288,8 +290,14 @@ export function CaseStudyCarousel() {
     const scrollContainer = scrollContainerRef.current;
     if (slide && scrollContainer) {
       isProgrammaticScroll.current = true;
+      
+      // Calculate position relative to container
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const slideRect = slide.getBoundingClientRect();
+      const relativeOffset = slideRect.left - containerRect.left + scrollContainer.scrollLeft;
+
       scrollContainer.scrollTo({
-        left: slide.offsetLeft,
+        left: relativeOffset,
         behavior: 'smooth',
       });
     }
