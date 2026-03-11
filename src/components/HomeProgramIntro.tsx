@@ -7,7 +7,7 @@ export function HomeProgramIntro() {
     <section className="pt-fluid-12 px-fluid-6 bg-night text-center">
       {/* Section Title */}
       <h1 className="leading-none">
-        <span className="block font-sans font-extrabold text-fluid-5xl text-cream uppercase tracking-tight">
+        <span className="block font-sans font-extrabold text-fluid-5xl text-cream  tracking-tight">
           Set a Stage as Big as the Cosmos
         </span>
         <p className="font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
