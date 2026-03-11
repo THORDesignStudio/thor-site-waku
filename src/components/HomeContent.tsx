@@ -5,6 +5,7 @@ import { SkillsScroll } from './SkillsScroll';
 import { Drawer } from './Drawer';
 import { ProgramsCarousel } from './ProgramsCarousel';
 import { CaseStudyCarousel } from './CaseStudyCarousel';
+import { HomeProgramIntro } from './HomeProgramIntro';
 import { HeroScene } from './HeroScene';
 import { skills } from '../data/skills';
 
@@ -37,6 +38,9 @@ export function HomeContent() {
     <div className="w-full">
       {/* Hero Section - Three.js hammer with scroll-driven animation */}
       <HeroScene />
+
+      {/* Program Intro Section */}
+      <HomeProgramIntro />
 
       {/* Programs Section - Circle carousel */}
       <ProgramsCarousel />
