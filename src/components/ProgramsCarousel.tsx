@@ -110,9 +110,7 @@ export function ProgramsCarousel() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
   // Track which program drawer is open (null = none)
-  const [drawerProgram, setDrawerProgram] = useState<Program | null>(
-    null
-  );
+  const [drawerProgram, setDrawerProgram] = useState<Program | null>(null);
 
   // Track scroll position for parallax effect
   useLenis(({ scroll }) => {
@@ -354,6 +352,7 @@ export function ProgramsCarousel() {
                       />
                     </svg>
                   </button>
+
                   {/* Card content - starts below the thumbnail overlap */}
                   <div
                     className="h-full flex flex-col"
@@ -391,13 +390,28 @@ export function ProgramsCarousel() {
                   </div>
                 </div>
               </div>
+
+              {/* Title below the thumbnail - only visible when NOT active */}
+              <div
+                className="absolute left-1/2 top-full mt-4 -translate-x-1/2 w-max max-w-[150px] pointer-events-none"
+                style={{
+                  opacity: isActive ? 0 : 1,
+                  transition: 'opacity 300ms var(--ease-out-cubic)',
+                  // Delay fade-in when closing the card, but fade-out immediately when opening
+                  transitionDelay: isActive ? '0ms' : '400ms',
+                }}
+              >
+                <h3 className="text-fluid-md font-light text-cream leading-tight text-center tracking-wider">
+                  {item.name}
+                </h3>
+              </div>
             </div>
           );
         })}
       </div>
 
       {/* Navigation arrows */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 z-10">
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-4 z-10">
         <button
           onClick={goToPrev}
           className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
