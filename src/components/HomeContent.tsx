@@ -39,9 +39,6 @@ export function HomeContent() {
       {/* Hero Section - Three.js hammer with scroll-driven animation */}
       <HeroScene />
 
-      {/* Program Intro Section */}
-      <HomeProgramIntro />
-
       {/* Programs Section - Circle carousel */}
       <ProgramsCarousel />
 

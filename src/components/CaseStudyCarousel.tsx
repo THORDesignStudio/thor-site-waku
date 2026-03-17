@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useCallback } from 'react';
 import { useAtom } from 'jotai';
-import { activeCaseStudyIndexAtom } from '../atoms/carouselAtoms';
+import { activeCaseStudyIndexAtom } from '../atoms/siteAtoms';
 import { caseStudies, type CaseStudy } from '../data/case-studies';
 
 // ============================================================================

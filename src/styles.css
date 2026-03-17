@@ -506,7 +506,7 @@
   }
 }
 
-/* Orbit animation for programs carousel planet */
+/* Orbit animation for programs carousel planet - full circle (legacy, kept for reference) */
 @keyframes orbit-rotate {
   from {
     transform: rotate(0deg);
@@ -515,6 +515,9 @@
     transform: rotate(360deg);
   }
 }
+
+/* Note: orbit-half-circle keyframes are now generated dynamically in ProgramsCarousel.tsx */
+/* This ensures the planet animation stays perfectly synced with the dashed arc size */
 
 @layer utilities {
   /* 

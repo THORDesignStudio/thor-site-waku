@@ -4,16 +4,58 @@ import { useState, useCallback } from 'react';
 import { useLenis } from 'lenis/react';
 import { programs, type Program } from '../data/programs';
 import { ProgramDrawer } from './ProgramDrawer';
+import { RING_RADIUS } from '../atoms/siteAtoms';
+
+// Generate keyframes by sampling the same circle formula used for items
+// This guarantees the planet follows the exact same path
+const R = RING_RADIUS;
+
+function orbitPosition(angleDeg: number) {
+  const angleRad = (angleDeg * Math.PI) / 180;
+  const x = 50 + R * Math.sin(angleRad);
+  const y = 50 - R * Math.cos(angleRad);
+  return { x, y };
+}
+
+// Sample 21 points along the half-circle (270° to 90°, going through 0° at top)
+// 270° = left, 0° = top, 90° = right
+// More points = smoother arc, less wobble
+const keyframeAngles: number[] = [];
+const keyframePercents: number[] = [];
+for (let i = 0; i <= 20; i++) {
+  keyframePercents.push(i * 5); // 0, 5, 10, ... 100
+  // Angle goes from 270° to 90° (through 360/0°)
+  // That's a 180° arc: 270 → 360 → 90
+  const angle = 270 + (i * 180) / 20; // 270 to 450, then normalize
+  keyframeAngles.push(angle >= 360 ? angle - 360 : angle);
+}
+
+const orbitKeyframes = `
+  @keyframes orbit-half-circle {
+    ${keyframeAngles
+      .map((angle, i) => {
+        const pos = orbitPosition(angle);
+        return `${keyframePercents[i]}% { left: ${pos.x}%; top: ${pos.y}%; }`;
+      })
+      .join('\n    ')}
+  }
+`;
 
 // ============================================================================
 // Constants
 // ============================================================================
 
-// Fixed angles around the carousel for each item (degrees from top, 0° = 12 o'clock)
-const ITEM_ANGLES = [45, 110, 180, 250, 315];
+// Fixed angles around the carousel for each item
+// Half-circle arc with 0° at left, 180° at right, curving upward
+// Items at user-specified: 30°, 60°, 90°, 120°, 150°
+// Converted to code's coordinate system (0° at top, clockwise): 300°, 330°, 0°, 30°, 60°
+const ITEM_ANGLES = [270, 315, 0, 45, 90];
 const ITEM_COUNT = 5;
 
-const RING_RADIUS = 40; // percentage of container
+const CONTAINER_SIZE = 'min(90vw, 90vh)';
+
+// Animation timing
+const PLANET_ORBIT_DURATION = 36000; // 36 seconds for half-circle arc
 
 // Card dimensions (fixed to avoid transitioning to 'auto')
 const THUMBNAIL_SIZE = 'clamp(100px, 10vmin, 150px)';
@@ -90,7 +132,7 @@ function getItemPosition(index: number): ItemPosition {
   const angleDegrees = ITEM_ANGLES[index] ?? 0;
   const angleRadians = (angleDegrees * Math.PI) / 180;
 
-  // Position on circle
+  // Position on circle centered at (50%, 50%)
   // At 0°: top center
   // At 90°: right
   // At 180°: bottom center
@@ -158,61 +200,108 @@ export function ProgramsCarousel() {
   // Render
   // --------------------------------------------------------------------------
 
-  const containerSize = 'min(90vw, 90vh)';
-
   return (
-    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+    <section className="relative w-full h-screen overflow-hidden flex flex-col justify-between">
       {/* Space parallax background */}
       <SpaceParallaxBackground scrollY={scrollY} />
 
-      {/* Main container */}
+      {/* Section Title and Navigation - positioned at top, floats over parallax */}
+      <div className="relative z-10 pt-fluid-12 px-fluid-6 text-center">
+        <h1 className="leading-none">
+          <span className="block font-sans font-extrabold text-fluid-5xl text-cream tracking-tight">
+            Set a Stage as Big as the Cosmos
+          </span>
+          <p className="font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+            THOR offers five programs to help organizations grow.
+          </p>
+        </h1>
+
+        {/* Navigation arrows - below title */}
+        <div className="flex items-center justify-center gap-4 my-fluid-6">
+          <button
+            onClick={goToPrev}
+            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+            aria-label="Previous program"
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={goToNext}
+            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+            aria-label="Next program"
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Main container - square, centered */}
       <div
-        className="relative z-10"
+        className="relative z-10 self-center"
         style={{
-          width: containerSize,
-          height: containerSize,
+          width: CONTAINER_SIZE,
+          aspectRatio: '1 / 1',
         }}
       >
-        {/* Circle ring (decorative) */}
+        {/* Inject dynamic keyframes for planet animation */}
+        <style dangerouslySetInnerHTML={{ __html: orbitKeyframes }} />
+
+        {/* Half-circle ring (decorative) - z-index 1 */}
         <div
           className="absolute pointer-events-none"
           style={{
             width: `${RING_RADIUS * 2}%`,
-            height: `${RING_RADIUS * 2}%`,
+            height: `${RING_RADIUS}%`,
             left: `${50 - RING_RADIUS}%`,
             top: `${50 - RING_RADIUS}%`,
-            border: '1px dashed rgba(255, 255, 255, 0.4)',
-            borderRadius: '50%',
+            borderTop: '1px dashed rgba(255, 255, 255, 0.4)',
+            borderLeft: '1px dashed rgba(255, 255, 255, 0.4)',
+            borderRight: '1px dashed rgba(255, 255, 255, 0.4)',
+            borderBottom: 'none',
+            borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
+            zIndex: 1,
           }}
         />
 
-        {/* Orbiting planet - wrapper handles the orbit rotation */}
+        {/* Orbiting planet - z-index 2 (above arc z-index 1, below items z-index 3+) */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none rounded-full"
           style={{
-            width: `${RING_RADIUS * 2}%`,
-            height: `${RING_RADIUS * 2}%`,
-            left: `${50 - RING_RADIUS}%`,
-            top: `${50 - RING_RADIUS}%`,
-            animation: 'orbit-rotate 30s linear infinite',
-            zIndex: 0,
+            position: 'absolute',
+            width: '30px',
+            height: '30px',
+            transform: 'translate(-50%, -50%)',
+            background:
+              'linear-gradient(135deg, var(--color-pink) 0%, var(--color-spicy-purple) 100%)',
+            boxShadow: '0 0 20px rgba(234, 43, 111, 0.8)',
+            animation: 'orbit-half-circle 36s linear infinite',
+            zIndex: 2,
           }}
-        >
-          {/* The planet itself - positioned at the top center of the orbit wrapper */}
-          <div
-            className="absolute rounded-full"
-            style={{
-              width: '25px',
-              height: '25px',
-              left: '50%',
-              top: '0',
-              transform: 'translate(-50%, -50%)',
-              background:
-                'linear-gradient(135deg, var(--color-pink) 0%, var(--color-spicy-purple) 100%)',
-              boxShadow: '0 0 10px rgba(234, 43, 111, 0.4)',
-            }}
-          />
-        </div>
+        />
 
         {/* Thumbnails / Cards */}
         {items.map((item, index) => {
@@ -225,9 +314,9 @@ export function ProgramsCarousel() {
               className="absolute text-left"
               style={{
                 left: `${isActive ? 50 : position.x}%`,
-                top: `${isActive ? 50 : position.y}%`,
+                top: `${isActive ? 30 : position.y}%`,
                 transform: 'translate(-50%, -50%)',
-                zIndex: isActive ? 10 : 1,
+                zIndex: isActive ? 10 : 3,
                 willChange: 'left, top',
                 transitionProperty: 'left, top, z-index',
                 transitionDuration: 'var(--spring-common-duration)',
@@ -260,7 +349,7 @@ export function ProgramsCarousel() {
                 <img
                   src={item.image}
                   alt=""
-                  className="w-full h-full object-contain p-[15%]"
+                  className="w-full h-full object-contain p-[12%]"
                   style={{
                     filter: 'grayscale(0.3)',
                   }}
@@ -310,7 +399,7 @@ export function ProgramsCarousel() {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-full object-contain p-[15%]"
+                    className="w-full h-full object-contain p-[13%]"
                     style={{
                       filter: 'grayscale(0.2)',
                     }}
@@ -408,48 +497,6 @@ export function ProgramsCarousel() {
             </div>
           );
         })}
-      </div>
-
-      {/* Navigation arrows */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-4 z-10">
-        <button
-          onClick={goToPrev}
-          className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
-          aria-label="Previous program"
-        >
-          <svg
-            className="w-6 h-6 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
-        <button
-          onClick={goToNext}
-          className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
-          aria-label="Next program"
-        >
-          <svg
-            className="w-6 h-6 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
       </div>
 
       {/* Program Drawer - opens when Learn More is clicked */}
