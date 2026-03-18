@@ -54,9 +54,6 @@ const ITEM_COUNT = 5;
 
 const CONTAINER_SIZE = 'min(90vw, 90vh)';
 
-// Animation timing
-const PLANET_ORBIT_DURATION = 36000; // 36 seconds for half-circle arc
-
 // Card dimensions (fixed to avoid transitioning to 'auto')
 const THUMBNAIL_SIZE = 'clamp(100px, 10vmin, 150px)';
 const CARD_WIDTH = '380px';
@@ -220,7 +217,7 @@ export function ProgramsCarousel() {
         <div className="flex items-center justify-center gap-4 my-fluid-6">
           <button
             onClick={goToPrev}
-            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
             aria-label="Previous program"
           >
             <svg
@@ -239,7 +236,7 @@ export function ProgramsCarousel() {
           </button>
           <button
             onClick={goToNext}
-            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
             aria-label="Next program"
           >
             <svg
@@ -298,7 +295,7 @@ export function ProgramsCarousel() {
             background:
               'linear-gradient(135deg, var(--color-pink) 0%, var(--color-spicy-purple) 100%)',
             boxShadow: '0 0 20px rgba(234, 43, 111, 0.8)',
-            animation: 'orbit-half-circle 36s linear infinite',
+            animation: 'orbit-half-circle 24s linear infinite',
             zIndex: 2,
           }}
         />
