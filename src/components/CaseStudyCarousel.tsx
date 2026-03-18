@@ -290,11 +290,12 @@ export function CaseStudyCarousel() {
     const scrollContainer = scrollContainerRef.current;
     if (slide && scrollContainer) {
       isProgrammaticScroll.current = true;
-      
+
       // Calculate position relative to container
       const containerRect = scrollContainer.getBoundingClientRect();
       const slideRect = slide.getBoundingClientRect();
-      const relativeOffset = slideRect.left - containerRect.left + scrollContainer.scrollLeft;
+      const relativeOffset =
+        slideRect.left - containerRect.left + scrollContainer.scrollLeft;
 
       scrollContainer.scrollTo({
         left: relativeOffset,
@@ -329,7 +330,7 @@ export function CaseStudyCarousel() {
   }, []);
 
   return (
-    <section className="bg-linear-to-b from-cream to-cream-dark py-fluid-12 px-fluid-6">
+    <section className="bg-linear-to-b from-cream to-cream-dark py-fluid-12 px-fluid-6 min-h-[100vh]">
       {/* Section Title */}
       <h1 className="mb-fluid-12 leading-none">
         <span className="block font-sans font-extrabold text-fluid-8xl text-night uppercase tracking-tight">

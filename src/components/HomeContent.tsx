@@ -4,6 +4,7 @@ import { CapabilitiesHomePageSection } from './CapabilitiesHomePageSection';
 import { ProgramsCarousel } from './ProgramsCarousel';
 import { CaseStudyCarousel } from './CaseStudyCarousel';
 import { HeroScene } from './HeroScene';
+import { TestimonialCards } from './TestimonialCards';
 
 export function HomeContent() {
   return (
@@ -19,6 +20,9 @@ export function HomeContent() {
 
       {/* Case Studies Section - Film strip carousel */}
       <CaseStudyCarousel />
+
+      {/* Testimonials Section - Fold-style accordion cards */}
+      <TestimonialCards />
     </div>
   );
 }
