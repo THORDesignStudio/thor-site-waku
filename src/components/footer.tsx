@@ -35,10 +35,10 @@ export const Footer = () => {
                 alt="THOR Digital and THOR Studio"
                 className="max-w-[500px]"
               />
-              <p className="text-fluid-2xl font-sans font-extrabold uppercase mt-6 tracking-[var(--tracking-fluid-widest)]">
+              <p className="text-fluid-xl font-sans font-extrabold uppercase mt-6 tracking-[var(--tracking-fluid-widest)]">
                 Discoverers of elusive solutions.
               </p>
-              <p className="text-fluid-2xl font-sans font-extrabold uppercase mt-0 tracking-[var(--tracking-fluid-widest)]">
+              <p className="text-fluid-xl font-sans font-extrabold uppercase mt-0 tracking-[var(--tracking-fluid-widest)]">
                 Purveyors of fine design.
               </p>
             </div>
