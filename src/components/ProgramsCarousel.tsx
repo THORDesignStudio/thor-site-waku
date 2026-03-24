@@ -1,10 +1,14 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useLayoutEffect } from 'react';
 import { useLenis } from 'lenis/react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { programs, type Program } from '../data/programs';
 import { ProgramDrawer } from './ProgramDrawer';
 import { RING_RADIUS } from '../atoms/siteAtoms';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Generate keyframes by sampling the same circle formula used for items
 // This guarantees the planet follows the exact same path
@@ -150,11 +154,74 @@ export function ProgramsCarousel() {
   const [scrollY, setScrollY] = useState(0);
   // Track which program drawer is open (null = none)
   const [drawerProgram, setDrawerProgram] = useState<Program | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   // Track scroll position for parallax effect
-  useLenis(({ scroll }) => {
+  const lenis = useLenis(({ scroll }) => {
     setScrollY(scroll);
   });
+
+  // Set up scroll-triggered animations for section header
+  useLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
+    // Sync Lenis with GSAP ScrollTrigger
+    const lenisScrollHandler = () => ScrollTrigger.update();
+    lenis?.on('scroll', lenisScrollHandler);
+
+    const ctx = gsap.context(() => {
+      // Animate section header (title and subtitle)
+      const headerEl = headerRef.current;
+      if (headerEl) {
+        const sectionTitle = headerEl.querySelector('.section-title');
+        const sectionSubtitle = headerEl.querySelector('.section-subtitle');
+
+        // Set initial state with GSAP
+        gsap.set(sectionTitle, { opacity: 0, y: 30 });
+        gsap.set(sectionSubtitle, { opacity: 0, y: 30 });
+
+        ScrollTrigger.create({
+          trigger: headerEl,
+          start: 'top 80%',
+          onEnter: () => {
+            gsap.to(sectionTitle, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+            gsap.to(sectionSubtitle, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              delay: 0.2,
+              ease: 'power2.out',
+            });
+          },
+          onLeaveBack: () => {
+            gsap.to(sectionTitle, {
+              opacity: 0,
+              y: 30,
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+            gsap.to(sectionSubtitle, {
+              opacity: 0,
+              y: 30,
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      lenis?.off('scroll', lenisScrollHandler);
+      ctx.revert();
+    };
+  }, [lenis]);
 
   const items = programs.programs;
 
@@ -198,17 +265,23 @@ export function ProgramsCarousel() {
   // --------------------------------------------------------------------------
 
   return (
-    <section className="relative w-full h-screen overflow-hidden flex flex-col justify-between">
+    <section
+      ref={sectionRef}
+      className="relative w-full h-screen overflow-hidden flex flex-col justify-between"
+    >
       {/* Space parallax background */}
       <SpaceParallaxBackground scrollY={scrollY} />
 
       {/* Section Title and Navigation - positioned at top, floats over parallax */}
-      <div className="relative z-10 pt-fluid-12 px-fluid-6 text-center">
+      <div
+        ref={headerRef}
+        className="relative z-10 pt-fluid-12 px-fluid-6 text-center"
+      >
         <h1 className="leading-none">
-          <span className="block font-sans font-extrabold text-fluid-5xl text-cream tracking-tight">
-            Set a Stage as Big as the Cosmos
+          <span className="section-title block font-sans font-extrabold text-fluid-8xl text-cream tracking-tight">
+            Programs
           </span>
-          <p className="font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+          <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
             THOR offers five programs to help organizations grow.
           </p>
         </h1>

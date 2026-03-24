@@ -152,8 +152,8 @@ export function CapabilitiesHomePageSection() {
         {/* Section Header */}
         <div ref={headerRef} className="w-full mx-auto px-fluid-6 mb-fluid-12">
           <h1 className="leading-none">
-            <span className="section-title block font-sans font-extrabold text-fluid-5xl text-cream tracking-tight text-center">
-              Expansive Capabilities That Grow Your Business
+            <span className="section-title block font-sans font-extrabold text-fluid-8xl text-cream tracking-tight text-center">
+              Capabilities
             </span>
             <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal text-center">
               THOR Digital is a studio that offers a wide array of capabilities

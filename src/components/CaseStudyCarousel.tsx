@@ -1,9 +1,14 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import { useAtom } from 'jotai';
+import { useLenis } from 'lenis/react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { activeCaseStudyIndexAtom } from '../atoms/siteAtoms';
 import { caseStudies, type CaseStudy } from '../data/case-studies';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ============================================================================
 // Arrow Icons
@@ -222,6 +227,70 @@ export function CaseStudyCarousel() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
+
+  // Set up scroll-triggered animations for section header
+  useLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
+    // Sync Lenis with GSAP ScrollTrigger
+    const lenisScrollHandler = () => ScrollTrigger.update();
+    lenis?.on('scroll', lenisScrollHandler);
+
+    const ctx = gsap.context(() => {
+      // Animate section header (title and subtitle)
+      const headerEl = headerRef.current;
+      if (headerEl) {
+        const sectionTitle = headerEl.querySelector('.section-title');
+        const sectionSubtitle = headerEl.querySelector('.section-subtitle');
+
+        // Set initial state with GSAP
+        gsap.set(sectionTitle, { opacity: 0, y: 30 });
+        gsap.set(sectionSubtitle, { opacity: 0, y: 30 });
+
+        ScrollTrigger.create({
+          trigger: headerEl,
+          start: 'top 80%',
+          onEnter: () => {
+            gsap.to(sectionTitle, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+            gsap.to(sectionSubtitle, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              delay: 0.2,
+              ease: 'power2.out',
+            });
+          },
+          onLeaveBack: () => {
+            gsap.to(sectionTitle, {
+              opacity: 0,
+              y: 30,
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+            gsap.to(sectionSubtitle, {
+              opacity: 0,
+              y: 30,
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      lenis?.off('scroll', lenisScrollHandler);
+      ctx.revert();
+    };
+  }, [lenis]);
 
   // Calculate which slide is most visible based on scroll position
   const calculateActiveSlide = useCallback(() => {
@@ -330,16 +399,21 @@ export function CaseStudyCarousel() {
   }, []);
 
   return (
-    <section className="bg-linear-to-b from-cream to-cream-dark py-fluid-12 px-fluid-6 min-h-[100vh]">
+    <section
+      ref={sectionRef}
+      className="bg-cream py-fluid-12 px-fluid-6 min-h-[100vh]"
+    >
       {/* Section Title */}
-      <h1 className="mb-fluid-12 leading-none">
-        <span className="block font-sans font-extrabold text-fluid-8xl text-night uppercase tracking-tight">
-          Case Studies
-        </span>
-        <p className="font-sans font-light text-fluid-2xl text-night pl-fluid-1 mt-fluid-2">
-          See the results of our work.
-        </p>
-      </h1>
+      <div ref={headerRef} className="mb-fluid-12">
+        <h1 className="leading-none">
+          <span className="section-title block font-sans font-extrabold text-fluid-8xl text-night tracking-tight">
+            Case Studies
+          </span>
+          <p className="section-subtitle font-sans font-light text-fluid-2xl text-night pl-fluid-1 mt-fluid-2">
+            See how THOR delivered for our clients.
+          </p>
+        </h1>
+      </div>
 
       {/* Desktop Layout: Sidebar + Carousel */}
       <div className="flex flex-col lg:flex-row gap-fluid-8">

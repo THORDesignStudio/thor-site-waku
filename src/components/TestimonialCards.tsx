@@ -1,7 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useLayoutEffect } from 'react';
+import { useLenis } from 'lenis/react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { testimonials } from '../data/testimonials';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function TestimonialCards() {
   const displayTestimonials = useMemo(
@@ -15,14 +20,103 @@ export function TestimonialCards() {
   );
 
   const [expandedIndex, setExpandedIndex] = useState<number>(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
+
+  // Set up scroll-triggered animations for section header and background
+  useLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
+    // Sync Lenis with GSAP ScrollTrigger
+    const lenisScrollHandler = () => ScrollTrigger.update();
+    lenis?.on('scroll', lenisScrollHandler);
+
+    const ctx = gsap.context(() => {
+      const sectionEl = sectionRef.current;
+      const headerEl = headerRef.current;
+
+      if (sectionEl && headerEl) {
+        const sectionTitle = headerEl.querySelector('.section-title');
+        const sectionSubtitle = headerEl.querySelector('.section-subtitle');
+
+        // Set initial state
+        gsap.set(sectionTitle, { opacity: 0, y: 30, color: '#18133e' }); // night
+        gsap.set(sectionSubtitle, { opacity: 0, y: 30, color: '#18133e' }); // night
+        gsap.set(sectionEl, { backgroundColor: '#faf5f2' }); // cream
+
+        ScrollTrigger.create({
+          trigger: headerEl,
+          start: 'top 80%',
+          onEnter: () => {
+            // Animate header in
+            gsap.to(sectionTitle, {
+              opacity: 1,
+              y: 0,
+              color: '#faf5f2', // cream
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+            gsap.to(sectionSubtitle, {
+              opacity: 1,
+              y: 0,
+              color: '#faf5f2', // cream
+              duration: 0.8,
+              delay: 0.2,
+              ease: 'power2.out',
+            });
+            // Animate background to night
+            gsap.to(sectionEl, {
+              backgroundColor: '#18133e', // night
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+          },
+          onLeaveBack: () => {
+            // Animate header out
+            gsap.to(sectionTitle, {
+              opacity: 0,
+              y: 30,
+              color: '#18133e', // night
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+            gsap.to(sectionSubtitle, {
+              opacity: 0,
+              y: 30,
+              color: '#18133e', // night
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+            // Animate background back to cream
+            gsap.to(sectionEl, {
+              backgroundColor: '#faf5f2', // cream
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      lenis?.off('scroll', lenisScrollHandler);
+      ctx.revert();
+    };
+  }, [lenis]);
 
   return (
-    <section className="min-h-[100vh] bg-linear-to-b from-cream to-cream-dark px-fluid-6 py-fluid-12 text-night font-sans">
-      <h2 className="mb-fluid-10 leading-none">
-        <span className="block font-sans text-fluid-8xl font-extrabold uppercase tracking-tight">
-          Testimonials
-        </span>
-      </h2>
+    <section ref={sectionRef} className="min-h-[100vh] px-fluid-6 py-fluid-12 font-sans">
+      <div ref={headerRef} className="mb-fluid-12">
+        <h1 className="leading-none">
+          <span className="section-title block font-sans font-extrabold text-fluid-8xl tracking-tight">
+            Testimonials
+          </span>
+          <p className="section-subtitle font-sans font-light text-fluid-2xl pl-fluid-1 mt-fluid-2">
+            Learn what it's like to partner with THOR.
+          </p>
+        </h1>
+      </div>
 
       <div className="hidden min-h-[clamp(560px,72vh,840px)] gap-fluid-2 md:flex">
         {displayTestimonials.map((item, index) => {
@@ -57,7 +151,9 @@ export function TestimonialCards() {
                 className="absolute inset-0 z-20 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
               >
                 <span className="sr-only">
-                  {isExpanded ? 'Expanded testimonial from ' : 'Expand testimonial from '}
+                  {isExpanded
+                    ? 'Expanded testimonial from '
+                    : 'Expand testimonial from '}
                   {item.organization}
                 </span>
               </button>
@@ -144,7 +240,9 @@ export function TestimonialCards() {
 
               <div
                 className={`relative z-10 grid overflow-hidden px-fluid-4 transition-[grid-template-rows,opacity,color] duration-[750ms] ease-[var(--ease-out-cubic)] ${
-                  isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-80'
+                  isExpanded
+                    ? 'grid-rows-[1fr] opacity-100'
+                    : 'grid-rows-[0fr] opacity-80'
                 }`}
               >
                 <div
