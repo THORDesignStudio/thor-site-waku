@@ -399,10 +399,7 @@ export function CaseStudyCarousel() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="bg-cream py-fluid-12 px-fluid-6 min-h-[100vh]"
-    >
+    <section ref={sectionRef} className="bg-cream py-fluid-12 px-fluid-6 ">
       {/* Section Title */}
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">

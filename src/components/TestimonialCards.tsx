@@ -8,6 +8,13 @@ import { testimonials } from '../data/testimonials';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const pinkColors = [
+  'bg-pink',
+  'bg-pink-light',
+  'bg-pink-flat',
+  'bg-pink-dark',
+] as const;
+
 export function TestimonialCards() {
   const displayTestimonials = useMemo(
     () =>
@@ -17,6 +24,15 @@ export function TestimonialCards() {
         displayText: item.shortVersion.trim() || item.longVersion.trim(),
       })),
     []
+  );
+
+  // Assign a random pink color to each card that persists across renders
+  const cardColors = useMemo(
+    () =>
+      displayTestimonials.map(
+        () => pinkColors[Math.floor(Math.random() * pinkColors.length)]
+      ),
+    [displayTestimonials]
   );
 
   const [expandedIndex, setExpandedIndex] = useState<number>(0);
@@ -106,7 +122,10 @@ export function TestimonialCards() {
   }, [lenis]);
 
   return (
-    <section ref={sectionRef} className="min-h-[100vh] px-fluid-6 py-fluid-12 font-sans">
+    <section
+      ref={sectionRef}
+      className="min-h-[100vh] px-fluid-6 py-fluid-12 font-sans"
+    >
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">
           <span className="section-title block font-sans font-extrabold text-fluid-8xl tracking-tight">
@@ -118,7 +137,7 @@ export function TestimonialCards() {
         </h1>
       </div>
 
-      <div className="hidden min-h-[clamp(560px,72vh,840px)] gap-fluid-2 md:flex">
+      <div className="hidden min-h-[clamp(560px,72vh,840px)] gap-fluid-2 min-[1000px]:flex">
         {displayTestimonials.map((item, index) => {
           const isExpanded = expandedIndex === index;
           const panelId = `testimonial-desktop-panel-${index}`;
@@ -127,15 +146,15 @@ export function TestimonialCards() {
           return (
             <article
               key={item.key}
-              className={`relative min-w-[5rem] overflow-hidden rounded-[1.1rem] border border-night/80 bg-cream/30 transition-[flex-basis,flex-grow] duration-[750ms] ease-[var(--ease-out-cubic)] ${
+              className={`relative overflow-hidden rounded-[1.1rem] border border-night/80 transition-[width] duration-[750ms] ease-[var(--ease-out-sine)] ${
                 isExpanded
-                  ? 'grow basis-[min(62vw,72rem)] delay-0'
-                  : 'basis-[5rem] shrink-0 delay-[225ms]'
+                  ? 'w-[65%] bg-cream/80 delay-0'
+                  : 'w-[5%] bg-cream/80 delay-[225ms]'
               }`}
             >
               <div
                 aria-hidden="true"
-                className={`absolute inset-0 z-0 bg-pink-flat transition-opacity ease-[var(--ease-out-cubic)] ${
+                className={`absolute inset-0 z-0 ${cardColors[index]} transition-opacity ease-[var(--ease-out-sine)] ${
                   isExpanded
                     ? 'opacity-100 duration-[390ms] delay-[750ms]'
                     : 'opacity-0 duration-[210ms] delay-0'
@@ -163,7 +182,7 @@ export function TestimonialCards() {
                 role="region"
                 aria-labelledby={buttonId}
                 aria-hidden={!isExpanded}
-                className={`absolute inset-0 z-10 flex flex-col justify-end gap-fluid-6 p-fluid-6 transition-[opacity,transform,color] ease-[var(--ease-out-cubic)] ${
+                className={`absolute inset-0 z-10 flex flex-col justify-end gap-fluid-6 p-fluid-6 transition-[opacity,transform,color] ease-[var(--ease-out-sine)] ${
                   isExpanded
                     ? 'translate-x-0 opacity-100 text-cream duration-[360ms] delay-[750ms]'
                     : 'pointer-events-none translate-x-4 opacity-0 text-night duration-[270ms] delay-0'
@@ -179,7 +198,7 @@ export function TestimonialCards() {
 
               <div
                 aria-hidden="true"
-                className={`absolute inset-0 z-10 flex items-end justify-center px-fluid-2 pb-fluid-5 transition-opacity duration-[375ms] ease-[var(--ease-out-cubic)] ${
+                className={`absolute inset-0 z-10 flex items-end justify-center px-fluid-2 pb-fluid-5 transition-opacity duration-[375ms] ease-[var(--ease-out-sine)] ${
                   isExpanded
                     ? 'pointer-events-none opacity-0 delay-0'
                     : 'opacity-100 delay-[300ms]'
@@ -201,7 +220,7 @@ export function TestimonialCards() {
         })}
       </div>
 
-      <div className="flex flex-col gap-fluid-3 md:hidden">
+      <div className="flex flex-col gap-fluid-3 min-[1000px]:hidden">
         {displayTestimonials.map((item, index) => {
           const isExpanded = expandedIndex === index;
           const panelId = `testimonial-mobile-panel-${index}`;
@@ -210,11 +229,14 @@ export function TestimonialCards() {
           return (
             <article
               key={item.key}
-              className="relative min-h-[50vh] overflow-hidden rounded-[1.1rem] border border-night/80 bg-cream/30"
+              className={`relative flex flex-col overflow-hidden rounded-[1.1rem] border border-night/80 bg-cream/80 transition-[min-height] duration-[750ms] ease-[var(--ease-out-sine)] ${
+                isExpanded ? 'min-h-[35vh] justify-end' : 'min-h-0'
+              }`}
             >
+              {/* Pink background overlay - Step 2: fades in AFTER card grows */}
               <div
                 aria-hidden="true"
-                className={`absolute inset-0 z-0 bg-pink-flat transition-opacity ease-[var(--ease-out-cubic)] ${
+                className={`absolute inset-0 z-0 ${cardColors[index]} transition-opacity ease-[var(--ease-out-sine)] ${
                   isExpanded
                     ? 'opacity-100 duration-[390ms] delay-[750ms]'
                     : 'opacity-0 duration-[210ms] delay-0'
@@ -227,41 +249,41 @@ export function TestimonialCards() {
                 aria-expanded={isExpanded}
                 aria-controls={panelId}
                 onClick={() => setExpandedIndex(index)}
-                className={`relative z-10 flex w-full items-center justify-between gap-fluid-3 px-fluid-4 py-fluid-4 text-left transition-colors ease-[var(--ease-out-cubic)] focus:outline-none focus-visible:ring-2 focus-visible:ring-pink ${
-                  isExpanded
-                    ? 'text-cream duration-[390ms] delay-[750ms]'
-                    : 'text-night duration-[210ms] delay-0'
-                }`}
+                className="relative z-10 flex w-full items-center justify-between gap-fluid-3 px-fluid-4 py-fluid-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
               >
-                <span className="text-fluid-md font-sans font-extrabold uppercase tracking-wide">
+                {/* Collapsed title - Step 1: fades out when expanding */}
+                <span
+                  className={`text-fluid-md font-sans font-extrabold uppercase tracking-wide text-night transition-opacity duration-[200ms] ease-[var(--ease-out-sine)] ${
+                    isExpanded
+                      ? 'opacity-0 delay-0'
+                      : 'opacity-100 delay-[300ms]'
+                  }`}
+                >
                   {item.organization}
                 </span>
               </button>
 
+              {/* Content container - Step 3: fades in AFTER card is full size */}
               <div
-                className={`relative z-10 grid overflow-hidden px-fluid-4 transition-[grid-template-rows,opacity,color] duration-[750ms] ease-[var(--ease-out-cubic)] ${
+                id={panelId}
+                role="region"
+                aria-labelledby={buttonId}
+                aria-hidden={!isExpanded}
+                className={`absolute bottom-0 left-0 right-0 z-10 p-fluid-4 transition-opacity ease-[var(--ease-out-sine)] ${
                   isExpanded
-                    ? 'grid-rows-[1fr] opacity-100'
-                    : 'grid-rows-[0fr] opacity-80'
+                    ? 'opacity-100 delay-[750ms] duration-[300ms]'
+                    : 'opacity-0 delay-0 duration-[200ms] pointer-events-none'
                 }`}
               >
-                <div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  aria-hidden={!isExpanded}
-                  className="overflow-hidden"
-                >
-                  <p
-                    className={`pb-fluid-4 text-fluid-xl font-sans font-light italic leading-relaxed transition-colors ease-[var(--ease-out-cubic)] ${
-                      isExpanded
-                        ? 'text-cream duration-[390ms] delay-[750ms]'
-                        : 'text-night duration-[210ms] delay-0'
-                    }`}
-                  >
-                    &ldquo;{item.displayText}&rdquo;
-                  </p>
-                </div>
+                {/* Quote text - already in place, just fades in */}
+                <p className="text-fluid-xl font-sans font-light italic leading-relaxed text-cream pb-fluid-4">
+                  &ldquo;{item.displayText}&rdquo;
+                </p>
+
+                {/* Expanded title - fades in with content */}
+                <p className="text-fluid-md font-sans font-extrabold uppercase tracking-wide text-cream">
+                  {item.organization}
+                </p>
               </div>
             </article>
           );
