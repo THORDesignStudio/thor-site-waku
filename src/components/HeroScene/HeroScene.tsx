@@ -31,8 +31,10 @@ export function HeroScene() {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
-          maskImage: 'linear-gradient(to bottom, black 80vh, transparent 100vh)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 80vh, transparent 100vh)',
+          maskImage:
+            'linear-gradient(to bottom, black 80vh, transparent 100vh)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, black 80vh, transparent 100vh)',
         }}
       />
       {/* Text - left side */}
