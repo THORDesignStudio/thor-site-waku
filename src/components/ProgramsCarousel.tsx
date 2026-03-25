@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef, useLayoutEffect } from 'react';
+import { useState, useCallback, useRef, useLayoutEffect, useEffect } from 'react';
 import { useLenis } from 'lenis/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -103,9 +103,13 @@ interface ItemPosition {
 // Space Parallax Background
 // ============================================================================
 
-function SpaceParallaxBackground({ scrollY }: { scrollY: number }) {
+interface SpaceParallaxBackgroundProps {
+  parallaxRef: React.RefObject<HTMLDivElement | null>;
+}
+
+function SpaceParallaxBackground({ parallaxRef }: SpaceParallaxBackgroundProps) {
   return (
-    <div className="space-parallax">
+    <div ref={parallaxRef} className="space-parallax">
       {/* Gradient background layer */}
       <div className="space-parallax__gradient" />
 
@@ -114,10 +118,13 @@ function SpaceParallaxBackground({ scrollY }: { scrollY: number }) {
         <div
           key={layer.src}
           className="space-parallax__layer"
+          data-parallax-speed={layer.speed}
+          data-parallax-offset={layer.offset}
           style={{
             zIndex: i + 1,
             backgroundImage: `url(${layer.src})`,
-            transform: `translate3d(0, ${layer.offset + scrollY * layer.speed}px, 0)`,
+            // Initial transform, will be updated via CSS custom properties
+            transform: `translate3d(0, ${layer.offset}px, 0)`,
           }}
         />
       ))}
@@ -151,24 +158,40 @@ function getItemPosition(index: number): ItemPosition {
 export function ProgramsCarousel() {
   // null means no item is active - all on the outer circle
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [scrollY, setScrollY] = useState(0);
   // Track which program drawer is open (null = none)
   const [drawerProgram, setDrawerProgram] = useState<Program | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
 
-  // Track scroll position for parallax effect
-  const lenis = useLenis(({ scroll }) => {
-    setScrollY(scroll);
-  });
+  // Use shared hook for Lenis-ScrollTrigger sync
+  const lenis = useLenis();
+
+  // Direct DOM manipulation for parallax to avoid React re-renders
+  useEffect(() => {
+    if (!lenis || !parallaxRef.current) return;
+
+    const parallaxLayers = parallaxRef.current.querySelectorAll('.space-parallax__layer');
+
+    const scrollHandler = ({ scroll }: { scroll: number }) => {
+      // Update CSS custom properties directly - no React state changes
+      parallaxLayers.forEach((layer) => {
+        const speed = parseFloat(layer.getAttribute('data-parallax-speed') || '0');
+        const offset = parseFloat(layer.getAttribute('data-parallax-offset') || '0');
+        const y = offset + scroll * speed;
+        (layer as HTMLElement).style.transform = `translate3d(0, ${y}px, 0)`;
+      });
+    };
+
+    lenis.on('scroll', scrollHandler);
+    return () => {
+      lenis.off('scroll', scrollHandler);
+    };
+  }, [lenis]);
 
   // Set up scroll-triggered animations for section header
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-
-    // Sync Lenis with GSAP ScrollTrigger
-    const lenisScrollHandler = () => ScrollTrigger.update();
-    lenis?.on('scroll', lenisScrollHandler);
 
     const ctx = gsap.context(() => {
       // Animate section header (title and subtitle)
@@ -218,10 +241,9 @@ export function ProgramsCarousel() {
     }, sectionRef);
 
     return () => {
-      lenis?.off('scroll', lenisScrollHandler);
       ctx.revert();
     };
-  }, [lenis]);
+  }, []);
 
   const items = programs.programs;
 
@@ -270,7 +292,7 @@ export function ProgramsCarousel() {
       className="relative w-full h-screen overflow-hidden flex flex-col justify-between"
     >
       {/* Space parallax background */}
-      <SpaceParallaxBackground scrollY={scrollY} />
+      <SpaceParallaxBackground parallaxRef={parallaxRef} />
 
       {/* Section Title and Navigation - positioned at top, floats over parallax */}
       <div
