@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { capabilities } from '../data/capabilities';
 
 const CYCLE_INTERVAL = 3000;
+const ANIMATION_DURATION = 300;
 const shortValues = capabilities.capabilities.map((c) => c.short);
 
 export function HeroText() {
@@ -11,19 +12,36 @@ export function HeroText() {
   const [isAnimating, setIsAnimating] = useState(false);
   const spanRef = useRef<HTMLSpanElement>(null);
   const prevHeightRef = useRef<number>(0);
+  const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearTimeouts = useCallback(() => {
+    if (animationTimeoutRef.current) {
+      clearTimeout(animationTimeoutRef.current);
+      animationTimeoutRef.current = null;
+    }
+    if (cleanupTimeoutRef.current) {
+      clearTimeout(cleanupTimeoutRef.current);
+      cleanupTimeoutRef.current = null;
+    }
+  }, []);
 
   const cycleWord = useCallback(() => {
     if (!spanRef.current) return;
+
+    // Clear any existing timeouts to prevent overlapping animations
+    clearTimeouts();
 
     // Store current height before changing word
     prevHeightRef.current = spanRef.current.getBoundingClientRect().height;
 
     setIsAnimating(true);
 
-    setTimeout(() => {
+    // Step 1: Wait for fade-out animation, then change word
+    animationTimeoutRef.current = setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % shortValues.length);
 
-      // After state update, measure new height and animate
+      // Step 2: After state update, measure new height and animate
       requestAnimationFrame(() => {
         if (!spanRef.current) return;
         const newHeight = spanRef.current.getBoundingClientRect().height;
@@ -34,32 +52,35 @@ export function HeroText() {
           spanRef.current.style.height = `${prevHeightRef.current}px`;
 
           // Force reflow
-          spanRef.current.getBoundingClientRect();
+          void spanRef.current.getBoundingClientRect();
 
-          // Animate to new height (add to existing transitions)
+          // Animate to new height
           spanRef.current.style.transition =
             'opacity 300ms ease, transform 300ms ease, height 300ms ease';
           spanRef.current.style.height = `${newHeight}px`;
 
-          // Clean up after animation
-          setTimeout(() => {
+          // Clean up after animation completes
+          cleanupTimeoutRef.current = setTimeout(() => {
             if (spanRef.current) {
               spanRef.current.style.height = '';
               spanRef.current.style.transition =
                 'opacity 300ms ease, transform 300ms ease';
             }
-          }, 300);
+          }, ANIMATION_DURATION);
         }
 
         setIsAnimating(false);
       });
-    }, 300);
-  }, []);
+    }, ANIMATION_DURATION);
+  }, [clearTimeouts]);
 
   useEffect(() => {
     const interval = setInterval(cycleWord, CYCLE_INTERVAL);
-    return () => clearInterval(interval);
-  }, [cycleWord]);
+    return () => {
+      clearInterval(interval);
+      clearTimeouts();
+    };
+  }, [cycleWord, clearTimeouts]);
 
   const currentWord = shortValues[currentIndex];
 
