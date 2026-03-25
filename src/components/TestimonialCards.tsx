@@ -15,6 +15,22 @@ const pinkColors = [
   'bg-pink-dark',
 ] as const;
 
+type PinkColor = (typeof pinkColors)[number];
+
+// Deterministic hash function to assign colors based on organization name
+// This ensures consistent colors between server and client, avoiding hydration mismatch
+function getDeterministicColor(str: string, index: number): PinkColor {
+  const combined = `${str}-${index}`;
+  let hash = 0;
+  for (let i = 0; i < combined.length; i++) {
+    const char = combined.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  const colorIndex = Math.abs(hash) % pinkColors.length;
+  return pinkColors[colorIndex]!;
+}
+
 export function TestimonialCards() {
   const displayTestimonials = useMemo(
     () =>
@@ -26,11 +42,11 @@ export function TestimonialCards() {
     []
   );
 
-  // Assign a random pink color to each card that persists across renders
+  // Assign colors deterministically based on organization name to avoid hydration mismatch
   const cardColors = useMemo(
     () =>
-      displayTestimonials.map(
-        () => pinkColors[Math.floor(Math.random() * pinkColors.length)]
+      displayTestimonials.map((item, index) =>
+        getDeterministicColor(item.organization, index)
       ),
     [displayTestimonials]
   );

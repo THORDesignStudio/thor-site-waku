@@ -28,6 +28,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <meta name="twitter:description" content={data.description} />
           <meta name="twitter:image" content={data.image} />
           <link rel="icon" type="image/png" href={data.icon} />
+          <link
+            rel="preconnect"
+            href="https://use.typekit.net"
+            crossOrigin="anonymous"
+          />
+          <link rel="dns-prefetch" href="https://use.typekit.net" />
           <link rel="stylesheet" href="https://use.typekit.net/wmf2hcd.css" />
           <Header />
           <main>{children}</main>

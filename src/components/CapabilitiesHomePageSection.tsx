@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useCallback, useRef, useLayoutEffect } from 'react';
-import { useLenis } from 'lenis/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { capabilities, type Capability } from '../data/capabilities';
 import { CapabilityDrawer } from './CapabilityDrawer';
+import { useLenisScrollTrigger } from '../hooks/useLenisScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,7 +16,9 @@ export function CapabilitiesHomePageSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const capabilityRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const lenis = useLenis();
+
+  // Use shared hook for Lenis-ScrollTrigger sync
+  useLenisScrollTrigger(sectionRef);
 
   const handleOpenCapability = useCallback((capability: Capability) => {
     setActiveCapability(capability);
@@ -29,10 +31,6 @@ export function CapabilitiesHomePageSection() {
   // Set up scroll-triggered animations for each capability
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-
-    // Sync Lenis with GSAP ScrollTrigger
-    const lenisScrollHandler = () => ScrollTrigger.update();
-    lenis?.on('scroll', lenisScrollHandler);
 
     const ctx = gsap.context(() => {
       // Animate section header (title and subtitle)
@@ -131,10 +129,9 @@ export function CapabilitiesHomePageSection() {
     }, sectionRef);
 
     return () => {
-      lenis?.off('scroll', lenisScrollHandler);
       ctx.revert();
     };
-  }, [lenis]);
+  }, []);
 
   const capabilityItems = capabilities.capabilities;
 

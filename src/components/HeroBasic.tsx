@@ -27,6 +27,7 @@ export function HeroBasic() {
         <img
           src="/images/hero-hammers/THOR_Hammer_purple2_2000px.jpg"
           alt="THOR Hammer"
+          fetchPriority="high"
           className="hero-mask absolute inset-0 w-full h-full object-cover"
           style={{
             maskImage:

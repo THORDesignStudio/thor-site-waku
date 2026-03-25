@@ -85,10 +85,15 @@ export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
 
     let resized = true;
     let stop = false;
+    let isVisible = true;
+    let rafId: number | null = null;
 
     function tick() {
       if (stop) return;
-      requestAnimationFrame(tick);
+      if (!isVisible) {
+        rafId = null;
+        return;
+      }
 
       // handle resize if needed
       if (resized) {
@@ -102,13 +107,38 @@ export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
 
       // render the canvas, main function
       renderer.render();
+      rafId = requestAnimationFrame(tick);
     }
-    tick();
+
+    // Start the loop
+    rafId = requestAnimationFrame(tick);
+
+    // Set up IntersectionObserver to pause rendering when not visible
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      const entry = entries[0];
+      if (entry) {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !rafId && !stop) {
+          rafId = requestAnimationFrame(tick);
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: '100px', // Start rendering slightly before visible
+      threshold: 0,
+    });
+
+    observer.observe(canvas);
 
     const resizeListener = () => (resized = true);
     window.addEventListener('resize', resizeListener);
+
     return () => {
       stop = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      observer.disconnect();
       window.removeEventListener('resize', resizeListener);
     };
   }, [animate]);

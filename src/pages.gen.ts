@@ -10,8 +10,6 @@ import type { getConfig as File_CaseStudies_getConfig } from './pages/case-studi
 // prettier-ignore
 import type { getConfig as File_Index_getConfig } from './pages/index';
 // prettier-ignore
-import type { getConfig as File_SkillsDiscovery_getConfig } from './pages/skills/discovery';
-// prettier-ignore
 import type { getConfig as File_Typography_getConfig } from './pages/typography';
 
 // prettier-ignore
@@ -19,7 +17,6 @@ type Page =
 | ({ path: '/about' } & GetConfigResponse<typeof File_About_getConfig>)
 | ({ path: '/case-studies' } & GetConfigResponse<typeof File_CaseStudies_getConfig>)
 | ({ path: '/' } & GetConfigResponse<typeof File_Index_getConfig>)
-| ({ path: '/skills/discovery' } & GetConfigResponse<typeof File_SkillsDiscovery_getConfig>)
 | ({ path: '/typography' } & GetConfigResponse<typeof File_Typography_getConfig>);
 
 // prettier-ignore
