@@ -1,14 +1,42 @@
 'use client';
 
 import { Link } from 'waku';
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
-import { ContactForm } from './ContactForm';
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
+import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useTurnstile } from '../hooks/useTurnstile';
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useAtom(isContactModalOpenAtom);
+
+  // Form state
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+
+  // Use extracted hooks
+  useLockBodyScroll(isContactOpen);
+  useEscapeKey(() => setIsContactOpen(false), isContactOpen);
+  useTurnstile({
+    isActive: isContactOpen,
+    containerRef: turnstileContainerRef,
+    onTokenChange: setTurnstileToken,
+  });
 
   const handleLinkClick = () => {
     setIsMenuOpen(false);
@@ -22,6 +50,52 @@ export const Header = () => {
 
   const closeContactForm = () => {
     setIsContactOpen(false);
+    // Reset form after a delay to let animation complete
+    setTimeout(() => {
+      setFormData({ name: '', email: '', message: '' });
+      setSubmitStatus('idle');
+      setTurnstileToken(null);
+    }, 600);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!turnstileToken) {
+      alert('Please complete the security check.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          turnstileToken,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTurnstileToken(null);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -46,15 +120,12 @@ export const Header = () => {
         >
           {/* Nav Container */}
           <div
-            className="flex items-center justify-between w-full"
+            className="flex items-center justify-between w-full relative"
             id="nav-container"
           >
             <Link
               to="/"
-              className={`
-                flex items-center pl-6 transition-all duration-300
-                ${isContactOpen ? 'sm:pl-8' : ''}
-              `}
+              className="flex items-center pl-6 transition-all duration-300"
               onClick={() => {
                 if (isContactOpen) {
                   closeContactForm();
@@ -100,15 +171,15 @@ export const Header = () => {
               </button>
             </div>
 
-            {/* Close button - always in DOM for animation, collapses when closed */}
+            {/* Close button - absolute when closed, relative when open */}
             <button
               onClick={closeContactForm}
               className={`
-                hidden sm:flex items-center justify-center rounded-full
+                flex items-center justify-center rounded-full
                 hover:bg-white/10 transition-all duration-300 ease-out overflow-hidden
                 ${isContactOpen
-                  ? 'opacity-100 pointer-events-auto w-12 h-12 mr-2'
-                  : 'opacity-0 pointer-events-none w-0 h-0 mr-0'}
+                  ? 'relative opacity-100 pointer-events-auto w-12 h-12 mr-2'
+                  : 'absolute opacity-0 pointer-events-none w-0 h-0'}
               `}
               aria-label="Close contact form"
               id="close-contact-form-button"
@@ -131,7 +202,7 @@ export const Header = () => {
               </svg>
             </button>
 
-            {/* Hamburger button - mobile only */}
+            {/* Hamburger button - mobile only, hidden when contact form open */}
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -168,18 +239,119 @@ export const Header = () => {
             </button>
           </div>
 
-          {/* Desktop Contact Form */}
-          <ContactForm
-            isOpen={isContactOpen}
-            onClose={closeContactForm}
-            variant="desktop"
-          />
+          {/* Contact Form - Unified for Desktop and Mobile */}
+          <div
+            className={`
+              overflow-hidden transition-all
+              ${isContactOpen ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
+            `}
+            style={{
+              transitionDuration: 'var(--spring-bounce-duration)',
+              transitionTimingFunction: 'var(--spring-bounce)',
+            }}
+          >
+            <div
+              className={`
+                px-4 sm:px-8 pb-8 transition-all duration-300 ease-out
+                ${isContactOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+              `}
+              style={{ transitionDelay: isContactOpen ? '150ms' : '0ms' }}
+            >
+              <h1 className="block font-sans font-extrabold text-fluid-2xl sm:text-fluid-3xl text-cream tracking-tight">
+                Work with us
+              </h1>
 
-          {/* Mobile navigation menu */}
+              <p className="font-sans font-light text-fluid-lg sm:text-fluid-xl text-cream mt-2 sm:mt-fluid-2 leading-normal">
+                Contact John and Colby to talk about your new project.
+              </p>
+
+              <form onSubmit={handleSubmit} className="mt-6 sm:mt-fluid-4 space-y-4 sm:space-y-fluid-4 max-w-xl">
+                <div>
+                  <label
+                    htmlFor="contact-name"
+                    className="block font-sans text-sm text-cream mb-2"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+                    placeholder="Your name"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="contact-email"
+                    className="block font-sans text-sm text-cream mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="contact-message"
+                    className="block font-sans text-sm text-cream mb-2"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={4}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors resize-none text-base"
+                    placeholder="Tell us about your project..."
+                  />
+                </div>
+
+                <div ref={turnstileContainerRef} className="min-h-[65px]" />
+
+                {submitStatus === 'success' && (
+                  <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
+                    Thank you! We&apos;ll be in touch soon.
+                  </div>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !turnstileToken}
+                  className="px-8 py-4 bg-pink text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:bg-pink-light disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {/* Mobile navigation menu - hidden when contact form is open */}
           <div
             className={`
               sm:hidden overflow-hidden transition-all
-              ${isMenuOpen ? 'max-h-80 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
+              ${isMenuOpen && !isContactOpen ? 'max-h-80 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
             `}
             style={{
               transitionDuration: 'var(--spring-bounce-duration)',
@@ -211,13 +383,6 @@ export const Header = () => {
           </div>
         </nav>
       </header>
-
-      {/* Mobile Contact Form Modal */}
-      <ContactForm
-        isOpen={isContactOpen}
-        onClose={closeContactForm}
-        variant="mobile"
-      />
     </>
   );
 };
