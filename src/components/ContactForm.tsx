@@ -1,139 +1,52 @@
 'use client';
 
-import { useAtom } from 'jotai';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { isContactModalOpenAtom } from '../atoms/contactAtoms';
+import { useState, useRef, useCallback } from 'react';
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
+import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useTurnstile } from '../hooks/useTurnstile';
 
-// Extend Window interface for Turnstile
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (
-        container: string | HTMLElement,
-        options: {
-          sitekey: string;
-          callback?: (token: string) => void;
-          'error-callback'?: (errorCode: string) => void;
-          'expired-callback'?: () => void;
-          theme?: 'light' | 'dark' | 'auto';
-          size?: 'normal' | 'compact' | 'flexible';
-        }
-      ) => string;
-      reset: (widgetId: string) => void;
-      remove: (widgetId: string) => void;
-      getResponse: (widgetId: string) => string | undefined;
-    };
-    onloadTurnstileCallback?: () => void;
-  }
+interface ContactFormProps {
+  isOpen: boolean;
+  onClose: () => void;
+  variant: 'desktop' | 'mobile';
 }
 
-export function ContactForm() {
-  const [isOpen, setIsOpen] = useAtom(isContactModalOpenAtom);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const turnstileWidgetId = useRef<string | null>(null);
-  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
-  // Form state
-  const [formData, setFormData] = useState({
+export const ContactForm = ({ isOpen, onClose, variant }: ContactFormProps) => {
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  // Use extracted hooks
+  useLockBodyScroll(variant === 'mobile' && isOpen);
+  useEscapeKey(onClose, isOpen);
+  useTurnstile({
+    isActive: isOpen,
+    containerRef: turnstileContainerRef,
+    onTokenChange: setTurnstileToken,
+  });
 
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, [isOpen, setIsOpen]);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  // Initialize Turnstile when modal opens
-  const initTurnstile = useCallback(() => {
-    if (!window.turnstile || !turnstileContainerRef.current) return;
-
-    // Clean up existing widget if any
-    if (turnstileWidgetId.current) {
-      window.turnstile.remove(turnstileWidgetId.current);
-    }
-
-    const siteKey = import.meta.env.VITE_CF_TURNSTILE_SITE_KEY;
-    if (!siteKey) {
-      console.error('Turnstile site key not found');
-      return;
-    }
-
-    turnstileWidgetId.current = window.turnstile.render(turnstileContainerRef.current, {
-      sitekey: siteKey,
-      theme: 'dark',
-      size: 'normal',
-      callback: (token: string) => {
-        setTurnstileToken(token);
-      },
-      'error-callback': () => {
-        setTurnstileToken(null);
-      },
-      'expired-callback': () => {
-        setTurnstileToken(null);
-      },
-    });
+  const resetForm = useCallback(() => {
+    setFormData({ name: '', email: '', message: '' });
+    setSubmitStatus('idle');
+    setTurnstileToken(null);
   }, []);
-
-  // Load Turnstile script and initialize
-  useEffect(() => {
-    if (!isOpen) {
-      // Cleanup when modal closes
-      if (turnstileWidgetId.current && window.turnstile) {
-        window.turnstile.remove(turnstileWidgetId.current);
-        turnstileWidgetId.current = null;
-      }
-      setTurnstileToken(null);
-      return;
-    }
-
-    // Check if script already exists
-    const existingScript = document.querySelector('script[data-turnstile]');
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.setAttribute('data-turnstile', 'true');
-      script.onload = initTurnstile;
-      document.head.appendChild(script);
-    } else if (window.turnstile) {
-      // Script exists and loaded
-      initTurnstile();
-    } else {
-      // Script exists but not loaded yet, wait for it
-      const checkInterval = setInterval(() => {
-        if (window.turnstile) {
-          clearInterval(checkInterval);
-          initTurnstile();
-        }
-      }, 100);
-
-      // Cleanup interval after 10 seconds if script never loads
-      setTimeout(() => clearInterval(checkInterval), 10000);
-    }
-  }, [isOpen, initTurnstile]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,7 +60,6 @@ export function ContactForm() {
     setSubmitStatus('idle');
 
     try {
-      // TODO: Replace with your actual API endpoint
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -159,12 +71,7 @@ export function ContactForm() {
 
       if (response.ok) {
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTurnstileToken(null);
-        // Reset Turnstile
-        if (turnstileWidgetId.current && window.turnstile) {
-          window.turnstile.reset(turnstileWidgetId.current);
-        }
+        resetForm();
       } else {
         setSubmitStatus('error');
       }
@@ -175,54 +82,129 @@ export function ContactForm() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const isDesktop = variant === 'desktop';
 
-  const closeModal = () => {
-    setIsOpen(false);
-    setSubmitStatus('idle');
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) closeModal();
-      }}
-    >
-      {/* Backdrop */}
-      <div
-        className={`absolute inset-0 bg-night/80 transition-opacity ${
-          isOpen ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{
-          transitionDuration: 'var(--spring-bounce-duration)',
-          transitionTimingFunction: 'var(--spring-bounce)',
-        }}
-      />
-
-      {/* Modal Container */}
+  // Desktop inline form
+  if (isDesktop) {
+    return (
       <div
         className={`
-          relative w-full max-w-2xl max-h-[90vh] overflow-y-auto
-          bg-night/80 backdrop-blur-sm rounded-4xl p-8 sm:p-12
-          border-2 border-white/60 shadow-2xl
-          transition-all
-          ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}
+          hidden sm:block overflow-hidden transition-all
+          ${isOpen ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
         `}
         style={{
           transitionDuration: 'var(--spring-bounce-duration)',
           transitionTimingFunction: 'var(--spring-bounce)',
         }}
       >
-        {/* Close Button */}
+        <div
+          className={`
+            px-8 pb-8 transition-all duration-300 ease-out
+            ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+          `}
+          style={{ transitionDelay: isOpen ? '150ms' : '0ms' }}
+        >
+          <h1 className="block font-sans font-extrabold text-fluid-3xl text-cream tracking-tight">
+            Work with us
+          </h1>
+
+          <p className="font-sans font-light text-fluid-xl text-cream mt-fluid-2 leading-normal">
+            Contact John and Colby to talk about your new project.
+          </p>
+
+          <form onSubmit={handleSubmit} className="mt-fluid-4 space-y-fluid-4 max-w-xl">
+            <div>
+              <label
+                htmlFor="header-name"
+                className="block font-sans text-sm text-cream mb-2"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="header-name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+                placeholder="Your name"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="header-email"
+                className="block font-sans text-sm text-cream mb-2"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="header-email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+                placeholder="your@email.com"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="header-message"
+                className="block font-sans text-sm text-cream mb-2"
+              >
+                Message
+              </label>
+              <textarea
+                id="header-message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                rows={4}
+                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors resize-none text-base"
+                placeholder="Tell us about your project..."
+              />
+            </div>
+
+            <div ref={turnstileContainerRef} className="min-h-[65px]" />
+
+            {submitStatus === 'success' && (
+              <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
+                Thank you! We&apos;ll be in touch soon.
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm">
+                Something went wrong. Please try again.
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting || !turnstileToken}
+              className="px-8 py-4 bg-pink text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:bg-pink-light disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // Mobile modal form
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-40 sm:hidden bg-night/95 flex items-start justify-center pt-24 px-4 pb-4">
+      <div className="w-full max-w-md">
         <button
-          onClick={closeModal}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-all duration-300 ease-in-out hover:[box-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
+          onClick={onClose}
+          className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full hover:bg-white/10 transition-all duration-300"
           aria-label="Close contact form"
         >
           <svg
@@ -243,103 +225,86 @@ export function ContactForm() {
           </svg>
         </button>
 
-        {/* Title */}
-        <h1 className="block font-sans font-extrabold text-fluid-4xl text-cream tracking-tight pr-12">
-          Work with us
-        </h1>
+        <div className="mt-8">
+          <h1 className="block font-sans font-extrabold text-fluid-2xl text-cream tracking-tight">
+            Work with us
+          </h1>
+          <p className="font-sans font-light text-fluid-lg text-cream mt-2 leading-normal">
+            Contact John and Colby to talk about your new project.
+          </p>
 
-        {/* Subtitle */}
-        <p className="font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
-          Contact John and Colby to talk about your new project.
-        </p>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="mt-fluid-6 space-y-fluid-4">
-          {/* Name Field */}
-          <div>
-            <label
-              htmlFor="name"
-              className="block font-sans text-fluid-base text-cream mb-fluid-2"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors"
-              placeholder="Your name"
-            />
-          </div>
-
-          {/* Email Field */}
-          <div>
-            <label
-              htmlFor="email"
-              className="block font-sans text-fluid-base text-cream mb-fluid-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors"
-              placeholder="your@email.com"
-            />
-          </div>
-
-          {/* Message Field */}
-          <div>
-            <label
-              htmlFor="message"
-              className="block font-sans text-fluid-base text-cream mb-fluid-2"
-            >
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleInputChange}
-              required
-              rows={5}
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors resize-none"
-              placeholder="Tell us about your project..."
-            />
-          </div>
-
-          {/* Turnstile Widget */}
-          <div ref={turnstileContainerRef} className="min-h-[65px]" />
-
-          {/* Submit Status Messages */}
-          {submitStatus === 'success' && (
-            <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center">
-              Thank you! We&apos;ll be in touch soon.
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label htmlFor="mobile-name" className="block font-sans text-sm text-cream mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                id="mobile-name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60"
+                placeholder="Your name"
+              />
             </div>
-          )}
-          {submitStatus === 'error' && (
-            <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center">
-              Something went wrong. Please try again.
-            </div>
-          )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting || !turnstileToken}
-            className="w-full sm:w-auto px-8 py-4 bg-pink text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:bg-pink-light disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </button>
-        </form>
+            <div>
+              <label htmlFor="mobile-email" className="block font-sans text-sm text-cream mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="mobile-email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60"
+                placeholder="your@email.com"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="mobile-message" className="block font-sans text-sm text-cream mb-2">
+                Message
+              </label>
+              <textarea
+                id="mobile-message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                rows={4}
+                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 resize-none"
+                placeholder="Tell us about your project..."
+              />
+            </div>
+
+            <div ref={turnstileContainerRef} className="min-h-[65px]" />
+
+            {submitStatus === 'success' && (
+              <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
+                Thank you! We&apos;ll be in touch soon.
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm">
+                Something went wrong. Please try again.
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting || !turnstileToken}
+              className="w-full px-8 py-4 bg-pink text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:bg-pink-light disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
-}
+};
