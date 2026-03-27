@@ -137,11 +137,11 @@ export const Header = () => {
       >
         <nav
           className={`
-            flex flex-col bg-night/80 hover:bg-night/97 transition-all
+            flex flex-col bg-night/97  transition-all
             rounded-4xl p-2 shadow-lg max-w-6xl w-full mx-auto border-2 border-white/60
             backface-visible will-change-scroll
-            ${isMenuOpen ? 'max-sm:rounded-3xl max-sm:bg-night/97' : ''}
-            ${isContactOpen ? 'bg-night/97' : ''}
+            ${isMenuOpen ? 'max-sm:rounded-3xl bg-night/97' : ''}
+            ${isContactOpen ? 'max-sm:rounded-3xl bg-night/97' : ''}
           `}
           style={{
             transitionDuration: 'var(--spring-bounce-duration)',
@@ -196,7 +196,7 @@ export const Header = () => {
               </Link>
               <button
                 onClick={openContactForm}
-                className="px-6 md:px-8 py-3 md:py-4 bg-pink text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
+                className="px-8 py-4 bg-pink text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
               >
                 Work With Us
               </button>
@@ -214,6 +214,9 @@ export const Header = () => {
                     : 'absolute opacity-0 pointer-events-none w-0 h-0'
                 }
               `}
+              style={{
+                transitionDelay: isFormVisible ? '0ms' : '15ms',
+              }}
               aria-label="Close contact form"
               id="close-contact-form-button"
             >
@@ -272,11 +275,11 @@ export const Header = () => {
             </button>
           </div>
 
-          {/* Contact Form - Unified for Desktop and Mobile */}
+          {/* Desktop Contact Form - Spring bounce expansion */}
           <div
             className={`
-              overflow-hidden transition-all
-              ${isFormVisible ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
+              hidden sm:block overflow-hidden transition-all
+              ${isFormVisible ? 'max-h-[2000px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
             `}
             style={{
               transitionDuration: 'var(--spring-bounce-duration)',
@@ -285,10 +288,12 @@ export const Header = () => {
           >
             <div
               className={`
-                px-4 sm:px-8 pb-8 transition-all duration-300 ease-out
+                px-4 sm:px-8 sm:pb-8 pb-4 transition-all duration-300 ease-out
                 ${isFormVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
               `}
-              style={{ transitionDelay: isFormVisible ? '150ms' : '0ms' }}
+              style={{
+                transitionDelay: isFormVisible ? '150ms' : '50ms',
+              }}
             >
               <h1 className="block font-sans font-extrabold text-fluid-2xl sm:text-fluid-3xl text-cream tracking-tight">
                 Work with us
@@ -359,7 +364,115 @@ export const Header = () => {
                   />
                 </div>
 
-                <div ref={turnstileContainerRef} className="min-h-[65px]" />
+                <div
+                  ref={turnstileContainerRef}
+                  className={`${isFormVisible ? 'min-h-[65px]' : 'min-h-0'}`}
+                />
+
+                {submitStatus === 'success' && (
+                  <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
+                    Thank you! We&apos;ll be in touch soon.
+                  </div>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !turnstileToken}
+                  className="px-8 py-4 bg-pink text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:bg-pink-light disabled:opacity-80 disabled:cursor-not-allowed text-sm"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {/* Mobile Contact Form - Fade in when menu closes */}
+          <div
+            className={`
+              sm:hidden overflow-hidden transition-all
+              ${isFormVisible ? 'max-h-[2000px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
+            `}
+            style={{
+              transitionDuration: 'var(--spring-bounce-duration)',
+              transitionTimingFunction: 'var(--spring-bounce)',
+            }}
+          >
+            <div className="px-4 pb-4">
+              <h1 className="block font-sans font-extrabold text-fluid-2xl text-cream tracking-tight">
+                Work with us
+              </h1>
+
+              <p className="font-sans font-light text-fluid-lg text-cream mt-2 leading-normal">
+                Contact John and Colby to talk about your new project.
+              </p>
+
+              <form onSubmit={handleSubmit} className="mt-6 space-y-4 max-w-xl">
+                <div>
+                  <label
+                    htmlFor="mobile-contact-name"
+                    className="block font-sans text-sm text-cream mb-2"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="mobile-contact-name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+                    placeholder="Your name"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="mobile-contact-email"
+                    className="block font-sans text-sm text-cream mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="mobile-contact-email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="mobile-contact-message"
+                    className="block font-sans text-sm text-cream mb-2"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="mobile-contact-message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={4}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors resize-none text-base"
+                    placeholder="Tell us about your project..."
+                  />
+                </div>
+
+                <div
+                  ref={turnstileContainerRef}
+                  className={`${isFormVisible ? 'min-h-[65px]' : 'min-h-0'}`}
+                />
 
                 {submitStatus === 'success' && (
                   <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
@@ -383,7 +496,7 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Mobile navigation menu - hidden when contact form is open */}
+          {/* Mobile navigation menu - standard collapse/expand behavior */}
           <div
             className={`
               sm:hidden overflow-hidden transition-all
