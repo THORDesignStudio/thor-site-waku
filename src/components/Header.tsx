@@ -19,6 +19,7 @@ export const Header = () => {
 
   const handleLinkClick = () => {
     setIsOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -56,18 +57,21 @@ export const Header = () => {
           <div className="hidden sm:flex items-center gap-6 lg:gap-8 pl-8">
             <Link
               to="/about"
+              onClick={handleLinkClick}
               className="text-sm font-medium text-white/90 hover:text-white transition-colors"
             >
               About Us
             </Link>
             <Link
               to="/case-studies"
+              onClick={handleLinkClick}
               className="text-sm font-medium text-white/90 hover:text-white transition-colors"
             >
               Case Studies
             </Link>
             <Link
               to="/contact"
+              onClick={handleLinkClick}
               className="px-6 md:px-8 py-3 md:py-4 bg-pink text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase"
             >
               Work With Us
