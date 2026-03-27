@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from 'waku';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
 import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
@@ -19,6 +19,26 @@ export const Header = () => {
   const [isContactOpen, setIsContactOpen] = useAtom(isContactModalOpenAtom);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const formTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Sync form visibility with contact open state (for external toggles like Footer)
+  useEffect(() => {
+    if (isContactOpen && !isFormVisible) {
+      // External open (e.g., from Footer) - trigger the sequence
+      setIsMenuOpen(false);
+      formTimeoutRef.current = setTimeout(() => {
+        setIsFormVisible(true);
+      }, 300);
+    } else if (!isContactOpen && isFormVisible) {
+      // External close - hide form immediately
+      setIsFormVisible(false);
+    }
+
+    return () => {
+      if (formTimeoutRef.current) {
+        clearTimeout(formTimeoutRef.current);
+      }
+    };
+  }, [isContactOpen, isFormVisible]);
 
   // Form state
   const [formData, setFormData] = useState<FormData>({
