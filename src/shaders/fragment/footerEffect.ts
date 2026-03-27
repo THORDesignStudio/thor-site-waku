@@ -112,7 +112,7 @@ const createFragmentShader: CreateFragmentShader = () => {
       // Screen pattern
       float mask = screenPattern(gl_FragCoord.xy);
 
-      // Darken the base color to simulate the “material” of the screen
+      // Darken the base color to simulate the "material" of the screen
       vec3 darkLayer = baseColor.rgb * 0.45;
 
       // mask value will end up being 0 or 1, so we can use it to mix between the dark layer and the base color

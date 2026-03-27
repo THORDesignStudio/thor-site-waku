@@ -48,6 +48,7 @@ export interface WebGLShaderProps {
   minWidth?: number;
   maintainHeight?: number;
   height?: number;
+  responsiveHeight?: boolean;
   animate?: boolean;
   seed?: number;
 }
@@ -56,8 +57,9 @@ export interface WebGLShaderProps {
 // https://alexharri.com/blog/webgl-gradients
 export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const { animate = true, skew } = props;
+  const { animate = true, skew, responsiveHeight } = props;
 
   const viewportWidth = useViewportWidth()!;
   const [width, height] = calculateWebGLCanvasDimensions(props, viewportWidth);
@@ -87,6 +89,7 @@ export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
     let stop = false;
     let isVisible = true;
     let rafId: number | null = null;
+    let resizeObserver: ResizeObserver | null = null;
 
     function tick() {
       if (stop) return;
@@ -97,11 +100,18 @@ export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
 
       // handle resize if needed
       if (resized) {
-        const [width, height] = calculateWebGLCanvasDimensions(
-          props,
-          window.innerWidth
-        );
-        renderer.setDimensions(width!, height!);
+        if (responsiveHeight && containerRef.current) {
+          // Use actual container dimensions
+          const rect = containerRef.current.getBoundingClientRect();
+          renderer.setDimensions(Math.floor(rect.width), Math.floor(rect.height));
+        } else {
+          // Use viewport-based dimensions
+          const [newWidth, newHeight] = calculateWebGLCanvasDimensions(
+            props,
+            window.innerWidth
+          );
+          renderer.setDimensions(newWidth!, newHeight!);
+        }
         resized = false;
       }
 
@@ -132,6 +142,14 @@ export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
 
     observer.observe(canvas);
 
+    // Set up ResizeObserver for responsiveHeight mode
+    if (responsiveHeight && containerRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        resized = true;
+      });
+      resizeObserver.observe(containerRef.current);
+    }
+
     const resizeListener = () => (resized = true);
     window.addEventListener('resize', resizeListener);
 
@@ -139,10 +157,30 @@ export const WebGLShader: React.FC<WebGLShaderProps> = (props) => {
       stop = true;
       if (rafId) cancelAnimationFrame(rafId);
       observer.disconnect();
+      resizeObserver?.disconnect();
       window.removeEventListener('resize', resizeListener);
     };
-  }, [animate]);
+  }, [animate, responsiveHeight]);
 
+  if (responsiveHeight) {
+    // In responsiveHeight mode, fill the container completely
+    return (
+      <div
+        ref={containerRef}
+        className="relative w-full h-full"
+        style={{
+          ...(skew && { transform: `skewY(-${SKEW_DEG}deg)` }),
+        }}
+      >
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full"
+        />
+      </div>
+    );
+  }
+
+  // Default mode: use aspect ratio padding trick
   return (
     <div
       className="relative max-w-full"

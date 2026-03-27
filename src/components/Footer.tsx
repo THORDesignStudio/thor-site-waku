@@ -8,14 +8,9 @@ const linkClassName =
 
 export const Footer = () => {
   return (
-    <div className="relative w-full overflow-hidden h-[600px]">
+    <div className="relative w-full overflow-hidden">
       <div className="absolute inset-0 w-full h-full z-0">
-        <WebGLShader
-          minWidth={600}
-          height={600}
-          maintainHeight={0.8}
-          seed={30005}
-        />
+        <WebGLShader minWidth={320} responsiveHeight={true} seed={30005} />
       </div>
 
       <div className="relative z-10 container flex flex-col justify-between w-full h-full xl:flex-row gap-x-vw-12 gap-y-vw-12 lg:gap-y-vw-20 paragraph-md py-fluid-6 px-fluid-6 text-white max-w-[1600px] mx-auto">
@@ -24,11 +19,11 @@ export const Footer = () => {
             <img
               src="/images/THOR_logo_WHITE.svg"
               alt="THOR Digital and THOR Studio"
-              className="max-w-[500px] w-full"
+              className="max-w-[400px] w-full"
             />
             <p className="text-fluid-xl font-sans font-extrabold uppercase mt-6 tracking-widest">
               Discoverers of elusive solutions.{' '}
-              <span className="block">Purveyors of fine design.</span>
+              <span className="sm:block">Purveyors of fine design.</span>
             </p>
           </div>
 
