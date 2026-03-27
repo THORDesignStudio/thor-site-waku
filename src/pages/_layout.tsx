@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { ChatButton } from '../components/ChatButton';
 import { SmoothScroll } from '../layouts/SmoothScroll';
 import { JotaiProvider } from '../components/JotaiProvider';
 
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <Header />
           <main>{children}</main>
           <Footer />
+          <ChatButton />
         </div>
       </SmoothScroll>
     </JotaiProvider>
