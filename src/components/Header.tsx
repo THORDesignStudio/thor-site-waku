@@ -19,9 +19,15 @@ export const Header = () => {
   const [isContactOpen, setIsContactOpen] = useAtom(isContactModalOpenAtom);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const formTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isManualOperationRef = useRef(false);
 
   // Sync form visibility with contact open state (for external toggles like Footer)
   useEffect(() => {
+    // Skip if we're in the middle of a manual open/close operation
+    if (isManualOperationRef.current) {
+      return;
+    }
+
     if (isContactOpen && !isFormVisible) {
       // External open (e.g., from Footer) - trigger the sequence
       setIsMenuOpen(false);
@@ -38,7 +44,7 @@ export const Header = () => {
         clearTimeout(formTimeoutRef.current);
       }
     };
-  }, [isContactOpen, isFormVisible]);
+  }, [isContactOpen]);
 
   // Form state
   const [formData, setFormData] = useState<FormData>({
@@ -68,6 +74,9 @@ export const Header = () => {
   };
 
   const openContactForm = useCallback(() => {
+    // Mark as manual operation so useEffect doesn't interfere
+    isManualOperationRef.current = true;
+
     // Clear any pending timeouts
     if (formTimeoutRef.current) {
       clearTimeout(formTimeoutRef.current);
@@ -82,10 +91,17 @@ export const Header = () => {
     // Third: after nav fade completes (300ms), show the form
     formTimeoutRef.current = setTimeout(() => {
       setIsFormVisible(true);
+      // Reset manual flag after animation completes
+      setTimeout(() => {
+        isManualOperationRef.current = false;
+      }, 50);
     }, 300);
   }, [setIsContactOpen]);
 
   const closeContactForm = useCallback(() => {
+    // Mark as manual operation so useEffect doesn't interfere
+    isManualOperationRef.current = true;
+
     // Clear any pending timeouts
     if (formTimeoutRef.current) {
       clearTimeout(formTimeoutRef.current);
@@ -103,6 +119,8 @@ export const Header = () => {
         setFormData({ name: '', email: '', message: '' });
         setSubmitStatus('idle');
         setTurnstileToken(null);
+        // Reset manual flag
+        isManualOperationRef.current = false;
       }, 300);
     }, 300);
   }, [setIsContactOpen]);
