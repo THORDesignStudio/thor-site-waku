@@ -17,6 +17,8 @@ interface FormData {
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useAtom(isContactModalOpenAtom);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const formTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Form state
   const [formData, setFormData] = useState<FormData>({
@@ -25,15 +27,17 @@ export const Header = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
 
-  // Use extracted hooks
-  useLockBodyScroll(isContactOpen);
-  useEscapeKey(() => setIsContactOpen(false), isContactOpen);
+  // Use extracted hooks - lock scroll and escape key when form is actually visible
+  useLockBodyScroll(isFormVisible);
+  useEscapeKey(() => closeContactForm(), isFormVisible);
   useTurnstile({
-    isActive: isContactOpen,
+    isActive: isFormVisible,
     containerRef: turnstileContainerRef,
     onTokenChange: setTurnstileToken,
   });
@@ -43,22 +47,49 @@ export const Header = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const openContactForm = () => {
-    setIsContactOpen(true);
+  const openContactForm = useCallback(() => {
+    // Clear any pending timeouts
+    if (formTimeoutRef.current) {
+      clearTimeout(formTimeoutRef.current);
+    }
+
+    // First: hide mobile menu if open
     setIsMenuOpen(false);
-  };
 
-  const closeContactForm = () => {
-    setIsContactOpen(false);
-    // Reset form after a delay to let animation complete
-    setTimeout(() => {
-      setFormData({ name: '', email: '', message: '' });
-      setSubmitStatus('idle');
-      setTurnstileToken(null);
-    }, 600);
-  };
+    // Second: start nav fade-out
+    setIsContactOpen(true);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Third: after nav fade completes (300ms), show the form
+    formTimeoutRef.current = setTimeout(() => {
+      setIsFormVisible(true);
+    }, 300);
+  }, [setIsContactOpen]);
+
+  const closeContactForm = useCallback(() => {
+    // Clear any pending timeouts
+    if (formTimeoutRef.current) {
+      clearTimeout(formTimeoutRef.current);
+    }
+
+    // First: hide the form (fade out)
+    setIsFormVisible(false);
+
+    // Second: after form fade completes (300ms), show nav again
+    formTimeoutRef.current = setTimeout(() => {
+      setIsContactOpen(false);
+
+      // Reset form after animation completes
+      setTimeout(() => {
+        setFormData({ name: '', email: '', message: '' });
+        setSubmitStatus('idle');
+        setTurnstileToken(null);
+      }, 300);
+    }, 300);
+  }, [setIsContactOpen]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -177,9 +208,11 @@ export const Header = () => {
               className={`
                 flex items-center justify-center rounded-full
                 hover:bg-white/10 transition-all duration-300 ease-out overflow-hidden
-                ${isContactOpen
-                  ? 'relative opacity-100 pointer-events-auto w-12 h-12 mr-2'
-                  : 'absolute opacity-0 pointer-events-none w-0 h-0'}
+                ${
+                  isFormVisible
+                    ? 'relative opacity-100 pointer-events-auto w-12 h-12 mr-2'
+                    : 'absolute opacity-0 pointer-events-none w-0 h-0'
+                }
               `}
               aria-label="Close contact form"
               id="close-contact-form-button"
@@ -243,7 +276,7 @@ export const Header = () => {
           <div
             className={`
               overflow-hidden transition-all
-              ${isContactOpen ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
+              ${isFormVisible ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
             `}
             style={{
               transitionDuration: 'var(--spring-bounce-duration)',
@@ -253,9 +286,9 @@ export const Header = () => {
             <div
               className={`
                 px-4 sm:px-8 pb-8 transition-all duration-300 ease-out
-                ${isContactOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+                ${isFormVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
               `}
-              style={{ transitionDelay: isContactOpen ? '150ms' : '0ms' }}
+              style={{ transitionDelay: isFormVisible ? '150ms' : '0ms' }}
             >
               <h1 className="block font-sans font-extrabold text-fluid-2xl sm:text-fluid-3xl text-cream tracking-tight">
                 Work with us
@@ -265,7 +298,10 @@ export const Header = () => {
                 Contact John and Colby to talk about your new project.
               </p>
 
-              <form onSubmit={handleSubmit} className="mt-6 sm:mt-fluid-4 space-y-4 sm:space-y-fluid-4 max-w-xl">
+              <form
+                onSubmit={handleSubmit}
+                className="mt-6 sm:mt-fluid-4 space-y-4 sm:space-y-fluid-4 max-w-xl"
+              >
                 <div>
                   <label
                     htmlFor="contact-name"
