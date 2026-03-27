@@ -19,61 +19,61 @@ export const footerMenu: FooterMenu = {
   title: 'Footer Menu',
   sections: [
     {
-      title: 'What',
+      title: 'Explore Our Firm',
       links: [
         {
           name: 'Home',
           url: '/',
         },
         {
-          name: 'Team',
-          url: '/team',
-        },
-        {
           name: 'About',
           url: '/about',
         },
+        {
+          name: 'Team',
+          url: '#',
+        },
       ],
     },
     {
-      title: 'How',
+      title: 'How We Work',
       links: [
         {
           name: 'Capabilities',
-          url: '/capabilities',
+          url: '#',
         },
         {
           name: 'Programs',
-          url: '/programs',
+          url: '#',
         },
         {
           name: 'Case Studies',
-          url: '/case-studies',
+          url: '#',
         },
       ],
     },
     {
-      title: 'Where',
+      title: 'Where We Work',
       links: [
         {
           name: 'Associations & Non-Profits',
-          url: '/verticals/associations-non-profits',
+          url: '#',
         },
         {
           name: 'Construction & Engineering',
-          url: '/verticals/construction-engineering',
+          url: '#',
         },
         {
           name: 'Health Care',
-          url: '/verticals/health-care',
+          url: '#',
         },
         {
           name: 'Media',
-          url: '/verticals/media',
+          url: '#',
         },
         {
           name: 'Outdoor',
-          url: '/verticals/outdoor',
+          url: '#',
         },
       ],
     },
