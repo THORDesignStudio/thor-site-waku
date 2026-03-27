@@ -2,11 +2,11 @@
 
 import { useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import { useAtom } from 'jotai';
-import { useLenis } from 'lenis/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { activeCaseStudyIndexAtom } from '../atoms/siteAtoms';
 import { caseStudies, type CaseStudy } from '../data/case-studies';
+import { useLenisScrollTrigger } from '../hooks/useLenisScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -229,15 +229,13 @@ export function CaseStudyCarousel() {
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const lenis = useLenis();
+
+  // Use shared hook for Lenis-ScrollTrigger sync
+  useLenisScrollTrigger(sectionRef);
 
   // Set up scroll-triggered animations for section header
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-
-    // Sync Lenis with GSAP ScrollTrigger
-    const lenisScrollHandler = () => ScrollTrigger.update();
-    lenis?.on('scroll', lenisScrollHandler);
 
     const ctx = gsap.context(() => {
       // Animate section header (title and subtitle)
@@ -287,10 +285,9 @@ export function CaseStudyCarousel() {
     }, sectionRef);
 
     return () => {
-      lenis?.off('scroll', lenisScrollHandler);
       ctx.revert();
     };
-  }, [lenis]);
+  }, []);
 
   // Calculate which slide is most visible based on scroll position
   const calculateActiveSlide = useCallback(() => {

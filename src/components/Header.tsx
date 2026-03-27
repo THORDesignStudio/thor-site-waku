@@ -40,7 +40,11 @@ export const Header = () => {
         id="menu"
       >
         <div className="flex items-center justify-between w-full">
-          <Link to="/" className="flex items-center pl-6" onClick={handleLinkClick}>
+          <Link
+            to="/"
+            className="flex items-center pl-6"
+            onClick={handleLinkClick}
+          >
             <img
               src="/images/THOR_logo_WHITE.svg"
               alt="THOR Studio"
@@ -51,7 +55,7 @@ export const Header = () => {
           {/* Desktop navigation */}
           <div className="hidden sm:flex items-center gap-6 lg:gap-8 pl-8">
             <Link
-              to="/capabilities"
+              to="/about"
               className="text-sm font-medium text-white/90 hover:text-white transition-colors"
             >
               About Us

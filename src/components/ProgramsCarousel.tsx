@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { programs, type Program } from '../data/programs';
 import { ProgramDrawer } from './ProgramDrawer';
 import { RING_RADIUS } from '../atoms/siteAtoms';
+import { useLenisScrollTrigger } from '../hooks/useLenisScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -1,10 +1,10 @@
 'use client';
 
 import { useMemo, useState, useRef, useLayoutEffect } from 'react';
-import { useLenis } from 'lenis/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { testimonials } from '../data/testimonials';
+import { useLenisScrollTrigger } from '../hooks/useLenisScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,15 +54,13 @@ export function TestimonialCards() {
   const [expandedIndex, setExpandedIndex] = useState<number>(0);
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const lenis = useLenis();
+
+  // Use shared hook for Lenis-ScrollTrigger sync
+  useLenisScrollTrigger(sectionRef);
 
   // Set up scroll-triggered animations for section header and background
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-
-    // Sync Lenis with GSAP ScrollTrigger
-    const lenisScrollHandler = () => ScrollTrigger.update();
-    lenis?.on('scroll', lenisScrollHandler);
 
     const ctx = gsap.context(() => {
       const sectionEl = sectionRef.current;
@@ -132,10 +130,9 @@ export function TestimonialCards() {
     }, sectionRef);
 
     return () => {
-      lenis?.off('scroll', lenisScrollHandler);
       ctx.revert();
     };
-  }, [lenis]);
+  }, []);
 
   return (
     <section
