@@ -1,19 +1,31 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { WebGLShader } from './WebGLShader/WebGLShader';
 import { footerMenu } from '../data/menus';
+import { isContactModalOpenAtom } from '../atoms/contactAtoms';
 
 const linkClassName =
   'inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]';
 
 export const Footer = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useAtom(isContactModalOpenAtom);
+
+  const toggleContactForm = () => {
+    setIsContactModalOpen(!isContactModalOpen);
+  };
+
   return (
     <>
       {/* Chat Button - Fixed Position */}
       <footer className="p-6 lg:fixed lg:bottom-0 lg:right-0 z-50">
-        <div className="w-[50px] h-[50px] bg-night hover:bg-night/60 backdrop-blur-[5px] rounded-full p-[10px] flex items-center justify-center border-1 border-white hover:border-white/50 transition-all duration-300 ease-in-out hover:cursor-pointer hover:[box-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]">
+        <button
+          onClick={toggleContactForm}
+          className="w-[50px] h-[50px] bg-pink backdrop-blur-[5px] rounded-full p-[10px] flex items-center justify-center border-1 border-pink-light transition-all duration-300 ease-in-out cursor-pointer hover:bg-pink-light hover:[box-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]"
+          aria-label={isContactModalOpen ? 'Close contact form' : 'Open contact form'}
+        >
           <img src="/images/chat.svg" alt="Chat" className="w-full h-full" />
-        </div>
+        </button>
       </footer>
 
       {/* Footer Container */}
