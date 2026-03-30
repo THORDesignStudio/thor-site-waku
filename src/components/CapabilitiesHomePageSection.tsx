@@ -212,8 +212,6 @@ export function CapabilitiesHomePageSection() {
               </p>
             </button>
           ))}
-          {/* Bottom border for the last item */}
-          <div className="border-t border-dashed border-cream/40" />
         </div>
       </div>
 
