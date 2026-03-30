@@ -1,6 +1,14 @@
+import { SEO } from '../components/SEO';
+
 export default function TypographyDemo() {
   return (
-    <div className="w-full">
+    <>
+      <SEO
+        title="Typography System | THOR Digital"
+        description="Explore our fluid typography system built with CSS clamp() for smooth scaling across all viewport sizes."
+        url="/typography"
+      />
+      <div className="w-full">
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cream to-cream-dark px-6 py-20">
         <div className="max-w-6xl w-full">
@@ -731,6 +739,7 @@ export default function TypographyDemo() {
         </div>
       </section>
     </div>
+    </>
   );
 }
 

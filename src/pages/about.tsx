@@ -1,3 +1,4 @@
+import { SEO } from '../components/SEO';
 import { staff, type Staff } from '../data/staff.js';
 
 export default async function AboutPage() {
@@ -13,10 +14,10 @@ export default async function AboutPage() {
     .sort((a: Staff, b: Staff) => a.name.localeCompare(b.name));
   return (
     <>
-      <title>About | THOR Digital</title>
-      <meta
-        name="description"
-        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
+      <SEO
+        title="About | THOR Digital"
+        description="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
+        url="/about"
       />
 
       {/* Hero Section with Smoke Background */}
