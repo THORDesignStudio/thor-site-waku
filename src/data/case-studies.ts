@@ -69,7 +69,7 @@ export const caseStudies: CaseStudies = {
       projectBrief:
         'THOR Digital and PeopleForBikes have been partners since 2020 producing annual editions of the City Ratings platform. This data-driven website ranks the bikeability of over 2500 cities across the globe. The platform translates complex mobility data into comparable scores and data visualizations that empower users to analyze what actually makes a city good for biking.',
       mainText:
-        'To support its mission of making biking better for everyone, PeopleForBikes needed a platform capable of translating mobility data into actionable insight. THOR Digital developed the City Ratings platform to highlight the scoring system developed by PeopleForBikes that measures the quality of each city\'s bike network. It considers a wide range of factors like protected lanes, speed limits, safe crossings, and slow, shared streets.\n\nTHOR built a data pipeline that normalizes the data into visualizations like:\n\n• Bar graphs for each data point, per city and how each city ranks in relation to other cities\n• Time-series line graphs that contextualize each city\'s bikeability against peer cities over time\n• Heatmaps that show block-level bikeability in each city\n• Geolocated project locations that display where new bike infrastructure is getting built\n\nThe platform also functions as a powerful storytelling tool. Rich editorial content, curated city collections, and educational resources illustrate how top-performing cities achieve safer cycling environments. Clear explanations of methodologies provide practical guidance for city managers and advocates working to improve local infrastructure.\n\nCity Ratings empowers communities worldwide with the information needed to advocate for better policies, smarter infrastructure investments, and more accessible bicycling networks.',
+        "To support its mission of making biking better for everyone, PeopleForBikes needed a platform capable of translating mobility data into actionable insight. THOR Digital developed the City Ratings platform to highlight the scoring system developed by PeopleForBikes that measures the quality of each city's bike network. It considers a wide range of factors like protected lanes, speed limits, safe crossings, and slow, shared streets.\n\nTHOR built a data pipeline that normalizes the data into visualizations like:\n\n• Bar graphs for each data point, per city and how each city ranks in relation to other cities\n• Time-series line graphs that contextualize each city's bikeability against peer cities over time\n• Heatmaps that show block-level bikeability in each city\n• Geolocated project locations that display where new bike infrastructure is getting built\n\nThe platform also functions as a powerful storytelling tool. Rich editorial content, curated city collections, and educational resources illustrate how top-performing cities achieve safer cycling environments. Clear explanations of methodologies provide practical guidance for city managers and advocates working to improve local infrastructure.\n\nCity Ratings empowers communities worldwide with the information needed to advocate for better policies, smarter infrastructure investments, and more accessible bicycling networks.",
       achievements: [
         'Scaled the platform from 510 cities at launch (2020) to 2,500+ cities globally in 2026.',
         'Served ~200K users upon relaunch last year, with an sustained average of ~50K users monthly',
@@ -116,8 +116,9 @@ export const caseStudies: CaseStudies = {
       categories: ['Design', 'Data / Infographics'],
       client: 'American Institute of Aeronautics and Astronautics',
       url: 'https://aerospaceamerica.aiaa.org/features',
-      images: { 
-        cardHorizontal: '/images/case-studies/cards/aerospace-america-articles.jpg',
+      images: {
+        cardHorizontal:
+          '/images/case-studies/cards/aerospace-america-articles.jpg',
         header: {
           png: '/images/case-studies/headers/aerospace-america-articles.png',
           webp: '/images/case-studies/headers/aerospace-america-articles.webp',
@@ -156,11 +157,11 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Chemonics Media Site',
       slug: 'chemonics-media-site',
-      dek: "An extensive documentary film gallery supporting international development efforts",
+      dek: 'An extensive documentary film gallery supporting international development efforts',
       projectBrief:
         'THOR Digital partnered with Chemonics International to create the Media Showcase, a dynamic microsite highlighting the organization’s documentary film portfolio. The campaign combines immersive video storytelling, refined design, and a flexible Webflow CMS to present impactful media projects. The design amplifies global development stories that enable Chemonics to promote and grow its film library.',
       mainText:
-        "For decades, Chemonics International has produced documentary films that highlight grassroots efforts improving lives in developing countries. To better showcase this growing library and attract high-profile creative partners, the organization partnered with THOR Digital to design and build the Media Showcase. The goal for this project was to develop an immersive digital gallery dedicated to visual storytelling and international development.\n\nTHOR approached the project as more than a media archive. The goal was to create a compelling destination where film, photography, and narrative could work together to communicate the real-world impact of Chemonics' initiatives. The team designed a visually rich microsite centered on cinematic presentation, using large-format imagery, curated film collections, and dynamic layouts that bring each project to life.\n\nA key component of the experience was the creation of custom "hero" video reels. THOR combined Chemonics' original footage with carefully selected stock media, producing high-energy opening sequences that immediately immerse visitors in the stories behind the work.\n\nThe site was built using Webflow, providing both flexibility and speed while enabling Chemonics' team to easily manage and update content. The result is a modern, responsive media platform that elevates Chemonics' storytelling, strengthens its ability to engage collaborators, and ensures its documentary work reaches a broader global audience.",
+        "For decades, Chemonics International has produced documentary films that highlight grassroots efforts improving lives in developing countries. To better showcase this growing library and attract high-profile creative partners, the organization partnered with THOR Digital to design and build the Media Showcase. The goal for this project was to develop an immersive digital gallery dedicated to visual storytelling and international development.\n\nTHOR approached the project as more than a media archive. The goal was to create a compelling destination where film, photography, and narrative could work together to communicate the real-world impact of Chemonics' initiatives. The team designed a visually rich microsite centered on cinematic presentation, using large-format imagery, curated film collections, and dynamic layouts that bring each project to life.\n\nA key component of the experience was the creation of custom \"hero\" video reels. THOR combined Chemonics' original footage with carefully selected stock media, producing high-energy opening sequences that immediately immerse visitors in the stories behind the work.\n\nThe site was built using Webflow, providing both flexibility and speed while enabling Chemonics' team to easily manage and update content. The result is a modern, responsive media platform that elevates Chemonics' storytelling, strengthens its ability to engage collaborators, and ensures its documentary work reaches a broader global audience.",
       achievements: [
         'Produced cinematic hero video reels blending original footage with curated stock media.',
         'Created a visually immersive UX focused on large-format imagery and film-first storytelling.',
@@ -232,7 +233,7 @@ export const caseStudies: CaseStudies = {
         project: {
           png: '/images/case-studies/projects/niri.png',
           webp: '/images/case-studies/projects/niri.webp',
-        }
+        },
       },
     },
     {
@@ -240,7 +241,7 @@ export const caseStudies: CaseStudies = {
       slug: 'engineering-inc',
       dek: 'World-class digital publication for a pre-eminent engineering association',
       projectBrief:
-        "THOR Digital partnered with American Council of Engineering Companies to transform Engineering Inc. from a traditional print publication into a modern digital-first magazine platform. The new website delivers long-form editorial storytelling, scalable content architecture, and integrated sponsorship opportunities—equipping ACEC with a flexible publishing system built for sustained audience growth and efficient editorial management.",
+        'THOR Digital partnered with American Council of Engineering Companies to transform Engineering Inc. from a traditional print publication into a modern digital-first magazine platform. The new website delivers long-form editorial storytelling, scalable content architecture, and integrated sponsorship opportunities—equipping ACEC with a flexible publishing system built for sustained audience growth and efficient editorial management.',
       mainText:
         "As part of a broader digital transformation, American Council of Engineering Companies partnered with THOR Digital to launch a new online home for its flagship publication, Engineering Inc.. The goal was to replace the print magazine with a dynamic digital platform capable of supporting editorial storytelling, industry insights, and long-term audience engagement.\n\nDrawing on its extensive experience designing publication websites for associations and industry media, THOR developed a fully customized digital magazine built on WordPress. The platform preserves the narrative depth of traditional print while introducing the advantages of digital publishing—searchability, cross-referenced content, multimedia integration, and flexible advertising placements.\n\nTHOR began with a comprehensive discovery phase that included stakeholder interviews, audience research, and a detailed audit of the print publication. These insights informed the site's information architecture, taxonomy, and content strategy, ensuring the platform could scale as the publication grows.\n\nThe resulting website features intuitive navigation, fast search capabilities, and structured editorial templates that allow a small editorial team to efficiently publish and manage ongoing content. By combining thoughtful UX design with durable technology infrastructure, THOR created a digital publishing system that positions Engineering Inc. for long-term success while opening new opportunities for sponsorship, audience development, and industry storytelling.",
       achievements: [
@@ -264,7 +265,7 @@ export const caseStudies: CaseStudies = {
         project: {
           png: '/images/case-studies/projects/engineering-inc.png',
           webp: '/images/case-studies/projects/engineering-inc.webp',
-        }
+        },
       },
     },
   ],
