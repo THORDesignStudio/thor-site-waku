@@ -1,6 +1,10 @@
 import type { PageProps } from 'waku/router';
 import { caseStudies, type CaseStudy } from '../../data/case-studies';
 import { SEO } from '../../components/SEO';
+import {
+  parseContentBlocks,
+  type ContentBlock,
+} from '../../utils/contentParser';
 
 interface CaseStudyHeaderProps {
   study: CaseStudy;
@@ -63,16 +67,11 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
 
 function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
   return (
-    <div
-      className="bg-pink-flat rounded-[45px] p-fluid-6 md:p-fluid-8 max-w-xl"
-      style={{
-        marginBottom: '-60px', // Overlap into next section
-      }}
-    >
-      <h3 className="text-fluid-lg font-bold text-white mb-fluid-3">
+    <div className="bg-pink-flat rounded-4xl p-fluid-6 md:p-fluid-8 max-w-[1300px] mx-auto w-full mt-fluid-24">
+      <h3 className="text-fluid-lg font-bold text-white mb-fluid-3 uppercase tracking-widest">
         Project Brief
       </h3>
-      <div className="font-sans font-light text-fluid-base text-white/90 leading-relaxed whitespace-pre-line">
+      <div className=" font-sans font-light text-fluid-xl text-white/90 leading-relaxed whitespace-pre-line">
         {study.projectBrief}
       </div>
     </div>
@@ -81,8 +80,8 @@ function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
 
 function ProjectImageSection({ study }: CaseStudyHeaderProps) {
   return (
-    <section className="bg-cream pt-fluid-24 pb-fluid-8">
-      <div className="max-w-[1600px] mx-auto px-fluid-6 lg:px-fluid-12">
+    <section className="bg-cream pt-fluid-12 pb-fluid-8">
+      <div className="max-w-[1600px] mx-auto px-fluid-6">
         <picture>
           <source srcSet={study.images.project.webp} type="image/webp" />
           <source srcSet={study.images.project.png} type="image/png" />
@@ -97,22 +96,44 @@ function ProjectImageSection({ study }: CaseStudyHeaderProps) {
   );
 }
 
+function renderContentBlock(block: ContentBlock, index: number) {
+  if (block.type === 'list') {
+    const items = block.content as string[];
+    return (
+      <ul key={index} className="list-disc list-outside ml-fluid-6 space-y-fluid-2 mb-fluid-6">
+        {items.map((item, itemIndex) => (
+          <li
+            key={itemIndex}
+            className="font-sans font-light text-fluid-2xl text-night leading-normal pl-fluid-2"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return (
+    <p
+      key={index}
+      className="font-sans font-light text-fluid-2xl text-night mt-fluid-2 leading-normal mb-fluid-6"
+    >
+      {block.content as string}
+    </p>
+  );
+}
+
 function MainContentSection({ study }: CaseStudyHeaderProps) {
-  // Split mainText by double newlines to render paragraphs
-  const paragraphs = study.mainText.split('\n\n');
+  const contentBlocks = parseContentBlocks(study.mainText);
 
   return (
     <section className="bg-cream py-fluid-8">
-      <div className="max-w-[1600px] mx-auto px-fluid-6 lg:px-fluid-12">
-        <div className="max-w-4xl">
-          {paragraphs.map((paragraph, index) => (
-            <p
-              key={index}
-              className="font-sans font-light text-fluid-2xl text-night mt-fluid-2 leading-normal mb-fluid-6"
-            >
-              {paragraph}
-            </p>
-          ))}
+      <div className="max-w-[800px] mx-auto px-fluid-6">
+        <h3 className="text-fluid-lg font-bold text-night mb-fluid-3 uppercase tracking-widest">
+          Project Brief
+        </h3>
+        <div className="w-full">
+          {contentBlocks.map((block, index) => renderContentBlock(block, index))}
         </div>
       </div>
     </section>
@@ -122,8 +143,8 @@ function MainContentSection({ study }: CaseStudyHeaderProps) {
 function AchievementsSection({ study }: CaseStudyHeaderProps) {
   return (
     <section className="bg-cream py-fluid-8">
-      <div className="max-w-[1600px] mx-auto px-fluid-6 lg:px-fluid-12">
-        <div className="bg-pink-flat rounded-[45px] p-fluid-6 md:p-fluid-8">
+      <div className="max-w-[1400px] mx-auto p-fluid-8">
+        <div className="bg-pink-flat rounded-4xl p-fluid-6 md:p-fluid-8">
           <h3 className="heading-lg text-white mb-fluid-6">Key Achievements</h3>
           <ul className="space-y-fluid-3">
             {study.achievements.map((achievement, index) => (
@@ -186,6 +207,7 @@ export default async function CaseStudyPage({
 
       <article>
         <CaseStudyHeader study={study} />
+        <ProjectBriefCard study={study} />
         <ProjectImageSection study={study} />
         <MainContentSection study={study} />
         <AchievementsSection study={study} />
