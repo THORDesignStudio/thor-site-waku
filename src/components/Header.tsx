@@ -118,7 +118,7 @@ export const Header = () => {
         <nav
           className={`
             flex flex-col bg-night/97  transition-all
-            rounded-4xl p-2 shadow-lg max-w-6xl w-full mx-auto border-2 border-white/60
+            rounded-4xl p-2 shadow-lg max-w-[1300px] w-full mx-auto border-2 border-white/60
             backface-visible will-change-scroll
             ${isMenuOpen ? 'max-sm:rounded-3xl bg-night/97' : ''}
             ${isContactOpen ? 'max-sm:rounded-3xl bg-night/97' : ''}

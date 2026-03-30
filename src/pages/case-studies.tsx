@@ -63,8 +63,8 @@ export default function CaseStudiesPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-night">
-        <div className="relative z-10 mx-auto max-w-[1300px] px-fluid-6 pt-fluid-24 pb-fluid-12 lg:px-fluid-12">
+      <section className="relative overflow-hidden bg-[#0B0F3C]">
+        <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
           <h1 className="mb-fluid-4 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
             CASE STUDIES
           </h1>

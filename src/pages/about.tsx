@@ -21,7 +21,7 @@ export default async function AboutPage() {
       />
 
       <section className="relative min-h-[50vh] overflow-hidden bg-[#0B0F3C]">
-        <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1300px] px-fluid-6 py-fluid-24 lg:px-fluid-12">
+        <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
           <h1 className="mb-fluid-8 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
             ABOUT THOR
           </h1>
