@@ -11,7 +11,7 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
     <section className="relative overflow-hide">
       {/* Smoke Background - behind title + dek */}
       <div
-        className="absolute top-0 left-0 right-0 h-[180px] md:h-[500px] bg-top-left bg-no-repeat bg-auto bg-[#0B0F3C]"
+        className="absolute top-0 left-0 right-0 h-[50vh] md:h-[500px] bg-top-left bg-no-repeat bg-auto bg-[#0B0F3C]"
         style={{
           backgroundImage: `url(/images/smoke-scene/smoke-bg-combined-titlebar.jpg)`,
         }}
@@ -34,7 +34,7 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
           {/* Right Column - Gradient Circle + Header Image - pulled left to overlap */}
           <div className="w-full md:w-1/2 relative flex items-center justify-center py-fluid-8 md:py-0 md:-mb-fluid-24 md:-ml-[10%]">
             {/* Shared container pins circle + image together */}
-            <div className="relative w-[85vw] md:w-[45vw] max-w-[600px] md:-mr-fluid-36">
+            <div className="relative w-full md:w-[45vw] max-w-[600px] md:-mr-fluid-36">
               <div
                 className="w-[75%] mx-auto aspect-square rounded-full"
                 style={{
