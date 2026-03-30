@@ -1,29 +1,91 @@
 import { SEO } from '../components/SEO';
+import { caseStudies } from '../data/case-studies';
+import type { CaseStudy } from '../data/case-studies';
+
+interface CaseStudyCardProps {
+  study: CaseStudy;
+}
+
+function CaseStudyCard({ study }: CaseStudyCardProps) {
+  return (
+    <a
+      href={`/case-studies/${study.slug}`}
+      className="group flex flex-col transition-transform duration-300 ease-out hover:-translate-y-2"
+    >
+      {/* Card Image */}
+      <div
+        className="aspect-video w-full overflow-hidden rounded-[10px]"
+        style={{
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15)',
+        }}
+      >
+        <img
+          src={study.images.cardHorizontal}
+          alt={study.name}
+          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+
+      {/* Card Content */}
+      <div className="pt-fluid-4 flex flex-col gap-fluid-1">
+        {/* Vertical Tag */}
+        <p className="text-fluid-xs text-night/50 uppercase tracking-widest font-bold">
+          {study.verticals[0]}
+        </p>
+
+        {/* Title */}
+        <h3 className="text-fluid-xl font-extrabold uppercase text-night leading-tight tracking-wide">
+          {study.name}
+        </h3>
+
+        {/* Dek */}
+        <p className="text-fluid-base font-light text-night/80 leading-relaxed">
+          {study.dek}
+        </p>
+      </div>
+    </a>
+  );
+}
 
 export default function CaseStudiesPage() {
+  // Sort case studies alphabetically by name
+  const sortedStudies = [...caseStudies.caseStudies].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   return (
     <>
       <SEO
         title="Case Studies | THOR Digital"
-        description="Explore our portfolio of design solutions and case studies."
+        description="See how THOR has delivered for our clients."
         url="/case-studies"
       />
-      <div className="w-full">
-        {/* Hero Section */}
-        <section className="min-h-[var(--spacing-fluid-72)] flex items-end justify-center px-10 py-20">
-          <div className="max-w-6xl w-full">
-            <h1 className="heading-md">
-              Explore Our
-              <br />
-              <span className="heading-xl">Portfolio</span>
-            </h1>
-          </div>
-        </section>
 
-        <section className="py-20 px-6 bg-linear-to-b from-cream to-cream-dark text-black">
-          <div className="max-w-6xl mx-auto"></div>
-        </section>
-      </div>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-night">
+        <div className="relative z-10 mx-auto max-w-[1300px] px-fluid-6 pt-fluid-24 pb-fluid-12 lg:px-fluid-12">
+          <h1 className="mb-fluid-4 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
+            CASE STUDIES
+          </h1>
+          <div className="max-w-3xl">
+            <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+              See how THOR has delivered for our clients.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies Grid */}
+      <section className="bg-cream py-fluid-12 px-fluid-6 lg:px-fluid-12">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-6">
+            {sortedStudies.map((study) => (
+              <CaseStudyCard key={study.slug} study={study} />
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

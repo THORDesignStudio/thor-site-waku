@@ -51,7 +51,7 @@ export const caseStudies: CaseStudies = {
       client: 'American Gastroenterological Association / Knighten Health',
       url: 'https://ibddrugguide.gastro.org/',
       images: {
-        cardHorizontal: '/images/case-studies/cards/ibd-drug-guide.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/ibd-drug-guide.jpg',
         header: {
           png: '/images/case-studies/headers/ibd-drug-guide.png',
           webp: '/images/case-studies/headers/ibd-drug-guide.webp',
@@ -85,7 +85,7 @@ export const caseStudies: CaseStudies = {
       client: 'PeopleForBikes',
       url: 'https://cityratings.peopleforbikes.org/',
       images: {
-        cardHorizontal: '/images/case-studies/cards/city-ratings.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/city-ratings.jpg',
         header: {
           png: '/images/case-studies/headers/city-ratings.png',
           webp: '/images/case-studies/headers/city-ratings.webp',
@@ -118,7 +118,7 @@ export const caseStudies: CaseStudies = {
       url: 'https://aerospaceamerica.aiaa.org/features',
       images: {
         cardHorizontal:
-          '/images/case-studies/cards/aerospace-america-articles.jpg',
+          '/images/case-studies/cards-horizontal/aerospace-america-articles.jpg',
         header: {
           png: '/images/case-studies/headers/aerospace-america-articles.png',
           webp: '/images/case-studies/headers/aerospace-america-articles.webp',
@@ -143,7 +143,7 @@ export const caseStudies: CaseStudies = {
       client: 'American Gastroenterological Association',
       url: 'https://apps.apple.com/us/app/aga-nash-app/id1589270847',
       images: {
-        cardHorizontal: '/images/case-studies/cards/mash-app.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/mash-app.jpg',
         header: {
           png: '/images/case-studies/headers/mash-app.png',
           webp: '/images/case-studies/headers/mash-app.webp',
@@ -175,7 +175,7 @@ export const caseStudies: CaseStudies = {
       client: 'Chemonics',
       url: 'https://media.chemonics.org/',
       images: {
-        cardHorizontal: '/images/case-studies/cards/chemonics-media-site.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/chemonics-media-site.jpg',
         header: {
           png: '/images/case-studies/headers/chemonics-media-site.png',
           webp: '/images/case-studies/headers/chemonics-media-site.webp',
@@ -200,7 +200,7 @@ export const caseStudies: CaseStudies = {
       client: 'Associated Builders & Contractors',
       url: 'https://www.constructionexec.com/',
       images: {
-        cardHorizontal: '/images/case-studies/cards/construction-executive.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/construction-executive.jpg',
         header: {
           png: '/images/case-studies/headers/construction-executive.png',
           webp: '/images/case-studies/headers/construction-executive.webp',
@@ -225,7 +225,7 @@ export const caseStudies: CaseStudies = {
       client: 'National Investor Relations Institute',
       url: 'https://www.niri.org/',
       images: {
-        cardHorizontal: '/images/case-studies/cards/niri.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/niri.jpg',
         header: {
           png: '/images/case-studies/headers/niri.png',
           webp: '/images/case-studies/headers/niri.webp',
@@ -257,7 +257,7 @@ export const caseStudies: CaseStudies = {
       client: 'American Council of Engineering Companies',
       url: 'https://engineeringinc.acec.org/',
       images: {
-        cardHorizontal: '/images/case-studies/cards/engineering-inc.jpg',
+        cardHorizontal: '/images/case-studies/cards-horizontal/engineering-inc.jpg',
         header: {
           png: '/images/case-studies/headers/engineering-inc.png',
           webp: '/images/case-studies/headers/engineering-inc.webp',

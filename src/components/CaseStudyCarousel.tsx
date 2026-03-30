@@ -70,7 +70,7 @@ function CaseStudyCard({ study, onReadMore }: CaseStudyCardProps) {
         }}
       >
         <img
-          src={study.images.card}
+          src={study.images.cardHorizontal}
           alt={study.name}
           className="w-full h-full object-cover"
           loading="lazy"

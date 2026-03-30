@@ -20,16 +20,11 @@ export default async function AboutPage() {
         url="/about"
       />
 
-      {/* Hero Section with Smoke Background */}
       <section className="relative min-h-[50vh] overflow-hidden bg-[#0B0F3C]">
-        {/* Content */}
         <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1300px] px-fluid-6 py-fluid-24 lg:px-fluid-12">
-          {/* Heading */}
           <h1 className="mb-fluid-8 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
             ABOUT THOR
           </h1>
-
-          {/* Intro Text */}
           <div className="max-w-3xl">
             <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
               THOR is a collective of designers, developers, and digital experts
