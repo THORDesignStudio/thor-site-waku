@@ -56,12 +56,11 @@ function ArrowRightIcon({ className }: { className?: string }) {
 
 interface CaseStudyCardProps {
   study: CaseStudy;
-  onReadMore: (study: CaseStudy) => void;
 }
 
-function CaseStudyCard({ study, onReadMore }: CaseStudyCardProps) {
+function CaseStudyCard({ study }: CaseStudyCardProps) {
   return (
-    <article className="flex flex-col transition-transform duration-300 ease-out lg:hover:-translate-y-2.5 pt-[var(--spacing-fluid-4)]">
+    <article className="flex flex-col pt-[var(--spacing-fluid-4)]">
       {/* Card Image */}
       <div
         className="aspect-video w-full overflow-hidden rounded-[10px]"
@@ -94,15 +93,15 @@ function CaseStudyCard({ study, onReadMore }: CaseStudyCardProps) {
           {study.dek}
         </p>
 
-        {/* Read More Button */}
-        <div className="pt-[var(--spacing-fluid-2)]">
-          <button
-            onClick={() => onReadMore(study)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-extrabold uppercase"
+        {/* Read More Link */}
+        <div className="pt-fluid-2">
+          <a
+            href={`/case-studies/${study.slug}`}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink text-white rounded-full hover:bg-pink-dark hover:-translate-y-1 transition-all duration-300 ease-out text-fluid-sm font-extrabold uppercase"
           >
             Read More
             <ArrowRightIcon className="w-4 h-4" />
-          </button>
+          </a>
         </div>
       </div>
     </article>
@@ -389,11 +388,6 @@ export function CaseStudyCarousel() {
     handleSelectIndex(activeIndex + 1);
   }, [activeIndex, handleSelectIndex]);
 
-  // Handle read more - placeholder for drawer integration
-  const handleReadMore = useCallback((study: CaseStudy) => {
-    console.log('Read more clicked:', study.name);
-    // TODO: Open drawer with case study details
-  }, []);
 
   return (
     <section ref={sectionRef} className="bg-cream py-fluid-12 px-fluid-6 ">
@@ -450,7 +444,7 @@ export function CaseStudyCarousel() {
                   width: 'clamp(450px, 35vw, 650px)',
                 }}
               >
-                <CaseStudyCard study={study} onReadMore={handleReadMore} />
+                <CaseStudyCard study={study} />
               </div>
             ))}
           </div>

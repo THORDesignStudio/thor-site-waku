@@ -8,7 +8,7 @@ const linkClassName =
 
 export const Footer = () => {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden min-h-[40vh]">
       <div className="absolute inset-0 w-full h-full z-0">
         <WebGLShader minWidth={320} responsiveHeight={true} seed={30005} />
       </div>
