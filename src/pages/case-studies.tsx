@@ -79,7 +79,7 @@ export default function CaseStudiesPage() {
       {/* Case Studies Grid */}
       <section className="bg-cream py-fluid-12 px-fluid-6 lg:px-fluid-12">
         <div className="mx-auto max-w-[1600px]">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-fluid-6">
             {sortedStudies.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />
             ))}
