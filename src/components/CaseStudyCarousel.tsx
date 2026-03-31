@@ -220,7 +220,7 @@ function CarouselControls({
 // ============================================================================
 
 export function CaseStudyCarousel() {
-  const studies = caseStudies.caseStudies;
+  const studies = caseStudies.caseStudies.filter((study) => study.featured);
   const [activeIndex, setActiveIndex] = useAtom(activeCaseStudyIndexAtom);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
