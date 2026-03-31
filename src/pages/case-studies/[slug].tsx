@@ -1,6 +1,5 @@
 import type { PageProps } from 'waku/router';
 import { caseStudies, type CaseStudy } from '../../data/case-studies';
-import { SEO } from '../../components/SEO';
 import {
   parseContentBlocks,
   type ContentBlock,
@@ -221,10 +220,44 @@ export default async function CaseStudyPage({
     // Return 404-like content if case study not found
     return (
       <>
-        <SEO
-          title="Case Study Not Found | THOR Digital"
-          description="The requested case study could not be found."
-          url={`/case-studies/${slug}`}
+        <title>Case Study Not Found | THOR Digital</title>
+        <meta
+          name="description"
+          content="The requested case study could not be found."
+        />
+        <link
+          rel="canonical"
+          href={`https://www.thor-studio.com/case-studies/${slug}`}
+        />
+        <meta
+          property="og:title"
+          content="Case Study Not Found | THOR Digital"
+        />
+        <meta
+          property="og:description"
+          content="The requested case study could not be found."
+        />
+        <meta
+          property="og:image"
+          content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+        />
+        <meta
+          property="og:url"
+          content={`https://www.thor-studio.com/case-studies/${slug}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Case Study Not Found | THOR Digital"
+        />
+        <meta
+          name="twitter:description"
+          content="The requested case study could not be found."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
         />
         <section className="min-h-screen bg-cream flex items-center justify-center">
           <div className="text-center">
@@ -248,10 +281,35 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <SEO
-        title={`${study.name} | Case Study | THOR Digital`}
-        description={study.dek}
-        url={`/case-studies/${slug}`}
+      <title>{`${study.name} - Case Study | THOR Digital`}</title>
+      <meta name="description" content={study.dek} />
+      <link
+        rel="canonical"
+        href={`https://www.thor-studio.com/case-studies/${slug}`}
+      />
+      <meta
+        property="og:title"
+        content={`${study.name} - Case Study | THOR Digital`}
+      />
+      <meta property="og:description" content={study.dek} />
+      <meta
+        property="og:image"
+        content={`https://www.thor-studio.com${study.images.cardHorizontal}`}
+      />
+      <meta
+        property="og:url"
+        content={`https://www.thor-studio.com/case-studies/${slug}`}
+      />
+      <meta property="og:type" content="article" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:title"
+        content={`${study.name} - Case Study | THOR Digital`}
+      />
+      <meta name="twitter:description" content={study.dek} />
+      <meta
+        name="twitter:image"
+        content={`https://www.thor-studio.com${study.images.cardHorizontal}`}
       />
 
       <article>
