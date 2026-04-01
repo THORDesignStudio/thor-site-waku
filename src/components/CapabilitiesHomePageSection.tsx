@@ -167,7 +167,7 @@ export function CapabilitiesHomePageSection() {
               ref={(el) => {
                 capabilityRefs.current[index] = el;
               }}
-              onClick={() => handleOpenCapability(capability)}
+              // onClick={() => handleOpenCapability(capability)}
               className="w-full text-left py-fluid-6 border-t border-dashed border-cream/40 first:border-t-0 group cursor-pointer"
             >
               <div className="flex items-center gap-fluid-4">
@@ -183,10 +183,10 @@ export function CapabilitiesHomePageSection() {
                 <button
                   type="button"
                   className="capability-arrow opacity-0 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenCapability(capability);
-                  }}
+                  // onClick={(e) => {
+                  //   e.stopPropagation();
+                  //   handleOpenCapability(capability);
+                  // }}
                   aria-label={`View ${capability.name} details`}
                 >
                   <svg
