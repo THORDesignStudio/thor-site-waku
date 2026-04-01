@@ -11,12 +11,31 @@ interface CaseStudyHeaderProps {
 
 function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
   return (
-    <section className="relative overflow-hide">
+    <section className="relative overflow-hide bg-night">
+      {/* iOS-specific top mask via @supports */}
+      <style>{`
+        @supports (-webkit-touch-callout: none) {
+          .header-image-ios {
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%) !important;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%) !important;
+          }
+        }
+      `}</style>
+
       {/* Smoke Background - behind title + dek */}
       <div
-        className="absolute top-0 left-0 right-0 h-[50vh] md:h-[500px] bg-top-left bg-no-repeat bg-auto bg-[#0B0F3C]"
+        className="absolute top-0 left-0 right-0 h-full bg-no-repeat bg-[#0B0F3C] header-image-ios"
         style={{
           backgroundImage: `url(/images/smoke-scene/smoke-bg-combined-titlebar.jpg)`,
+          backgroundPosition: 'left top',
+          backgroundSize: 'auto 500px',
+        }}
+      />
+      {/* Gradient overlay to fade smoke into night background */}
+      <div
+        className="absolute top-0 left-0 right-0 h-full pointer-events-none"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, transparent 40%, var(--color-night) 100%)',
         }}
       />
 
@@ -108,7 +127,7 @@ function renderContentBlock(block: ContentBlock, index: number) {
         {items.map((item, itemIndex) => (
           <li
             key={itemIndex}
-            className="font-sans font-light text-fluid-2xl text-night leading-normal pl-fluid-2"
+            className="font-sans font-light text-fluid-xl text-night leading-normal pl-fluid-2"
           >
             {item}
           </li>
@@ -292,10 +311,7 @@ export default async function CaseStudyPage({
         content={`${study.name} - Case Study | THOR Digital`}
       />
       <meta property="og:description" content={study.dek} />
-      <meta
-        property="og:image"
-        content={study.images.cardHorizontal}
-      />
+      <meta property="og:image" content={study.images.cardHorizontal} />
       <meta
         property="og:url"
         content={`https://www.thor-studio.com/case-studies/${slug}`}
@@ -307,12 +323,9 @@ export default async function CaseStudyPage({
         content={`${study.name} - Case Study | THOR Digital`}
       />
       <meta name="twitter:description" content={study.dek} />
-      <meta
-        name="twitter:image"
-        content={study.images.cardHorizontal}
-      />
+      <meta name="twitter:image" content={study.images.cardHorizontal} />
 
-      <article>
+      <article className="bg-cream">
         <CaseStudyHeader study={study} />
         <ProjectBriefCard study={study} />
         <ProjectImageSection study={study} />
