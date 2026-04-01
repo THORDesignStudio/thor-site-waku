@@ -496,8 +496,8 @@
     font-family: var(--font-family-sans);
     font-size: var(--text-fluid-base);
     line-height: var(--leading-normal);
-    color: var(--color-night);
-    background-color: var(--color-cream);
+    color: var(--color-cream);
+    background-color: var(--color-night);
   }
 
   /* Selection color */

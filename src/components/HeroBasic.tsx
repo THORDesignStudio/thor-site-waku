@@ -5,6 +5,16 @@ import { HeroText } from './HeroText';
 export function HeroBasic() {
   return (
     <section className="relative h-dvh overflow-hidden bg-night">
+      {/* iOS-specific top mask via @supports */}
+      <style>{`
+        @supports (-webkit-touch-callout: none) {
+          .hero-image-ios {
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%) !important;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%) !important;
+          }
+        }
+      `}</style>
+
       <picture className="absolute inset-0">
         <source
           media="(max-width: 900px)"
@@ -18,7 +28,7 @@ export function HeroBasic() {
           src="/images/hero-hammers/THOR_Hammer_purple2_2000px.jpg"
           alt="THOR Hammer"
           fetchPriority="high"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-image-ios absolute inset-0 w-full h-full object-cover"
           style={{
             maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
