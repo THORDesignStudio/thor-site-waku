@@ -120,15 +120,15 @@ interface SidebarProps {
 
 function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
   return (
-    <aside className="shrink-0 lg:w-[280px]">
+    <aside className="shrink-0 lg:w-[280px] hidden sm:block">
       {/* Section Title */}
-      <h2 className="text-fluid-xl font-extrabold uppercase text-night mb-[var(--spacing-fluid-4)] tracking-wide">
+      <h2 className="text-fluid-xl font-extrabold uppercase text-night mb-fluid-4 tracking-wide">
         Select Work
       </h2>
 
       {/* Desktop: List */}
       <nav className="hidden lg:block">
-        <ul className="flex flex-col gap-[var(--spacing-fluid-2)]">
+        <ul className="flex flex-col gap-fluid-2">
           {studies.map((study, index) => {
             const isActive = index === activeIndex;
             const number = String(index + 1).padStart(2, '0');
@@ -148,24 +148,6 @@ function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
           })}
         </ul>
       </nav>
-
-      {/* Mobile: Dropdown */}
-      <div className="lg:hidden">
-        <select
-          value={activeIndex}
-          onChange={(e) => onSelectIndex(Number(e.target.value))}
-          className="w-full px-4 py-3 bg-white border border-night/20 rounded-lg text-fluid-base font-light text-night focus:outline-none focus:ring-2 focus:ring-pink"
-        >
-          {studies.map((study, index) => {
-            const number = String(index + 1).padStart(2, '0');
-            return (
-              <option key={study.slug} value={index}>
-                {number} {study.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
     </aside>
   );
 }
@@ -388,7 +370,6 @@ export function CaseStudyCarousel() {
     handleSelectIndex(activeIndex + 1);
   }, [activeIndex, handleSelectIndex]);
 
-
   return (
     <section ref={sectionRef} className="bg-cream py-fluid-12 px-fluid-6 ">
       {/* Section Title */}
@@ -439,10 +420,7 @@ export function CaseStudyCarousel() {
                 ref={(el) => {
                   slideRefs.current[index] = el;
                 }}
-                className="shrink-0 snap-start"
-                style={{
-                  width: 'clamp(450px, 35vw, 650px)',
-                }}
+                className="shrink-0 snap-start w-[85vw] sm:w-[clamp(450px,35vw,650px)]"
               >
                 <CaseStudyCard study={study} />
               </div>

@@ -6,6 +6,11 @@ import { atom } from 'jotai';
 export const activeCaseStudyIndexAtom = atom(0);
 
 // ============================================================================
+// Testimonial Carousel Atoms
+// ============================================================================
+export const activeTestimonialIndexAtom = atom(0);
+
+// ============================================================================
 // Orbit Geometry Constants (from ProgramsCarousel)
 // ============================================================================
 

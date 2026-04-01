@@ -112,7 +112,7 @@ export const Header = () => {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 py-6 px-fluid-6"
+        className="fixed top-0 left-0 right-0 z-50 pt-3 pb-6 sm:pb-6 sm:pt-6 px-fluid-6"
         id="header"
       >
         <nav
