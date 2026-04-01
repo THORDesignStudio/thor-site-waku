@@ -15,7 +15,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <JotaiProvider>
       <SmoothScroll>
         <div>
-          {/* Global head elements only - SEO tags are handled per-page */}
           <link rel="icon" type="image/png" href="/images/favicon.png" />
           <link
             rel="preconnect"
@@ -24,6 +23,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           />
           <link rel="dns-prefetch" href="https://use.typekit.net" />
           <link rel="stylesheet" href="https://use.typekit.net/wmf2hcd.css" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+          ></meta>
           <Header />
           <main>{children}</main>
           <Footer />

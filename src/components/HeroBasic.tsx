@@ -4,17 +4,7 @@ import { HeroText } from './HeroText';
 
 export function HeroBasic() {
   return (
-    <section className="relative h-screen overflow-hidden bg-[var(--color-night)]">
-      <style>{`
-        .hero-mask {
-          --gradient-start: 80vh;
-        }
-        @media (max-width: 899px) {
-          .hero-mask {
-            --gradient-start: 50vh;
-          }
-        }
-      `}</style>
+    <section className="relative h-dvh overflow-hidden bg-night">
       <picture className="absolute inset-0">
         <source
           media="(max-width: 900px)"
@@ -28,12 +18,10 @@ export function HeroBasic() {
           src="/images/hero-hammers/THOR_Hammer_purple2_2000px.jpg"
           alt="THOR Hammer"
           fetchPriority="high"
-          className="hero-mask absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
-            maskImage:
-              'linear-gradient(to bottom, black var(--gradient-start), transparent 100vh)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, black var(--gradient-start), transparent 100vh)',
+            maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
           }}
         />
       </picture>
