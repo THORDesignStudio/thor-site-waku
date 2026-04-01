@@ -35,27 +35,21 @@ export const POST = async (request: Request): Promise<Response> => {
       );
     }
 
-    // 2. Send email via Cloudflare Email Sending API
-    const cloudflareAccountId = getEnv('CF_ACCOUNT_ID');
-    const cloudflareApiToken = getEnv('CF_API_TOKEN');
+    // 2. Send email via Resend API
+    const resendApiKey = getEnv('RESEND_API_KEY');
     const senderEmail = getEnv('CF_SENDER_EMAIL');
 
-    const emailResponse = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${cloudflareAccountId}/email/sending/send`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${cloudflareApiToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: { email: senderEmail, name: 'THOR Studio Website' },
-          to: [
-            { email: 'colby@thor-studio.com', name: 'Colby' },
-            { email: 'john@thor-studio.com', name: 'John' },
-          ],
-          subject: 'Working with THOR',
-          text: `New contact form submission from the THOR Studio website.
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: `${senderEmail}`,
+        to: ['colby@thor-studio.com', 'john@thor-studio.com'],
+        subject: 'Working with THOR',
+        text: `New contact form submission from the THOR Studio website.
 
 Name: ${name}
 Email: ${email}
@@ -65,20 +59,19 @@ ${message}
 
 ---
 Submitted via THOR Studio contact form`,
-          html: `<p><strong>New contact form submission from the THOR Studio website.</strong></p>
+        html: `<p><strong>New contact form submission from the THOR Studio website.</strong></p>
 <p><strong>Name:</strong> ${escapeHtml(name)}</p>
 <p><strong>Email:</strong> ${escapeHtml(email)}</p>
 <p><strong>Message:</strong></p>
 <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
 <hr>
 <p><em>Submitted via THOR Studio contact form</em></p>`,
-        }),
-      }
-    );
+      }),
+    });
 
-    const emailData = await emailResponse.json();
-    if (!emailData.success) {
-      console.error('Email sending failed:', emailData.errors);
+    if (!emailResponse.ok) {
+      const errorData = await emailResponse.json();
+      console.error('Email sending failed:', errorData);
       return Response.json({ error: 'Failed to send email' }, { status: 500 });
     }
 
