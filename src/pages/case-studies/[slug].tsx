@@ -11,37 +11,33 @@ interface CaseStudyHeaderProps {
 
 function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
   return (
-    <section className="relative overflow-hide bg-night">
-      {/* iOS-specific top mask via @supports */}
+    <section className="relative overflow-hide bg-cream">
+      {/* iOS-specific top mask via @supports - only fades in from top, not out at bottom */}
       <style>{`
         @supports (-webkit-touch-callout: none) {
           .header-image-ios {
-            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%) !important;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%) !important;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%) !important;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%) !important;
           }
         }
       `}</style>
 
+      {/* Night background - shows through where mask is transparent at top */}
+      <div className="absolute top-0 left-0 right-0 h-[400px] bg-[#0B0F3C]" />
+
       {/* Smoke Background - behind title + dek */}
       <div
-        className="absolute top-0 left-0 right-0 h-full bg-no-repeat bg-[#0B0F3C] header-image-ios"
+        className="absolute top-0 left-0 right-0 h-[500px] sm:h-[400px] bg-no-repeat bg-[#0B0F3C] header-image-ios"
         style={{
           backgroundImage: `url(/images/smoke-scene/smoke-bg-combined-titlebar.jpg)`,
           backgroundPosition: 'left top',
           backgroundSize: 'auto 500px',
         }}
       />
-      {/* Gradient overlay to fade smoke into night background */}
-      <div
-        className="absolute top-0 left-0 right-0 h-full pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, transparent 0%, transparent 40%, var(--color-night) 100%)',
-        }}
-      />
 
       {/* Content Container */}
-      <div className="relative z-10 max-w-[1500px] mx-auto pl-fluid-6 pr-fluid-12">
-        <div className="pt-[150px] pb-fluid-4 flex flex-col md:flex-row md:min-h-[500px]">
+      <div className="relative z-10 max-w-[1500px] mx-auto pl-fluid-6 pr-fluid-12 sm:bg-none">
+        <div className="pt-fluid-24 sm:pt-[150px] pb-fluid-4 flex flex-col md:flex-row md:min-h-[500px]">
           {/* Left Column - Title + Dek - overflows onto right side */}
           <div className="w-full md:w-[60%] relative z-20">
             <p className="text-fluid-md text-cream uppercase tracking-widest font-bold pb-fluid-1 pl-[0.3rem]">
@@ -54,7 +50,7 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
           </div>
 
           {/* Right Column - Gradient Circle + Header Image - pulled left to overlap */}
-          <div className="w-full md:w-1/2 relative flex items-center justify-center py-fluid-8 md:py-0 md:-mb-fluid-24 md:-ml-[10%]">
+          <div className="w-full md:w-1/2 relative  flex items-center justify-center py-fluid-8 md:py-0 md:-mb-fluid-24 md:-ml-[10%]">
             {/* Shared container pins circle + image together */}
             <div className="relative w-full md:w-[45vw] max-w-[600px] md:-mr-fluid-36">
               <div
@@ -93,6 +89,18 @@ function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
         <div className=" font-sans font-light text-fluid-xl text-white/90 leading-relaxed whitespace-pre-line">
           {study.projectBrief}
         </div>
+        {study.url && (
+          <div className="flex justify-center pt-fluid-6 mx-fluid-6">
+            <a
+              href={study.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-fluid-6 py-4 bg-cream text-night text-center text-xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer"
+            >
+              Visit Website
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -139,7 +147,7 @@ function renderContentBlock(block: ContentBlock, index: number) {
   return (
     <p
       key={index}
-      className="font-sans font-light text-fluid-2xl text-night mt-fluid-2 leading-normal mb-fluid-6"
+      className="font-sans font-light text-fluid-xl text-night mt-fluid-2 leading-normal mb-fluid-6"
     >
       {block.content as string}
     </p>
@@ -212,8 +220,8 @@ function AchievementItem({
 function AchievementsSection({ study }: CaseStudyHeaderProps) {
   return (
     <section className="bg-cream">
-      <div className="max-w-[1400px] mx-auto p-fluid-8">
-        <div className="bg-night rounded-4xl p-fluid-6 md:p-fluid-8">
+      <div className="max-w-[1400px] mx-auto pb-fluid-8 px-fluid-6">
+        <div className="bg-night rounded-4xl px-fluid-6 py-fluid-8 md:px-fluid-6 md:py-fluid-8">
           <h3 className="heading-lg text-white mb-fluid-6">Key Achievements</h3>
           <ul className="list-disc list-outside ml-fluid-6 space-y-fluid-3">
             {study.achievements.map((achievement, index) => (
@@ -331,10 +339,10 @@ export default async function CaseStudyPage({
         <ProjectImageSection study={study} />
         <MainContentSection study={study} />
         <AchievementsSection study={study} />
-        <div className="flex justify-center mb-fluid-12 mx-fluid-6">
+        <div className="flex justify-center pb-fluid-12 mx-fluid-6">
           <a
             href="/case-studies"
-            className="px-8 py-4 bg-pink text-white text-2xl font-extrabold rounded-full transition-all shadow-lg whitespace-nowrap uppercase cursor-pointer hover:-translate-y-1"
+            className="px-fluid-6 py-4 bg-pink text-white text-center text-2xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer hover:-translate-y-1"
           >
             Read More Case Studies
           </a>
