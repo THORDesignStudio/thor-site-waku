@@ -60,13 +60,13 @@ export default function CaseStudiesPage() {
       <link rel="canonical" href="https://www.thor-studio.com/case-studies" />
       <meta property="og:title" content="Case Studies | THOR Digital" />
       <meta property="og:description" content="See how THOR has delivered for our clients." />
-      <meta property="og:image" content="https://www.thor-studio.com/images/case-studies/cards-horizontal/aerospace-america-articles.jpg" />
+      <meta property="og:image" content="/images/case-studies/cards-horizontal/aerospace-america-articles.jpg" />
       <meta property="og:url" content="https://www.thor-studio.com/case-studies" />
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="Case Studies | THOR Digital" />
       <meta name="twitter:description" content="See how THOR has delivered for our clients." />
-      <meta name="twitter:image" content="https://www.thor-studio.com/images/case-studies/cards-horizontal/aerospace-america-articles.jpg" />
+      <meta name="twitter:image" content="/images/case-studies/cards-horizontal/aerospace-america-articles.jpg" />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-[#0B0F3C]">

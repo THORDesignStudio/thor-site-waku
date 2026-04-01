@@ -18,13 +18,13 @@ export default async function AboutPage() {
       <link rel="canonical" href="https://www.thor-studio.com/about" />
       <meta property="og:title" content="About | THOR Digital" />
       <meta property="og:description" content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts." />
-      <meta property="og:image" content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg" />
+      <meta property="og:image" content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg" />
       <meta property="og:url" content="https://www.thor-studio.com/about" />
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="About | THOR Digital" />
       <meta name="twitter:description" content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts." />
-      <meta name="twitter:image" content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg" />
+      <meta name="twitter:image" content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg" />
 
       <section className="relative min-h-[50vh] overflow-hidden bg-[#0B0F3C]">
         <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">

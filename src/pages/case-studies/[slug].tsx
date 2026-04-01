@@ -239,7 +239,7 @@ export default async function CaseStudyPage({
         />
         <meta
           property="og:image"
-          content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+          content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
         />
         <meta
           property="og:url"
@@ -257,7 +257,7 @@ export default async function CaseStudyPage({
         />
         <meta
           name="twitter:image"
-          content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+          content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
         />
         <section className="min-h-screen bg-cream flex items-center justify-center">
           <div className="text-center">
@@ -294,7 +294,7 @@ export default async function CaseStudyPage({
       <meta property="og:description" content={study.dek} />
       <meta
         property="og:image"
-        content={`https://www.thor-studio.com${study.images.cardHorizontal}`}
+        content={study.images.cardHorizontal}
       />
       <meta
         property="og:url"
@@ -309,7 +309,7 @@ export default async function CaseStudyPage({
       <meta name="twitter:description" content={study.dek} />
       <meta
         name="twitter:image"
-        content={`https://www.thor-studio.com${study.images.cardHorizontal}`}
+        content={study.images.cardHorizontal}
       />
 
       <article>
