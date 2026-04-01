@@ -48,6 +48,7 @@ export const POST = async (request: Request): Promise<Response> => {
       body: JSON.stringify({
         from: `${senderEmail}`,
         to: ['colby@thor-studio.com', 'john@thor-studio.com'],
+        reply_to: email,
         subject: 'Working with THOR',
         text: `New contact form submission from the THOR Studio website.
 
