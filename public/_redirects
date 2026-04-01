@@ -1,0 +1,31 @@
+# Cloudflare Pages Redirects
+# Generated from src/config/redirects.ts
+# Do not edit directly - run `npm run generate:redirects` instead
+
+/our-studio /about 301 # Studio page consolidated into About
+/case-studies/branding /case-studies/leon-hotel 301 # Renamed case study
+/case-studies/chemonics-media-showcase /case-studies/chemonics-media-site 301 # Renamed case study
+/case-studies/knighten-health-drug-guide /case-studies/ibd-drug-guide 301 # Renamed case study
+/case-studies/print-to-digital-transformation /case-studies/construction-executive-magazine 301 # Renamed case study
+/case-studies/peopleforbikes-hungry-for-batteries-campaign-site /case-studies/hungry-for-batteries 301 # Renamed case study
+/case-studies/peopleforbikes-city-ratings /case-studies/city-ratings 301 # Renamed case study
+/case-studies/peopleforbikes-keep-riding /case-studies/keep-riding 301 # Renamed case study
+/case-studies/construction-executive-publication-redesign /case-studies/construction-executive-magazine 301 # Renamed case study
+/case-studies/clinical-care-app /case-studies/mash-app 301 # Renamed case study
+/case-studies/national-investor-relations-institute /case-studies/niri-investor-relations-rebrand 301 # Renamed case study
+/concept-vault / 307 # Page temporarily disabled
+/how-we-work / 307 # Page temporarily disabled
+/writing/architecture / 307 # Writing archive temporarily redirected
+/writing/how-a-website-is-built / 307 # Writing archive temporarily redirected
+/writing/design-and-development / 307 # Writing archive temporarily redirected
+/writing/discovery-process / 307 # Writing archive temporarily redirected
+/writing/project-management / 307 # Writing archive temporarily redirected
+/writing/ongoing-publication-design / 307 # Writing archive temporarily redirected
+/writing/how-is-a-magazine-born / 307 # Writing archive temporarily redirected
+/writing/publication-pacing / 307 # Writing archive temporarily redirected
+/writing/custom-websites / 307 # Writing archive temporarily redirected
+/writing/headless-cms-sites / 307 # Writing archive temporarily redirected
+/writing/no-code-websites / 307 # Writing archive temporarily redirected
+/writing/cms-sites / 307 # Writing archive temporarily redirected
+/writing/the-rapidly-evolving-web / 307 # Writing archive temporarily redirected
+/case-studies/colorado-lawyer /case-studies 307 # Case study temporarily redirected to listing
