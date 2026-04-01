@@ -27,6 +27,20 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             name="viewport"
             content="width=device-width, initial-scale=1, viewport-fit=cover"
           ></meta>
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-DFHRN1W1FY"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-DFHRN1W1FY');
+              `,
+            }}
+          />
           <Header />
           <main>{children}</main>
           <Footer />
