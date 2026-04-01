@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "waku dev",
-    "build": "waku build",
+    "build": "npm run generate:redirects && waku build",
     "start": "waku start",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
