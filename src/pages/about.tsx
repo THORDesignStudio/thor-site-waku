@@ -14,17 +14,32 @@ export default async function AboutPage() {
   return (
     <>
       <title>About | THOR Digital</title>
-      <meta name="description" content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts." />
+      <meta
+        name="description"
+        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
+      />
       <link rel="canonical" href="https://www.thor-studio.com/about" />
       <meta property="og:title" content="About | THOR Digital" />
-      <meta property="og:description" content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts." />
-      <meta property="og:image" content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg" />
+      <meta
+        property="og:description"
+        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
+      />
+      <meta
+        property="og:image"
+        content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+      />
       <meta property="og:url" content="https://www.thor-studio.com/about" />
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="About | THOR Digital" />
-      <meta name="twitter:description" content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts." />
-      <meta name="twitter:image" content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg" />
+      <meta
+        name="twitter:description"
+        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
+      />
+      <meta
+        name="twitter:image"
+        content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+      />
 
       <section className="relative min-h-[50vh] overflow-hidden bg-[#0B0F3C]">
         <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
@@ -90,9 +105,9 @@ function FeaturedTeamMember({
       />
 
       {/* Content wrapper with max-width constraint */}
-      <div className="relative mx-auto max-w-[1600px] px-fluid-6 flex flex-col lg:flex-row min-h-[70vh]">
+      <div className="relative mx-auto max-w-[1600px] flex flex-col lg:flex-row min-h-[70vh]">
         {/* Text Content */}
-        <div className="relative flex-1 pt-fluid-8 lg:pt-fluid-16 z-10 lg:max-w-[50%]">
+        <div className="relative flex-1 pt-fluid-8 lg:pt-fluid-16 z-10 lg:max-w-[50%] px-fluid-6">
           {/* Name and Role */}
           <h2 className="mb-fluid-4 text-fluid-4xl font-semibold leading-[1.1] uppercase tracking-fluid-tight text-white">
             {member.name} <span className="text-pink block">{member.role}</span>
