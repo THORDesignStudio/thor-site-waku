@@ -301,7 +301,7 @@ export function ProgramsCarousel() {
         className="relative z-10 pt-fluid-12 px-fluid-6 text-center"
       >
         <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-8xl text-cream tracking-tight">
+          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-cream tracking-tight">
             Programs
           </span>
           <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">

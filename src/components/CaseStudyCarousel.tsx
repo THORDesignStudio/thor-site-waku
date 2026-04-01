@@ -394,7 +394,7 @@ export function CaseStudyCarousel() {
       {/* Section Title */}
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-8xl text-night tracking-tight">
+          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-night tracking-tight">
             Case Studies
           </span>
           <p className="section-subtitle font-sans font-light text-fluid-2xl text-night pl-fluid-1 mt-fluid-2">

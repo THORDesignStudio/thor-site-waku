@@ -141,7 +141,7 @@ export function TestimonialCards() {
     >
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-8xl tracking-tight">
+          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl tracking-tight">
             Testimonials
           </span>
           <p className="section-subtitle font-sans font-light text-fluid-2xl pl-fluid-1 mt-fluid-2">

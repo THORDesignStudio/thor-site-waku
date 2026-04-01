@@ -149,7 +149,7 @@ export function CapabilitiesHomePageSection() {
         {/* Section Header */}
         <div ref={headerRef} className="w-full mx-auto px-fluid-6 mb-fluid-12">
           <h1 className="leading-none">
-            <span className="section-title block font-sans font-extrabold text-fluid-8xl text-cream tracking-tight text-center">
+            <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-cream tracking-tight text-center">
               Capabilities
             </span>
             <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal text-center">

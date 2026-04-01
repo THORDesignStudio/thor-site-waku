@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { WebGLShader } from './WebGLShader/WebGLShader';
 import { footerMenu } from '../data/menus';
 
@@ -7,11 +8,39 @@ const linkClassName =
   'inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]';
 
 export const Footer = () => {
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    // Detect iOS devices
+    const isIOSDevice = 
+      /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    setIsIOS(isIOSDevice);
+  }, []);
+
   return (
     <div className="relative w-full overflow-hidden min-h-[40vh]">
       <div className="absolute inset-0 w-full h-full z-0">
         <WebGLShader minWidth={320} responsiveHeight={true} seed={30005} />
       </div>
+
+      {/* iOS gradient overlays */}
+      {isIOS && (
+        <>
+          <div 
+            className="absolute top-0 left-0 right-0 h-[30%] z-[5] pointer-events-none"
+            style={{ 
+              background: 'linear-gradient(to bottom, #18133e 0%, transparent 100%)'
+            }}
+          />
+          <div 
+            className="absolute bottom-0 left-0 right-0 h-[30%] z-[5] pointer-events-none"
+            style={{ 
+              background: 'linear-gradient(to top, #18133e 0%, transparent 100%)'
+            }}
+          />
+        </>
+      )}
 
       <div className="relative z-10 container flex flex-col justify-between w-full h-full xl:flex-row gap-x-vw-12 gap-y-vw-12 lg:gap-y-vw-20 paragraph-md py-fluid-6 px-fluid-6 text-white max-w-[1600px] mx-auto">
         <div className="flex flex-col w-full gap-y-[2em] flex-1 justify-between">
