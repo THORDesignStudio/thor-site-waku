@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from 'waku';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
 import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
@@ -34,6 +34,15 @@ export const Header = () => {
   >('idle');
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const [isSmUp, setIsSmUp] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 640px)');
+    const sync = () => setIsSmUp(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
   // Use extracted hooks - lock scroll and escape key when form is actually visible
   useLockBodyScroll(isFormVisible);
@@ -42,6 +51,7 @@ export const Header = () => {
     isActive: isFormVisible,
     containerRef: turnstileContainerRef,
     onTokenChange: setTurnstileToken,
+    attachmentKey: isSmUp ? 'desktop' : 'mobile',
   });
 
   const handleLinkClick = () => {
@@ -267,7 +277,7 @@ export const Header = () => {
             isSubmitting={isSubmitting}
             submitStatus={submitStatus}
             turnstileToken={turnstileToken}
-            turnstileContainerRef={turnstileContainerRef}
+            turnstileContainerRef={isSmUp ? turnstileContainerRef : null}
             idPrefix="contact"
             variant="desktop"
             onInputChange={handleInputChange}
@@ -281,7 +291,7 @@ export const Header = () => {
             isSubmitting={isSubmitting}
             submitStatus={submitStatus}
             turnstileToken={turnstileToken}
-            turnstileContainerRef={turnstileContainerRef}
+            turnstileContainerRef={isSmUp ? null : turnstileContainerRef}
             idPrefix="mobile-contact"
             variant="mobile"
             onInputChange={handleInputChange}

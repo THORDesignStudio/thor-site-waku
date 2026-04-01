@@ -12,7 +12,9 @@ declare global {
           'error-callback'?: (errorCode: string) => void;
           'expired-callback'?: () => void;
           theme?: 'light' | 'dark' | 'auto';
-          size?: 'normal' | 'compact' | 'flexible';
+          size?: 'normal' | 'flexible' | 'compact';
+          /** always | execute | interaction-only — see Cloudflare Turnstile docs */
+          appearance?: 'always' | 'execute' | 'interaction-only';
         }
       ) => string;
       reset: (widgetId: string) => void;
@@ -26,9 +28,16 @@ interface UseTurnstileOptions {
   isActive: boolean;
   containerRef: React.RefObject<HTMLElement | null>;
   onTokenChange?: (token: string | null) => void;
+  /** Change when the ref attaches to a different DOM node (e.g. sm breakpoint) so the widget re-mounts. */
+  attachmentKey?: string;
 }
 
-export const useTurnstile = ({ isActive, containerRef, onTokenChange }: UseTurnstileOptions) => {
+export const useTurnstile = ({
+  isActive,
+  containerRef,
+  onTokenChange,
+  attachmentKey = '',
+}: UseTurnstileOptions) => {
   const [token, setToken] = useState<string | null>(null);
   const widgetIdRef = useRef<string | null>(null);
 
@@ -40,16 +49,18 @@ export const useTurnstile = ({ isActive, containerRef, onTokenChange }: UseTurns
       window.turnstile.remove(widgetIdRef.current);
     }
 
-    const siteKey = (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_CF_TURNSTILE_SITE_KEY;
+    const siteKey = (import.meta as ImportMeta & { env?: Record<string, string> }).env
+      ?.WAKU_PUBLIC_TURNSTILE_SITE_KEY;
     if (!siteKey) {
-      console.error('Turnstile site key not found');
+      console.error('Turnstile site key not found (set WAKU_PUBLIC_TURNSTILE_SITE_KEY in .env.local)');
       return;
     }
 
     widgetIdRef.current = window.turnstile.render(containerRef.current, {
       sitekey: siteKey,
       theme: 'dark',
-      size: 'compact',
+      size: 'flexible',
+      appearance: 'always',
       callback: (newToken: string) => {
         setToken(newToken);
         onTokenChange?.(newToken);
@@ -109,7 +120,7 @@ export const useTurnstile = ({ isActive, containerRef, onTokenChange }: UseTurns
         widgetIdRef.current = null;
       }
     };
-  }, [isActive, initTurnstile, onTokenChange]);
+  }, [isActive, attachmentKey, initTurnstile, onTokenChange]);
 
   const reset = useCallback(() => {
     if (widgetIdRef.current && window.turnstile) {

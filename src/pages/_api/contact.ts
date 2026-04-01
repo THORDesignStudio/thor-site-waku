@@ -45,14 +45,14 @@ export const POST = async (request: Request): Promise<Response> => {
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${cloudflareApiToken}`,
+          Authorization: `Bearer ${cloudflareApiToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           from: { email: senderEmail, name: 'THOR Studio Website' },
           to: [
             { email: 'colby@thor-studio.com', name: 'Colby' },
-            { email: 'john@thor-studio.com', name: 'John' }
+            { email: 'john@thor-studio.com', name: 'John' },
           ],
           subject: 'Working with THOR',
           text: `New contact form submission from the THOR Studio website.
@@ -94,15 +94,14 @@ Submitted via THOR Studio contact form`,
 
 // Helper function to escape HTML to prevent XSS
 function escapeHtml(text: string): string {
-  const div = { toString: () => '' };
   const map: Record<string, string> = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#039;'
+    "'": '&#039;',
   };
-  return text.replace(/[&<>"']/g, (m) => map[m]);
+  return text.replace(/[&<>"']/g, (m) => map[m] ?? m);
 }
 
 // API routes are dynamic by default in Waku

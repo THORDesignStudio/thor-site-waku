@@ -14,7 +14,8 @@ interface ContactFormProps {
   isSubmitting: boolean;
   submitStatus: 'idle' | 'success' | 'error';
   turnstileToken: string | null;
-  turnstileContainerRef: RefObject<HTMLDivElement | null>;
+  /** When null, Turnstile mounts on the other breakpoint’s form only. */
+  turnstileContainerRef: RefObject<HTMLDivElement | null> | null;
   idPrefix?: string;
   variant: 'desktop' | 'mobile';
   onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -140,10 +141,23 @@ export const ContactForm = ({
             />
           </div>
 
-          <div
-            ref={turnstileContainerRef}
-            className={`${isVisible ? 'min-h-[65px]' : 'min-h-0'}`}
-          />
+          <div>
+            <span className="block font-sans text-sm text-cream mb-2">
+              Security check
+            </span>
+            <div
+              className={`
+                rounded-lg border border-white/30 bg-white/[0.07] px-3 py-3
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
+                ${isVisible ? '' : 'opacity-0'}
+              `}
+            >
+              <div
+                ref={turnstileContainerRef ?? undefined}
+                className={`flex w-full items-center justify-center sm:justify-start ${isVisible ? 'min-h-[68px]' : 'min-h-0 overflow-hidden'}`}
+              />
+            </div>
+          </div>
 
           {submitStatus === 'success' && (
             <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
