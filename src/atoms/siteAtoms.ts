@@ -11,6 +11,11 @@ export const activeCaseStudyIndexAtom = atom(0);
 export const activeTestimonialIndexAtom = atom(0);
 
 // ============================================================================
+// Programs Carousel Atoms
+// ============================================================================
+export const activeProgramIndexAtom = atom(0);
+
+// ============================================================================
 // Orbit Geometry Constants (from ProgramsCarousel)
 // ============================================================================
 

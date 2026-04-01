@@ -1,15 +1,107 @@
 'use client';
 
-import { useState, useCallback, useRef, useLayoutEffect, useEffect } from 'react';
+import {
+  useState,
+  useCallback,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+} from 'react';
+import { useAtom } from 'jotai';
 import { useLenis } from 'lenis/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { programs, type Program } from '../data/programs';
 import { ProgramDrawer } from './ProgramDrawer';
-import { RING_RADIUS } from '../atoms/siteAtoms';
+import { RING_RADIUS, activeProgramIndexAtom } from '../atoms/siteAtoms';
 import { useLenisScrollTrigger } from '../hooks/useLenisScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// ============================================================================
+// Arrow Icons
+// ============================================================================
+
+function ArrowLeftIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M15 19l-7-7 7-7" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+// ============================================================================
+// Carousel Controls Component
+// ============================================================================
+
+interface CarouselControlsProps {
+  onPrev: () => void;
+  onNext: () => void;
+  canGoPrev: boolean;
+  canGoNext: boolean;
+}
+
+function CarouselControls({
+  onPrev,
+  onNext,
+  canGoPrev,
+  canGoNext,
+}: CarouselControlsProps) {
+  const buttonBase =
+    'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
+  const buttonEnabled =
+    'text-pink hover:bg-pink hover:text-white cursor-pointer';
+  const buttonDisabled = 'text-pink/30 border-pink/30 cursor-not-allowed';
+
+  return (
+    <div className="flex items-center gap-3">
+      <button
+        onClick={onPrev}
+        disabled={!canGoPrev}
+        className={`${buttonBase} ${canGoPrev ? buttonEnabled : buttonDisabled}`}
+        aria-label="Previous program"
+      >
+        <ArrowLeftIcon className="w-5 h-5" />
+      </button>
+      <button
+        onClick={onNext}
+        disabled={!canGoNext}
+        className={`${buttonBase} ${canGoNext ? buttonEnabled : buttonDisabled}`}
+        aria-label="Next program"
+      >
+        <ArrowRightIcon className="w-5 h-5" />
+      </button>
+    </div>
+  );
+}
 
 // Generate keyframes by sampling the same circle formula used for items
 // This guarantees the planet follows the exact same path
@@ -108,7 +200,9 @@ interface SpaceParallaxBackgroundProps {
   parallaxRef: React.RefObject<HTMLDivElement | null>;
 }
 
-function SpaceParallaxBackground({ parallaxRef }: SpaceParallaxBackgroundProps) {
+function SpaceParallaxBackground({
+  parallaxRef,
+}: SpaceParallaxBackgroundProps) {
   return (
     <div ref={parallaxRef} className="space-parallax">
       {/* Gradient background layer */}
@@ -165,6 +259,13 @@ export function ProgramsCarousel() {
   const headerRef = useRef<HTMLDivElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
 
+  // Mobile carousel refs and state
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = useAtom(activeProgramIndexAtom);
+
   // Use shared hook for Lenis-ScrollTrigger sync
   const lenis = useLenis();
 
@@ -172,13 +273,19 @@ export function ProgramsCarousel() {
   useEffect(() => {
     if (!lenis || !parallaxRef.current) return;
 
-    const parallaxLayers = parallaxRef.current.querySelectorAll('.space-parallax__layer');
+    const parallaxLayers = parallaxRef.current.querySelectorAll(
+      '.space-parallax__layer'
+    );
 
     const scrollHandler = ({ scroll }: { scroll: number }) => {
       // Update CSS custom properties directly - no React state changes
       parallaxLayers.forEach((layer) => {
-        const speed = parseFloat(layer.getAttribute('data-parallax-speed') || '0');
-        const offset = parseFloat(layer.getAttribute('data-parallax-offset') || '0');
+        const speed = parseFloat(
+          layer.getAttribute('data-parallax-speed') || '0'
+        );
+        const offset = parseFloat(
+          layer.getAttribute('data-parallax-offset') || '0'
+        );
         const y = offset + scroll * speed;
         (layer as HTMLElement).style.transform = `translate3d(0, ${y}px, 0)`;
       });
@@ -246,7 +353,96 @@ export function ProgramsCarousel() {
     };
   }, []);
 
+  // ============================================================================
+  // Mobile Carousel Logic
+  // ============================================================================
+
+  // Calculate which slide is most visible based on scroll position
+  const calculateActiveSlide = useCallback(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return 0;
+
+    const scrollLeft = scrollContainer.scrollLeft;
+    let activeIdx = 0;
+
+    for (let i = 0; i < slideRefs.current.length; i++) {
+      const slide = slideRefs.current[i];
+      if (!slide) continue;
+
+      if (scrollLeft >= slide.offsetLeft - 50) {
+        activeIdx = i;
+      } else {
+        break;
+      }
+    }
+
+    const correctedIdx = Math.min(activeIdx + 1, slideRefs.current.length - 1);
+    if (scrollLeft < 10) return 0;
+
+    return correctedIdx;
+  }, []);
+
+  // Handle scroll events for mobile carousel
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      scrollTimeoutRef.current = setTimeout(() => {
+        if (!isProgrammaticScroll.current) {
+          const newIndex = calculateActiveSlide();
+          setActiveMobileIndex(newIndex);
+        }
+        isProgrammaticScroll.current = false;
+      }, 150);
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [calculateActiveSlide, setActiveMobileIndex]);
+
+  // Scroll to a specific slide on mobile
+  const scrollToSlide = useCallback((index: number) => {
+    const slide = slideRefs.current[index];
+    const scrollContainer = scrollContainerRef.current;
+    if (slide && scrollContainer) {
+      isProgrammaticScroll.current = true;
+
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const slideRect = slide.getBoundingClientRect();
+      const relativeOffset =
+        slideRect.left - containerRect.left + scrollContainer.scrollLeft;
+
+      scrollContainer.scrollTo({
+        left: relativeOffset,
+        behavior: 'smooth',
+      });
+    }
+  }, []);
+
   const items = programs.programs;
+
+  // Navigation handlers for mobile
+  const goToPrevMobile = useCallback(() => {
+    const newIndex = Math.max(0, activeMobileIndex - 1);
+    setActiveMobileIndex(newIndex);
+    scrollToSlide(newIndex);
+  }, [activeMobileIndex, setActiveMobileIndex, scrollToSlide]);
+
+  const goToNextMobile = useCallback(() => {
+    const newIndex = Math.min(items.length - 1, activeMobileIndex + 1);
+    setActiveMobileIndex(newIndex);
+    scrollToSlide(newIndex);
+  }, [activeMobileIndex, items.length, setActiveMobileIndex, scrollToSlide]);
 
   // --------------------------------------------------------------------------
   // Navigation handlers
@@ -309,8 +505,8 @@ export function ProgramsCarousel() {
           </p>
         </h1>
 
-        {/* Navigation arrows - below title */}
-        <div className="flex items-center justify-center gap-4 my-fluid-6">
+        {/* Navigation arrows - below title (desktop only) */}
+        <div className="hidden sm:flex items-center justify-center gap-4 my-fluid-6">
           <button
             onClick={goToPrev}
             className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
@@ -352,9 +548,8 @@ export function ProgramsCarousel() {
         </div>
       </div>
 
-      {/* Main container - square, centered */}
-      <div
-        className="relative z-10 self-center"
+      {/* Desktop Orbit Container - hidden on mobile */}
+      <div className="hidden sm:block relative z-10 self-center"
         style={{
           width: CONTAINER_SIZE,
           aspectRatio: '1 / 1',
@@ -563,7 +758,7 @@ export function ProgramsCarousel() {
                     {/* Learn More button */}
                     <div className="mt-fluid-3 text-center">
                       <button
-                        onClick={(e) => openProgramDrawer(item, e)}
+                        // onClick={(e) => openProgramDrawer(item, e)}
                         className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
                       >
                         Learn More
@@ -590,6 +785,63 @@ export function ProgramsCarousel() {
             </div>
           );
         })}
+      </div>
+
+      {/* Mobile Carousel - shown only on small screens */}
+      <div className="sm:hidden flex flex-col gap-fluid-6 z-10 px-fluid-4 pb-fluid-8">
+        {/* Carousel Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-fluid-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pr-fluid-6"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          {items.map((item, index) => (
+            <div
+              key={item.name}
+              ref={(el) => {
+                slideRefs.current[index] = el;
+              }}
+              className="shrink-0 snap-start w-[calc(100vw-2*var(--spacing-fluid-4))]"
+            >
+              {/* Static Program Card - always in "opened" state */}
+              <article className="relative bg-white rounded-[10px] shadow-lg">
+                {/* Card content */}
+                <div className="p-fluid-6 flex flex-col">
+                  <h3 className="text-fluid-2xl font-display text-night text-center mb-fluid-2">
+                    {item.name}
+                  </h3>
+                  <p className="text-lg font-sans text-center text-night/80 mb-fluid-3">
+                    {item.dek}
+                  </p>
+                  <p className="text-lg font-sans text-night/60 leading-relaxed flex-1">
+                    {item.description}
+                  </p>
+                  <div className="mt-fluid-4 text-center">
+                    <button
+                      onClick={(e) => openProgramDrawer(item, e)}
+                      className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
+                    >
+                      Learn More
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile Navigation Controls */}
+        <div className="flex justify-center">
+          <CarouselControls
+            onPrev={goToPrevMobile}
+            onNext={goToNextMobile}
+            canGoPrev={activeMobileIndex > 0}
+            canGoNext={activeMobileIndex < items.length - 1}
+          />
+        </div>
       </div>
 
       {/* Program Drawer - opens when Learn More is clicked */}
