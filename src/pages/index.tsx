@@ -23,7 +23,7 @@ export default async function HomePage() {
       />
       <meta
         property="og:image"
-        content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+        content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
       />
       <meta property="og:url" content="https://www.thor-studio.com/" />
       <meta property="og:type" content="website" />
@@ -38,7 +38,7 @@ export default async function HomePage() {
       />
       <meta
         name="twitter:image"
-        content="https://www.thor-studio.com/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+        content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
       />
       <div className="w-full">
         <HeroBasic />
