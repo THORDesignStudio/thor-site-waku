@@ -8,6 +8,7 @@ import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useTurnstile } from '../hooks/useTurnstile';
 import { useDelayedState } from '../hooks/useDelayedState';
+import { useAnalytics } from '../hooks/useAnalytics';
 import { ContactForm } from './ContactForm';
 
 interface FormData {
@@ -36,6 +37,9 @@ export const Header = () => {
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const [isSmUp, setIsSmUp] = useState(false);
 
+  // Analytics hook
+  const { trackEvent } = useAnalytics();
+
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 640px)');
     const sync = () => setIsSmUp(mq.matches);
@@ -60,11 +64,18 @@ export const Header = () => {
   };
 
   const openContactForm = useCallback(() => {
+    // Track the "Work With Us" button click
+    trackEvent('begin_contact', {
+      event_category: 'engagement',
+      event_label: 'work_with_us_button',
+      method: 'header_nav',
+    });
+
     // Close mobile menu if open
     setIsMenuOpen(false);
     // Open contact form (useDelayedState handles the 300ms animation delay)
     setIsContactOpen(true);
-  }, [setIsContactOpen]);
+  }, [setIsContactOpen, trackEvent]);
 
   const closeContactForm = useCallback(() => {
     // Close contact form (form immediately hides, nav fades in)
@@ -109,6 +120,13 @@ export const Header = () => {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
         setTurnstileToken(null);
+
+        // Track successful contact form submission
+        trackEvent('generate_lead', {
+          event_category: 'conversion',
+          event_label: 'contact_form',
+          value: 1,
+        });
       } else {
         setSubmitStatus('error');
       }
@@ -247,23 +265,24 @@ export const Header = () => {
             >
               <span className="relative w-6 h-5 flex flex-col justify-between">
                 <span
-                  className={`absolute left-0 right-0 h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${
-                    isMenuOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'
-                  }`}
+                  className={[
+                    'absolute left-0 right-0 h-0.5 bg-white rounded-full transition-all duration-300 origin-center',
+                    isMenuOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0',
+                  ].join(' ')}
                   style={{ transitionTimingFunction: 'var(--ease-out-back)' }}
                 />
                 <span
-                  className={`absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-white rounded-full transition-all duration-300 ${
-                    isMenuOpen ? 'opacity-0 scale-x-0' : ''
-                  }`}
+                  className={[
+                    'absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-white rounded-full transition-all duration-300',
+                    isMenuOpen ? 'opacity-0 scale-x-0' : '',
+                  ].join(' ')}
                   style={{ transitionTimingFunction: 'var(--ease-out-back)' }}
                 />
                 <span
-                  className={`absolute left-0 right-0 h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${
-                    isMenuOpen
-                      ? 'bottom-1/2 translate-y-1/2 -rotate-45'
-                      : 'bottom-0'
-                  }`}
+                  className={[
+                    'absolute left-0 right-0 h-0.5 bg-white rounded-full transition-all duration-300 origin-center',
+                    isMenuOpen ? 'bottom-1/2 translate-y-1/2 -rotate-45' : 'bottom-0',
+                  ].join(' ')}
                   style={{ transitionTimingFunction: 'var(--ease-out-back)' }}
                 />
               </span>
@@ -300,10 +319,10 @@ export const Header = () => {
 
           {/* Mobile navigation menu - standard collapse/expand behavior */}
           <div
-            className={`
-              sm:hidden overflow-hidden transition-all
-              ${isMenuOpen ? 'max-h-80 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
-            `}
+            className={[
+              'sm:hidden overflow-hidden transition-all',
+              isMenuOpen ? 'max-h-80 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0',
+            ].join(' ')}
             style={{
               transitionDuration: 'var(--spring-bounce-duration)',
               transitionTimingFunction: 'var(--spring-bounce)',
