@@ -46,10 +46,10 @@ export const POST = async (request: Request): Promise<Response> => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: `${senderEmail}`,
+        from: `THOR Website <${senderEmail}>`,
         to: ['colby@thor-studio.com', 'john@thor-studio.com'],
-        reply_to: email,
-        subject: 'Working with THOR',
+        reply_to: `${name} <${email}>`,
+        subject: 'Work With Us Form Submission',
         text: `New contact form submission from the THOR Studio website.
 
 Name: ${name}
