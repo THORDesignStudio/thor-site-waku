@@ -6,7 +6,8 @@ export interface CaseStudy {
   mainText: string;
   achievements: string[];
   verticals: string[];
-  categories: string[];
+  capabilities: string[];
+  programs: string[];
   client: string;
   url: string | null;
   images: {
@@ -48,7 +49,12 @@ export const caseStudies: CaseStudies = {
         'Enabled healthcare professionals to deliver more personalized, data-driven treatment recommendations.',
       ],
       verticals: ['Health Care', 'Association & Non-Profit'],
-      categories: ['Data / Infographics', 'User Experience Design'],
+      capabilities: [
+        'data-visualization',
+        'user-experience',
+        'web-development',
+      ],
+      programs: ['interactive-campaigns', 'technology-consulting'],
       client: 'American Gastroenterological Association / Knighten Health',
       url: 'https://ibddrugguide.gastro.org/',
       images: {
@@ -84,7 +90,12 @@ export const caseStudies: CaseStudies = {
         'Leveraged analytics and user feedback to continuously refine UX and content strategy.',
       ],
       verticals: ['Outdoor', 'Associations'],
-      categories: ['User Experience Design', 'Data / Infographics'],
+      capabilities: [
+        'user-experience',
+        'data-visualization',
+        'web-development',
+      ],
+      programs: ['interactive-campaigns', 'technology-consulting'],
       client: 'PeopleForBikes',
       url: 'https://cityratings.peopleforbikes.org/',
       images: {
@@ -118,7 +129,8 @@ export const caseStudies: CaseStudies = {
         'Created a scalable library of premium content for distribution across events and social platforms.',
       ],
       verticals: ['Construction / Engineering', 'Media / Publishing'],
-      categories: ['Design', 'Data / Infographics'],
+      capabilities: ['design', 'data-visualization', 'web-development'],
+      programs: ['interactive-campaigns', 'organizational-rebranding'],
       client: 'American Institute of Aeronautics and Astronautics',
       url: 'https://aerospaceamerica.aiaa.org/features',
       images: {
@@ -153,7 +165,8 @@ export const caseStudies: CaseStudies = {
         'Established a scalable platform for ongoing MASH research and management',
       ],
       verticals: ['Health Care', 'Association & Non-Profit'],
-      categories: ['Mobile App'],
+      capabilities: ['mobile-apps', 'design', 'user-experience'],
+      programs: ['greenfield-projects', 'digital-transformation'],
       client: 'American Gastroenterological Association',
       url: 'https://apps.apple.com/us/app/aga-nash-app/id1589270847',
       images: {
@@ -185,7 +198,12 @@ export const caseStudies: CaseStudies = {
         'Integrated design, video production, development, and UX strategy within a single streamlined workflow.',
       ],
       verticals: ['Media & Publishing', 'Association & Non-Profit'],
-      categories: ['Design', 'Campaign Website'],
+      capabilities: ['design', 'publication-design'],
+      programs: [
+        'campaign-website',
+        'greenfield-projects',
+        'organizational-rebranding',
+      ],
       client: 'Chemonics',
       url: 'https://media.chemonics.org/',
       images: {
@@ -220,7 +238,8 @@ export const caseStudies: CaseStudies = {
         'Future-proofed platform for ongoing growth and functionality expansion',
       ],
       verticals: ['Media & Publishing', 'Construction / Engineering'],
-      categories: ['Publication Website'],
+      capabilities: ['publication-design', 'web-development'],
+      programs: ['greenfield-projects', 'digital-transformation'],
       client: 'Associated Builders & Contractors',
       url: 'https://www.constructionexec.com/',
       images: {
@@ -254,7 +273,8 @@ export const caseStudies: CaseStudies = {
         'Created impactful tradeshow and environmental graphics',
       ],
       verticals: ['Finance', 'Association & Non-Profit'],
-      categories: ['Design'],
+      capabilities: ['design', 'event-solutions', 'publication-design'],
+      programs: ['organizational-rebranding'],
       client: 'National Investor Relations Institute',
       url: 'https://www.niri.org/',
       images: {
@@ -287,7 +307,12 @@ export const caseStudies: CaseStudies = {
         'Built a platform that can be managed by a small editorial team with ongoing support from THOR Digital.',
       ],
       verticals: ['Construction / Engineering', 'Media / Publishing'],
-      categories: ['Publications'],
+      capabilities: [
+        'publication-design',
+        'web-development',
+        'user-experience',
+      ],
+      programs: ['greenfield-projects', 'digital-transformation'],
       client: 'American Council of Engineering Companies',
       url: 'https://engineeringinc.acec.org/',
       images: {
@@ -320,7 +345,8 @@ export const caseStudies: CaseStudies = {
         'Delivered a platform supporting ongoing professional education and advocacy',
       ],
       verticals: ['Health Care'],
-      categories: ['Campaign'],
+      capabilities: ['event-solutions', 'design'],
+      programs: ['campaign-website'],
       client: 'Association of Black Cardiologists',
       url: 'https://www.letsbeathcm.org/',
       images: {
@@ -353,7 +379,8 @@ export const caseStudies: CaseStudies = {
         'Turned a crisis into a long-term brand growth opportunity',
       ],
       verticals: ['Hospitality'],
-      categories: ['Design'],
+      capabilities: ['design', 'event-solutions'],
+      programs: ['organizational-rebranding'],
       client: 'Leon Hotel',
       url: 'https://leonhotelnyc.com/',
       images: {
@@ -384,7 +411,8 @@ export const caseStudies: CaseStudies = {
         'Delivered a scalable system supporting long-term brand growth',
       ],
       verticals: ['Retail'],
-      categories: ['Branding'],
+      capabilities: ['design', 'event-solutions'],
+      programs: ['organizational-rebranding'],
       client: 'Citiva',
       url: null,
       images: {
@@ -415,7 +443,8 @@ export const caseStudies: CaseStudies = {
         'Highlighted industry partnerships and recycling locations dynamically',
       ],
       verticals: ['Outdoor'],
-      categories: ['Campaign'],
+      capabilities: ['design', 'web-development', 'user-experience'],
+      programs: ['campaign-website', 'greenfield-projects'],
       client: 'PeopleForBikes',
       url: 'https://www.hungryforbatteries.org/',
       images: {
@@ -449,7 +478,8 @@ export const caseStudies: CaseStudies = {
         'Delivered a platform fostering exploration, empowerment, and engagement',
       ],
       verticals: ['Outdoor'],
-      categories: ['Campaign'],
+      capabilities: ['web-development', 'user-experience'],
+      programs: ['campaign-website', 'greenfield-projects'],
       client: 'PeopleForBikes',
       url: null,
       images: {
@@ -480,7 +510,8 @@ export const caseStudies: CaseStudies = {
         'Integrated digital and print assets for a cohesive, multi-channel campaign',
       ],
       verticals: ['Philanthropy'],
-      categories: ['Campaign'],
+      capabilities: ['design', 'user-experience'],
+      programs: ['campaign-website', 'greenfield-projects'],
       client: 'Share Our Strength',
       url: null,
       images: {
@@ -512,7 +543,12 @@ export const caseStudies: CaseStudies = {
         'Established a scalable digital foundation for continued business growth',
       ],
       verticals: ['Retail'],
-      categories: ['eCommerce'],
+      capabilities: [
+        'e-commerce-solutions',
+        'web-development',
+        'user-experience',
+      ],
+      programs: ['greenfield-projects'],
       client: 'iAnthus Capital',
       url: null,
       images: {
@@ -543,7 +579,8 @@ export const caseStudies: CaseStudies = {
         'Enabled healthcare providers to deliver personalized, preventative \"prescriptions\"',
       ],
       verticals: ['Philanthropy'],
-      categories: ['User Experience'],
+      capabilities: ['user-experience', 'discovery'],
+      programs: ['digital-transformation'],
       client: 'New York State / Mount Sinai Hospital System',
       url: '',
       images: {
@@ -575,7 +612,8 @@ export const caseStudies: CaseStudies = {
         'Delivered hands-on training to empower internal teams to manage and update the site',
       ],
       verticals: ['Construction / Engineering'],
-      categories: ['Discovery'],
+      capabilities: ['discovery', 'web-development', 'user-experience'],
+      programs: ['organizational-rebranding'],
       client: 'LTK',
       url: '',
       images: {
