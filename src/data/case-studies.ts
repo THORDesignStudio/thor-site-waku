@@ -12,6 +12,7 @@ export interface CaseStudy {
   url: string | null;
   images: {
     cardHorizontal: string;
+    cardVertical: string;
     header: {
       png: string;
       webp: string;
@@ -60,6 +61,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/ibd-drug-guide.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/ibd-drug-guide.jpg',
         header: {
           png: '/images/case-studies/headers/ibd-drug-guide.png',
           webp: '/images/case-studies/headers/ibd-drug-guide.webp',
@@ -101,6 +104,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/city-ratings.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/city-ratings.jpg',
         header: {
           png: '/images/case-studies/headers/city-ratings.png',
           webp: '/images/case-studies/headers/city-ratings.webp',
@@ -136,6 +141,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/aerospace-america-articles.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/aerospace-america-articles.jpg',
         header: {
           png: '/images/case-studies/headers/aerospace-america-articles.png',
           webp: '/images/case-studies/headers/aerospace-america-articles.webp',
@@ -171,6 +178,7 @@ export const caseStudies: CaseStudies = {
       url: 'https://apps.apple.com/us/app/aga-nash-app/id1589270847',
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/mash-app.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/mash-app.jpg',
         header: {
           png: '/images/case-studies/headers/mash-app.png',
           webp: '/images/case-studies/headers/mash-app.webp',
@@ -209,6 +217,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/chemonics-media-site.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/chemonics-media-site.jpg',
         header: {
           png: '/images/case-studies/headers/chemonics-media-site.png',
           webp: '/images/case-studies/headers/chemonics-media-site.webp',
@@ -245,6 +255,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/construction-executive.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/construction-executive.jpg',
         header: {
           png: '/images/case-studies/headers/construction-executive.png',
           webp: '/images/case-studies/headers/construction-executive.webp',
@@ -279,6 +291,7 @@ export const caseStudies: CaseStudies = {
       url: 'https://www.niri.org/',
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/niri.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/niri.jpg',
         header: {
           png: '/images/case-studies/headers/niri.png',
           webp: '/images/case-studies/headers/niri.webp',
@@ -318,6 +331,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/engineering-inc.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/engineering-inc.jpg',
         header: {
           png: '/images/case-studies/headers/engineering-inc.png',
           webp: '/images/case-studies/headers/engineering-inc.webp',
@@ -352,6 +367,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/lets-beat-hcm.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/lets-beat-hcm.jpg',
         header: {
           png: '/images/case-studies/headers/lets-beat-hcm.png',
           webp: '/images/case-studies/headers/lets-beat-hcm.webp',
@@ -385,6 +402,7 @@ export const caseStudies: CaseStudies = {
       url: 'https://leonhotelnyc.com/',
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/leon-hotel.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/leon-hotel.jpg',
         header: {
           png: '/images/case-studies/headers/leon-hotel.png',
           webp: '/images/case-studies/headers/leon-hotel.webp',
@@ -417,6 +435,7 @@ export const caseStudies: CaseStudies = {
       url: null,
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/citiva.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/citiva.jpg',
         header: {
           png: '/images/case-studies/headers/citiva.png',
           webp: '/images/case-studies/headers/citiva.webp',
@@ -450,6 +469,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/hungry-for-batteries.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/hungry-for-batteries.jpg',
         header: {
           png: '/images/case-studies/headers/hungry-for-batteries.png',
           webp: '/images/case-studies/headers/hungry-for-batteries.webp',
@@ -484,6 +505,7 @@ export const caseStudies: CaseStudies = {
       url: null,
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/keep-riding.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/keep-riding.jpg',
         header: {
           png: '/images/case-studies/headers/keep-riding.png',
           webp: '/images/case-studies/headers/keep-riding.webp',
@@ -517,6 +539,8 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/no-kid-hungry.jpg',
+        cardVertical:
+          '/images/case-studies/cards-vertical/no-kid-hungry.jpg',
         header: {
           png: '/images/case-studies/headers/no-kid-hungry.png',
           webp: '/images/case-studies/headers/no-kid-hungry.webp',
@@ -553,6 +577,7 @@ export const caseStudies: CaseStudies = {
       url: null,
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/mayflower.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/mayflower.jpg',
         header: {
           png: '/images/case-studies/headers/mayflower.png',
           webp: '/images/case-studies/headers/mayflower.webp',
@@ -585,6 +610,7 @@ export const caseStudies: CaseStudies = {
       url: '',
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/nyscheck.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/nyscheck.jpg',
         header: {
           png: '/images/case-studies/headers/nyscheck.png',
           webp: '/images/case-studies/headers/nyscheck.webp',
@@ -618,6 +644,7 @@ export const caseStudies: CaseStudies = {
       url: '',
       images: {
         cardHorizontal: '/images/case-studies/cards-horizontal/ltk.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/ltk.jpg',
         header: {
           png: '/images/case-studies/headers/ltk.png',
           webp: '/images/case-studies/headers/ltk.webp',
