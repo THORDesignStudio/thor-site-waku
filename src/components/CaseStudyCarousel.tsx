@@ -120,7 +120,7 @@ interface SidebarProps {
 
 function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
   return (
-    <aside className="shrink-0 lg:w-[280px] hidden sm:block">
+    <aside className="shrink-0 lg:w-[280px] hidden lg:block">
       {/* Section Title */}
       <h2 className="text-fluid-xl font-extrabold uppercase text-night mb-fluid-4 tracking-wide">
         Select Work
@@ -138,7 +138,7 @@ function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
                   onClick={() => onSelectIndex(index)}
                   className={`
                     w-full text-left text-fluid-base transition-all duration-300 hover:cursor-pointer
-                    ${isActive ? 'font-bold text-night' : ' hover:text-night/80'}
+                    ${isActive ? 'font-bold text-night' : 'text-night/60 hover:text-night/80'}
                   `}
                 >
                   {study.name}

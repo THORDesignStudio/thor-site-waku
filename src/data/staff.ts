@@ -28,7 +28,7 @@ export const staff: StaffList[] = [
         name: 'John Serrao',
         role: 'Principal - Technology',
         image: '/images/staff/john.png',
-        bio: 'John leads the technical vision at THOR, bringing decades of experience in web development, digital strategy, and technical architecture. He bridges the gap between creative vision and technical implementation, ensuring every project is built on solid foundations with cutting-edge technology.',
+        bio: "John Serrao is the co-founder and lead developer at THOR Digital, where he helps guide the direction of the firm's technical projects. With nearly twenty years of experience, John's expertise is focused on the front-end of web applications with particular skill in user experience design and building performant user interfaces that are easy to use.\n\nDuring his career, John has participated in a wide variety of pursuits prior to founding THOR Digital; he authored a blog and book on nutrition science, helped establish a telepresence consultancy, led the product team at an alternative-health startup and was an instructor of front-end software development. John earned three degrees from the University of Texas at Austin, a BA in Economics, BS in Communications and a BA in Humanities. In his spare time, John is an avid swimmer and amateur nurseryman growing plants for friends and family.",
         featured: true,
         imagePosition: 'right',
       },
