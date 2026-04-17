@@ -1,4 +1,5 @@
 import { staff, type Staff } from '../data/staff.js';
+import { SEO } from '../components/SEO';
 
 export default async function AboutPage() {
   // Get all staff members from the first staff list
@@ -13,32 +14,11 @@ export default async function AboutPage() {
     .sort((a: Staff, b: Staff) => a.name.localeCompare(b.name));
   return (
     <>
-      <title>About | THOR Digital</title>
-      <meta
-        name="description"
-        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
-      />
-      <link rel="canonical" href="https://www.thor-studio.com/about" />
-      <meta property="og:title" content="About | THOR Digital" />
-      <meta
-        property="og:description"
-        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
-      />
-      <meta
-        property="og:image"
-        content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
-      />
-      <meta property="og:url" content="https://www.thor-studio.com/about" />
-      <meta property="og:type" content="website" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="About | THOR Digital" />
-      <meta
-        name="twitter:description"
-        content="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
-      />
-      <meta
-        name="twitter:image"
-        content="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+      <SEO
+        title="About | THOR Digital"
+        description="Meet the team behind THOR Digital - a collective of designers, developers, and digital experts."
+        canonicalUrl="https://www.thor-studio.com/about"
+        ogImage="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
       />
 
       <section className="relative min-h-[50vh] overflow-hidden bg-[#0B0F3C]">

@@ -1,36 +1,75 @@
 /**
- * SEO Meta Tags Helper
+ * SEO Component
  *
- * Waku hoists <title>, <meta>, and <link> tags to the document head when
- * rendered directly in page components. For proper SSR/SSG with social sharing,
- * define these tags inline in each page rather than using a component.
+ * A reusable component for managing document head tags.
  *
- * Example usage in a page:
+ * IMPORTANT: This component renders actual <title>, <meta>, and <link> elements
+ * inline so that Waku's static analysis can hoist them to the document head
+ * during static generation. This ensures SEO tags are present in the initial
+ * HTML for search engines and social media crawlers.
  *
- * export default async function MyPage() {
- *   return (
- *     <>
- *       <title>Page Title | THOR Digital</title>
- *       <meta name="description" content="Page description" />
- *       <link rel="canonical" href="https://www.thor-studio.com/page-path" />
- *       <meta property="og:title" content="Page Title | THOR Digital" />
- *       <meta property="og:description" content="Page description" />
- *       <meta property="og:image" content="https://www.thor-studio.com/images/og-image.jpg" />
- *       <meta property="og:url" content="https://www.thor-studio.com/page-path" />
- *       <meta property="og:type" content="website" />
- *       <meta name="twitter:card" content="summary_large_image" />
- *       <meta name="twitter:title" content="Page Title | THOR Digital" />
- *       <meta name="twitter:description" content="Page description" />
- *       <meta name="twitter:image" content="https://www.thor-studio.com/images/og-image.jpg" />
+ * Note: Waku can only hoist tags rendered directly in page components, not from
+ * deeply nested components. Always use this component at the page level.
  *
- *       <div>Page content...</div>
- *     </>
- *   );
- * }
- *
- * Note: Waku's static analysis can only hoist tags that are rendered directly
- * in the page, not tags inside imported components. This is why we use inline
- * tags rather than a <SEO /> component.
  */
 
-export {};
+import type { SEOProps } from '../types/seo';
+import { defaultSEO } from '../types/seo';
+
+export function SEO({
+  title,
+  description,
+  canonicalUrl,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+  additionalMeta = [],
+}: SEOProps) {
+  const fullOgImage = ogImage
+    ? ogImage.startsWith('http')
+      ? ogImage
+      : `${defaultSEO.baseUrl}${ogImage}`
+    : `${defaultSEO.baseUrl}${defaultSEO.defaultOgImage}`;
+
+  // Build full canonical URL
+  const fullCanonicalUrl = canonicalUrl || defaultSEO.baseUrl;
+
+  return (
+    <>
+      {/* Standard meta tags */}
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+      {/* Open Graph tags */}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={fullOgImage} />
+      <meta property="og:url" content={fullCanonicalUrl} />
+      <meta property="og:type" content={ogType} />
+      <meta property="og:site_name" content={defaultSEO.siteName} />
+
+      {/* Twitter Card tags */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={fullOgImage} />
+
+      {/* Canonical link */}
+      <link rel="canonical" href={fullCanonicalUrl} />
+
+      {/* Additional custom meta tags */}
+      {additionalMeta.map((meta, index) =>
+        meta.property ? (
+          <meta
+            key={`meta-${index}`}
+            property={meta.property}
+            content={meta.content}
+          />
+        ) : (
+          <meta key={`meta-${index}`} name={meta.name} content={meta.content} />
+        )
+      )}
+    </>
+  );
+}
