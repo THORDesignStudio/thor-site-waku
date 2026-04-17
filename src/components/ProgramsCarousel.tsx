@@ -67,6 +67,8 @@ interface CarouselControlsProps {
   onNext: () => void;
   canGoPrev: boolean;
   canGoNext: boolean;
+  currentIndex?: number;
+  total?: number;
 }
 
 function CarouselControls({
@@ -74,6 +76,8 @@ function CarouselControls({
   onNext,
   canGoPrev,
   canGoNext,
+  currentIndex,
+  total,
 }: CarouselControlsProps) {
   const buttonBase =
     'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
@@ -81,21 +85,28 @@ function CarouselControls({
     'text-pink hover:bg-pink hover:text-white cursor-pointer';
   const buttonDisabled = 'text-pink/30 border-pink/30 cursor-not-allowed';
 
+  const showPosition = currentIndex !== undefined && total !== undefined;
+
   return (
     <div className="flex items-center gap-3">
       <button
         onClick={onPrev}
         disabled={!canGoPrev}
         className={`${buttonBase} ${canGoPrev ? buttonEnabled : buttonDisabled}`}
-        aria-label="Previous program"
+        aria-label={showPosition ? `Previous program (showing ${currentIndex + 1} of ${total})` : 'Previous program'}
       >
         <ArrowLeftIcon className="w-5 h-5" />
       </button>
+      {showPosition && (
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          Slide {currentIndex + 1} of {total}
+        </span>
+      )}
       <button
         onClick={onNext}
         disabled={!canGoNext}
         className={`${buttonBase} ${canGoNext ? buttonEnabled : buttonDisabled}`}
-        aria-label="Next program"
+        aria-label={showPosition ? `Next program (showing ${currentIndex + 1} of ${total})` : 'Next program'}
       >
         <ArrowRightIcon className="w-5 h-5" />
       </button>
@@ -483,10 +494,39 @@ export function ProgramsCarousel() {
   // Render
   // --------------------------------------------------------------------------
 
+  // Keyboard navigation for desktop orbit
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only handle arrow keys when focus is within the section
+      if (!section.contains(document.activeElement)) return;
+      
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goToPrev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goToNext();
+      } else if (e.key === 'Escape' && activeIndex !== null) {
+        e.preventDefault();
+        setActiveIndex(null);
+      }
+    };
+
+    section.addEventListener('keydown', handleKeyDown);
+    return () => section.removeEventListener('keydown', handleKeyDown);
+  }, [goToPrev, goToNext, activeIndex, setActiveIndex]);
+
   return (
     <section
       ref={sectionRef}
       className="relative w-full h-screen overflow-hidden flex flex-col justify-between"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Programs Carousel"
+      tabIndex={0}
     >
       {/* Space parallax background */}
       <SpaceParallaxBackground parallaxRef={parallaxRef} />
@@ -510,7 +550,7 @@ export function ProgramsCarousel() {
           <button
             onClick={goToPrev}
             className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
-            aria-label="Previous program"
+            aria-label={activeIndex !== null ? `Previous program (showing ${activeIndex + 1} of ${ITEM_COUNT})` : 'Previous program'}
           >
             <svg
               className="w-6 h-6 text-white"
@@ -526,10 +566,13 @@ export function ProgramsCarousel() {
               />
             </svg>
           </button>
+          <span className="sr-only" aria-live="polite" aria-atomic="true">
+            {activeIndex !== null ? `Program ${activeIndex + 1} of ${ITEM_COUNT}` : 'No program selected'}
+          </span>
           <button
             onClick={goToNext}
             className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
-            aria-label="Next program"
+            aria-label={activeIndex !== null ? `Next program (showing ${activeIndex + 1} of ${ITEM_COUNT})` : 'Next program'}
           >
             <svg
               className="w-6 h-6 text-white"
@@ -788,7 +831,11 @@ export function ProgramsCarousel() {
       </div>
 
       {/* Mobile Carousel - shown only on small screens */}
-      <div className="sm:hidden flex flex-col gap-fluid-6 z-10 px-fluid-4 pb-fluid-8">
+      <div 
+        className="sm:hidden flex flex-col gap-fluid-6 z-10 px-fluid-4 pb-fluid-8"
+        role="tabpanel"
+        aria-label={`Program slides (${items.length} total)`}
+      >
         {/* Carousel Container */}
         <div
           ref={scrollContainerRef}
@@ -797,6 +844,7 @@ export function ProgramsCarousel() {
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
+          tabIndex={0}
         >
           {items.map((item, index) => (
             <div
@@ -805,6 +853,8 @@ export function ProgramsCarousel() {
                 slideRefs.current[index] = el;
               }}
               className="shrink-0 snap-start w-[calc(100vw-2*var(--spacing-fluid-4))]"
+              role="group"
+              aria-label={`Program ${index + 1} of ${items.length}: ${item.name}`}
             >
               {/* Static Program Card - always in "opened" state */}
               <article className="relative bg-white rounded-[10px] shadow-lg">
@@ -823,6 +873,7 @@ export function ProgramsCarousel() {
                     <button
                       onClick={(e) => openProgramDrawer(item, e)}
                       className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
+                      aria-label={`Learn more about ${item.name}`}
                     >
                       Learn More
                     </button>
@@ -840,6 +891,8 @@ export function ProgramsCarousel() {
             onNext={goToNextMobile}
             canGoPrev={activeMobileIndex > 0}
             canGoNext={activeMobileIndex < items.length - 1}
+            currentIndex={activeMobileIndex}
+            total={items.length}
           />
         </div>
       </div>

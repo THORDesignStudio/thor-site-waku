@@ -505,6 +505,31 @@
     background-color: var(--color-pink);
     color: white;
   }
+
+  /* Focus visible styles for keyboard navigation */
+  *:focus {
+    outline: none;
+  }
+
+  *:focus-visible {
+    outline: 3px solid var(--color-pink);
+    outline-offset: 2px;
+  }
+
+  /* Ensure focus is visible on all backgrounds */
+  button:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--color-pink);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Skip link specific styles */
+  a[href="#main-content"]:focus {
+    outline: 3px solid var(--color-pink);
+    outline-offset: 2px;
+  }
 }
 
 /* Orbit animation for programs carousel planet - full circle (legacy, kept for reference) */

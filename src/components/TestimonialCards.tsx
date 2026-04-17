@@ -59,6 +59,8 @@ interface CarouselControlsProps {
   onNext: () => void;
   canGoPrev: boolean;
   canGoNext: boolean;
+  currentIndex: number;
+  total: number;
 }
 
 function CarouselControls({
@@ -66,6 +68,8 @@ function CarouselControls({
   onNext,
   canGoPrev,
   canGoNext,
+  currentIndex,
+  total,
 }: CarouselControlsProps) {
   const buttonBase =
     'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
@@ -79,15 +83,18 @@ function CarouselControls({
         onClick={onPrev}
         disabled={!canGoPrev}
         className={`${buttonBase} ${canGoPrev ? buttonEnabled : buttonDisabled}`}
-        aria-label="Previous testimonial"
+        aria-label={`Previous testimonial (showing ${currentIndex + 1} of ${total})`}
       >
         <ArrowLeftIcon className="w-5 h-5" />
       </button>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        Slide {currentIndex + 1} of {total}
+      </span>
       <button
         onClick={onNext}
         disabled={!canGoNext}
         className={`${buttonBase} ${canGoNext ? buttonEnabled : buttonDisabled}`}
-        aria-label="Next testimonial"
+        aria-label={`Next testimonial (showing ${currentIndex + 1} of ${total})`}
       >
         <ArrowRightIcon className="w-5 h-5" />
       </button>
@@ -322,10 +329,36 @@ export function TestimonialCards() {
     scrollToSlide(newIndex);
   }, [activeMobileIndex, displayTestimonials.length, setActiveMobileIndex, scrollToSlide]);
 
+  // Keyboard navigation for desktop panels
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only handle when focus is within the section
+      if (!section.contains(document.activeElement)) return;
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setExpandedIndex((prev) => Math.max(0, prev - 1));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setExpandedIndex((prev) => Math.min(displayTestimonials.length - 1, prev + 1));
+      }
+    };
+
+    section.addEventListener('keydown', handleKeyDown);
+    return () => section.removeEventListener('keydown', handleKeyDown);
+  }, [displayTestimonials.length, setExpandedIndex]);
+
   return (
     <section
       ref={sectionRef}
       className="min-h-[100vh] px-fluid-6 py-fluid-12 font-sans"
+      role="region"
+      aria-roledescription="testimonial gallery"
+      aria-label="Client Testimonials"
+      tabIndex={0}
     >
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">
@@ -422,7 +455,11 @@ export function TestimonialCards() {
       </div>
 
       {/* Mobile Carousel */}
-      <div className="flex flex-col gap-fluid-6 min-[1000px]:hidden">
+      <div 
+        className="flex flex-col gap-fluid-6 min-[1000px]:hidden"
+        role="tabpanel"
+        aria-label={`Testimonial slides (${displayTestimonials.length} total)`}
+      >
         {/* Carousel Container */}
         <div
           ref={scrollContainerRef}
@@ -431,6 +468,7 @@ export function TestimonialCards() {
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
+          tabIndex={0}
         >
           {displayTestimonials.map((item, index) => (
             <div
@@ -439,6 +477,8 @@ export function TestimonialCards() {
                 slideRefs.current[index] = el;
               }}
               className="shrink-0 snap-start w-[85vw]"
+              role="group"
+              aria-label={`Testimonial ${index + 1} of ${displayTestimonials.length}: ${item.organization}`}
             >
               <article className="relative flex flex-col overflow-hidden rounded-[1.1rem] border border-night/80 bg-cream/80 min-h-[400px]">
                 {/* Pink background overlay - always visible on mobile carousel */}
@@ -471,6 +511,8 @@ export function TestimonialCards() {
             onNext={goToNext}
             canGoPrev={activeMobileIndex > 0}
             canGoNext={activeMobileIndex < displayTestimonials.length - 1}
+            currentIndex={activeMobileIndex}
+            total={displayTestimonials.length}
           />
         </div>
       </div>

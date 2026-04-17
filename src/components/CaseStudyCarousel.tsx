@@ -120,26 +120,31 @@ interface SidebarProps {
 
 function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
   return (
-    <aside className="shrink-0 lg:w-[280px] hidden lg:block">
+    <aside className="shrink-0 lg:w-[280px] hidden lg:block" aria-label="Case study navigation">
       {/* Section Title */}
       <h2 className="text-fluid-xl font-extrabold uppercase text-night mb-fluid-4 tracking-wide">
         Select Work
       </h2>
 
       {/* Desktop: List */}
-      <nav className="hidden lg:block">
-        <ul className="flex flex-col gap-fluid-2">
+      <nav className="hidden lg:block" aria-label="Case study list">
+        <ul className="flex flex-col gap-fluid-2" role="tablist">
           {studies.map((study, index) => {
             const isActive = index === activeIndex;
             const number = String(index + 1).padStart(2, '0');
             return (
-              <li key={study.slug}>
+              <li key={study.slug} role="presentation">
                 <button
                   onClick={() => onSelectIndex(index)}
                   className={`
                     w-full text-left text-fluid-base transition-all duration-300 hover:cursor-pointer
                     ${isActive ? 'font-bold text-night' : 'text-night/60 hover:text-night/80'}
                   `}
+                  aria-label={`Case Study ${number}: ${study.name}`}
+                  aria-pressed={isActive}
+                  role="tab"
+                  aria-selected={isActive}
+                  tabIndex={isActive ? 0 : -1}
                 >
                   {study.name}
                 </button>
@@ -161,6 +166,8 @@ interface CarouselControlsProps {
   onNext: () => void;
   canGoPrev: boolean;
   canGoNext: boolean;
+  currentIndex: number;
+  total: number;
 }
 
 function CarouselControls({
@@ -168,6 +175,8 @@ function CarouselControls({
   onNext,
   canGoPrev,
   canGoNext,
+  currentIndex,
+  total,
 }: CarouselControlsProps) {
   const buttonBase =
     'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
@@ -181,15 +190,18 @@ function CarouselControls({
         onClick={onPrev}
         disabled={!canGoPrev}
         className={`${buttonBase} ${canGoPrev ? buttonEnabled : buttonDisabled}`}
-        aria-label="Previous slide"
+        aria-label={`Previous case study (showing ${currentIndex + 1} of ${total})`}
       >
         <ArrowLeftIcon className="w-5 h-5" />
       </button>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        Slide {currentIndex + 1} of {total}
+      </span>
       <button
         onClick={onNext}
         disabled={!canGoNext}
         className={`${buttonBase} ${canGoNext ? buttonEnabled : buttonDisabled}`}
-        aria-label="Next slide"
+        aria-label={`Next case study (showing ${currentIndex + 1} of ${total})`}
       >
         <ArrowRightIcon className="w-5 h-5" />
       </button>
@@ -370,8 +382,33 @@ export function CaseStudyCarousel() {
     handleSelectIndex(activeIndex + 1);
   }, [activeIndex, handleSelectIndex]);
 
+  // Keyboard navigation for carousel
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goToPrev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goToNext();
+      }
+    };
+
+    scrollContainer.addEventListener('keydown', handleKeyDown);
+    return () => scrollContainer.removeEventListener('keydown', handleKeyDown);
+  }, [goToPrev, goToNext]);
+
   return (
-    <section ref={sectionRef} className="bg-cream py-fluid-12 px-fluid-6 ">
+    <section 
+      ref={sectionRef} 
+      className="bg-cream py-fluid-12 px-fluid-6"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Case Studies Carousel"
+    >
       {/* Section Title */}
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">
@@ -402,6 +439,8 @@ export function CaseStudyCarousel() {
               onNext={goToNext}
               canGoPrev={activeIndex > 0}
               canGoNext={activeIndex < studies.length - 1}
+              currentIndex={activeIndex}
+              total={studies.length}
             />
           </div>
 
@@ -413,6 +452,9 @@ export function CaseStudyCarousel() {
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}
+            tabIndex={0}
+            role="tabpanel"
+            aria-label={`Case study slides (${studies.length} total)`}
           >
             {studies.map((study, index) => (
               <div
@@ -421,6 +463,9 @@ export function CaseStudyCarousel() {
                   slideRefs.current[index] = el;
                 }}
                 className="shrink-0 snap-start w-[85vw] sm:w-[clamp(450px,35vw,650px)]"
+                role="group"
+                aria-label={`Case study ${index + 1} of ${studies.length}: ${study.name}`}
+                aria-hidden={index !== activeIndex}
               >
                 <CaseStudyCard study={study} />
               </div>
@@ -434,6 +479,8 @@ export function CaseStudyCarousel() {
               onNext={goToNext}
               canGoPrev={activeIndex > 0}
               canGoNext={activeIndex < studies.length - 1}
+              currentIndex={activeIndex}
+              total={studies.length}
             />
           </div>
         </div>

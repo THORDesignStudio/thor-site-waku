@@ -159,13 +159,18 @@ export const ContactForm = ({
             </div>
           </div>
 
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {submitStatus === 'success' && 'Message sent successfully. We will be in touch soon.'}
+            {submitStatus === 'error' && 'Error sending message. Please try again.'}
+          </div>
+
           {submitStatus === 'success' && (
-            <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm">
+            <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm" role="status">
               Thank you! We&apos;ll be in touch soon.
             </div>
           )}
           {submitStatus === 'error' && (
-            <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm">
+            <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm" role="alert">
               Something went wrong. Please try again.
             </div>
           )}

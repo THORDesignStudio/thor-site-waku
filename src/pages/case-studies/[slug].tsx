@@ -96,8 +96,10 @@ function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="px-fluid-6 py-4 bg-cream text-night text-center text-xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer"
+              aria-label={`Visit ${study.name} website (opens in new tab)`}
             >
               Visit Website
+              <span className="sr-only"> (opens in new tab)</span>
             </a>
           </div>
         )}

@@ -102,6 +102,7 @@ function FeaturedTeamMember({
           backgroundImage: `url(/images/smoke-scene/smoke-bg-combined.jpg)`,
           transform: isEven ? undefined : 'rotate(180deg)',
         }}
+        aria-hidden="true"
       />
 
       {/* Content wrapper with max-width constraint */}

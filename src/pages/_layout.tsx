@@ -41,8 +41,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               `,
             }}
           />
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] bg-pink text-white px-4 py-2 rounded font-medium text-sm uppercase tracking-wide transition-all duration-200"
+          >
+            Skip to main content
+          </a>
           <Header />
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
           <Footer />
           <ChatButton />
         </div>
