@@ -24,16 +24,18 @@ interface ContactFormProps {
 
 const variantStyles = {
   desktop: {
-    container: 'hidden sm:block overflow-hidden',
+    container: 'hidden sm:block',
     content: 'px-4 sm:px-8 sm:pb-8 pb-4 transition-all duration-300 ease-out',
+    scrollContainer: 'max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]',
     title: 'text-fluid-2xl sm:text-fluid-3xl',
     description: 'text-fluid-lg sm:text-fluid-xl mt-2 sm:mt-fluid-2',
     form: 'mt-6 sm:mt-fluid-4 space-y-4 sm:space-y-fluid-4',
     buttonDisabled: 'disabled:opacity-80',
   },
   mobile: {
-    container: 'sm:hidden overflow-y-auto max-h-[calc(100vh-200px)]',
+    container: 'sm:hidden',
     content: 'px-4 pb-4',
+    scrollContainer: 'max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]',
     title: 'text-fluid-2xl',
     description: 'text-fluid-lg mt-2',
     form: 'mt-6 space-y-4',
@@ -58,7 +60,7 @@ export const ContactForm = ({
   return (
     <div
       className={`
-        ${styles.container} transition-all
+        ${styles.container} overflow-hidden transition-all
         ${isVisible ? 'max-h-[2000px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
       `}
       style={{
@@ -75,6 +77,14 @@ export const ContactForm = ({
           transitionDelay: isVisible ? '150ms' : '50ms',
         }}
       >
+        {/* Scrollable inner container.
+            `data-lenis-prevent` opts this region out of the Lenis root smooth-scroll
+            hijack so wheel/touch events scroll the form natively instead of being
+            swallowed by Lenis and redirected to the (locked) window. */}
+        <div
+          data-lenis-prevent
+          className={isVisible ? styles.scrollContainer : 'overflow-hidden'}
+        >
         <h1 className={`block font-sans font-extrabold ${styles.title} text-cream tracking-tight`}>
           Work with us
         </h1>
@@ -183,6 +193,7 @@ export const ContactForm = ({
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
         </form>
+        </div>
       </div>
     </div>
   );
