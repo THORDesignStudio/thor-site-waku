@@ -24,7 +24,7 @@ interface ContactFormProps {
 
 const variantStyles = {
   desktop: {
-    container: 'hidden sm:block',
+    container: 'hidden sm:block overflow-hidden',
     content: 'px-4 sm:px-8 sm:pb-8 pb-4 transition-all duration-300 ease-out',
     title: 'text-fluid-2xl sm:text-fluid-3xl',
     description: 'text-fluid-lg sm:text-fluid-xl mt-2 sm:mt-fluid-2',
@@ -32,7 +32,7 @@ const variantStyles = {
     buttonDisabled: 'disabled:opacity-80',
   },
   mobile: {
-    container: 'sm:hidden',
+    container: 'sm:hidden overflow-y-auto max-h-[calc(100vh-200px)]',
     content: 'px-4 pb-4',
     title: 'text-fluid-2xl',
     description: 'text-fluid-lg mt-2',
@@ -58,7 +58,7 @@ export const ContactForm = ({
   return (
     <div
       className={`
-        ${styles.container} overflow-hidden transition-all
+        ${styles.container} transition-all
         ${isVisible ? 'max-h-[2000px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
       `}
       style={{
