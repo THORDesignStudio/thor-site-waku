@@ -30,6 +30,8 @@ interface UseTurnstileOptions {
   onTokenChange?: (token: string | null) => void;
   /** Change when the ref attaches to a different DOM node (e.g. sm breakpoint) so the widget re-mounts. */
   attachmentKey?: string;
+  /** Widget size. `flexible` needs ≥300px of horizontal space; use `compact` on narrow mobile. */
+  size?: 'normal' | 'flexible' | 'compact';
 }
 
 export const useTurnstile = ({
@@ -37,6 +39,7 @@ export const useTurnstile = ({
   containerRef,
   onTokenChange,
   attachmentKey = '',
+  size = 'flexible',
 }: UseTurnstileOptions) => {
   const [token, setToken] = useState<string | null>(null);
   const widgetIdRef = useRef<string | null>(null);
@@ -59,7 +62,7 @@ export const useTurnstile = ({
     widgetIdRef.current = window.turnstile.render(containerRef.current, {
       sitekey: siteKey,
       theme: 'dark',
-      size: 'flexible',
+      size,
       appearance: 'always',
       callback: (newToken: string) => {
         setToken(newToken);
@@ -74,7 +77,7 @@ export const useTurnstile = ({
         onTokenChange?.(null);
       },
     });
-  }, [containerRef, onTokenChange]);
+  }, [containerRef, onTokenChange, size]);
 
   useEffect(() => {
     if (!isActive) {

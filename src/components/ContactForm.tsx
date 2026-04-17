@@ -26,7 +26,8 @@ const variantStyles = {
   desktop: {
     container: 'hidden sm:block',
     content: 'px-4 sm:px-8 sm:pb-8 pb-4 transition-all duration-300 ease-out',
-    scrollContainer: 'max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]',
+    scrollContainer:
+      'max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
     title: 'text-fluid-2xl sm:text-fluid-3xl',
     description: 'text-fluid-lg sm:text-fluid-xl mt-2 sm:mt-fluid-2',
     form: 'mt-6 sm:mt-fluid-4 space-y-4 sm:space-y-fluid-4',
@@ -35,7 +36,8 @@ const variantStyles = {
   mobile: {
     container: 'sm:hidden',
     content: 'px-4 pb-4',
-    scrollContainer: 'max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]',
+    scrollContainer:
+      'max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
     title: 'text-fluid-2xl',
     description: 'text-fluid-lg mt-2',
     form: 'mt-6 space-y-4',
@@ -159,12 +161,13 @@ export const ContactForm = ({
               className={`
                 rounded-lg border border-white/30 bg-white/[0.07] px-3 py-3
                 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
+                max-w-full overflow-hidden
                 ${isVisible ? '' : 'opacity-0'}
               `}
             >
               <div
                 ref={turnstileContainerRef ?? undefined}
-                className={`flex w-full items-center justify-center sm:justify-start ${isVisible ? 'min-h-[68px]' : 'min-h-0 overflow-hidden'}`}
+                className={`flex w-full max-w-full items-center justify-center sm:justify-start ${isVisible ? 'min-h-[68px]' : 'min-h-0 overflow-hidden'}`}
               />
             </div>
           </div>

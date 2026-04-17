@@ -56,6 +56,9 @@ export const Header = () => {
     containerRef: turnstileContainerRef,
     onTokenChange: setTurnstileToken,
     attachmentKey: isSmUp ? 'desktop' : 'mobile',
+    // `flexible` needs ≥300px of width; narrow phones don't have it, so use
+    // the 150×140 `compact` layout on mobile to avoid horizontal overflow.
+    size: isSmUp ? 'flexible' : 'compact',
   });
 
   const handleLinkClick = () => {
