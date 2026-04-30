@@ -34,17 +34,6 @@ const DESKTOP_CONFIG = {
   use2DOnly: false,
 };
 
-const MOBILE_CONFIG = {
-  ...DESKTOP_CONFIG,
-  xOffsetRight: 68,
-  xOffsetLeft: 68,
-  zDepthBack: 210,
-  zDepthFront: 50,
-  yRotation: 40,
-  parallaxFactor: 5,
-  stackDepth: 80,
-};
-
 type FlipbookTransformConfig = typeof DESKTOP_CONFIG;
 
 interface CardTransform {
@@ -161,8 +150,7 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   const [debugMode, setDebugMode] = useState(false);
   const [debugDisplayProgress, setDebugDisplayProgress] = useState(0);
   const [manualProgress, setManualProgress] = useState(0);
-  const [usesMobileGeometry, setUsesMobileGeometry] = useState(false);
-  const transformConfig = usesMobileGeometry ? MOBILE_CONFIG : DESKTOP_CONFIG;
+  const transformConfig = DESKTOP_CONFIG;
 
   // Drag-to-scroll state
   const isDragging = useRef(false);
@@ -185,16 +173,6 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   const rafId = useRef<number>(0);
   const isRunning = useRef(false);
   const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 640px)');
-    const handleMediaChange = () => setUsesMobileGeometry(mediaQuery.matches);
-
-    handleMediaChange();
-    mediaQuery.addEventListener('change', handleMediaChange);
-
-    return () => mediaQuery.removeEventListener('change', handleMediaChange);
-  }, []);
 
   // Update transforms based on current scroll position
   // Optimized per Vercel React best practices:
