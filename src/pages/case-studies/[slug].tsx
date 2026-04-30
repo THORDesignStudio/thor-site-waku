@@ -85,7 +85,7 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
 
       {/* Smoke Background - behind title + dek */}
       <div
-        className="absolute top-0 left-0 right-0 h-[500px] sm:h-[400px] bg-no-repeat bg-[#0B0F3C] header-image-ios"
+        className="absolute top-0 left-0 right-0 h-[500px] sm:h-[500px] bg-no-repeat bg-[#0B0F3C] header-image-ios"
         style={{
           backgroundImage: `url(/images/smoke-scene/smoke-bg-combined-titlebar.jpg)`,
           backgroundPosition: 'left top',
