@@ -5,9 +5,66 @@ import {
   type ContentBlock,
 } from '../../utils/contentParser';
 import { SEO } from '../../components/SEO';
+import FlipbookCarousel, {
+  type FlipbookCarouselSlide,
+} from '../../components/FlipbookCarousel/FlipbookCarousel';
 
 interface CaseStudyHeaderProps {
   study: CaseStudy;
+}
+
+const RELATED_CASE_STUDY_COUNT = 5;
+
+function getWeightedTagSimilarity(
+  currentTags: string[],
+  candidateTags: string[],
+  weight: number
+) {
+  const current = new Set(currentTags);
+  const candidate = new Set(candidateTags);
+  const sharedCount = [...current].filter((tag) => candidate.has(tag)).length;
+  const unionCount = new Set([...current, ...candidate]).size;
+
+  if (unionCount === 0) return 0;
+
+  return (sharedCount / unionCount) * weight;
+}
+
+function getCaseStudySimilarity(current: CaseStudy, candidate: CaseStudy) {
+  return (
+    getWeightedTagSimilarity(current.verticals, candidate.verticals, 4) +
+    getWeightedTagSimilarity(current.programs, candidate.programs, 3) +
+    getWeightedTagSimilarity(current.capabilities, candidate.capabilities, 2)
+  );
+}
+
+function getRelatedCaseStudies(current: CaseStudy) {
+  return caseStudies.caseStudies
+    .map((candidate, index) => ({
+      study: candidate,
+      index,
+      score:
+        candidate.slug === current.slug
+          ? Number.NEGATIVE_INFINITY
+          : getCaseStudySimilarity(current, candidate),
+    }))
+    .filter(({ study }) => study.slug !== current.slug)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (a.study.featured !== b.study.featured)
+        return a.study.featured ? -1 : 1;
+      return a.index - b.index;
+    })
+    .slice(0, RELATED_CASE_STUDY_COUNT)
+    .map(({ study }) => study);
+}
+
+function toFlipbookSlide(study: CaseStudy): FlipbookCarouselSlide {
+  return {
+    src: study.images.cardVertical,
+    label: study.name,
+    slug: study.slug,
+  };
 }
 
 function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
@@ -241,6 +298,23 @@ function AchievementsSection({ study }: CaseStudyHeaderProps) {
   );
 }
 
+function RelatedCaseStudiesSection({ study }: CaseStudyHeaderProps) {
+  const relatedSlides = getRelatedCaseStudies(study).map(toFlipbookSlide);
+
+  if (relatedSlides.length === 0) return null;
+
+  return (
+    <section className="bg-cream pb-fluid-16 pt-fluid-4 px-fluid-6">
+      <div className="mx-auto max-w-[1100px]">
+        <h2 className="mb-fluid-6 text-center font-display text-fluid-5xl font-bold leading-tight text-night">
+          Related Case Studies
+        </h2>
+        <FlipbookCarousel slides={relatedSlides} />
+      </div>
+    </section>
+  );
+}
+
 export default async function CaseStudyPage({
   slug,
 }: PageProps<'/case-studies/[slug]'>) {
@@ -292,14 +366,7 @@ export default async function CaseStudyPage({
         <ProjectImageSection study={study} />
         <MainContentSection study={study} />
         <AchievementsSection study={study} />
-        <div className="flex justify-center pb-fluid-12 mx-fluid-6">
-          <a
-            href="/case-studies"
-            className="px-fluid-6 py-4 bg-pink text-white text-center text-2xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer hover:-translate-y-1"
-          >
-            Read More Case Studies
-          </a>
-        </div>
+        <RelatedCaseStudiesSection study={study} />
       </article>
     </>
   );
