@@ -30,8 +30,25 @@ const DESKTOP_CONFIG = {
   visibleCards: 2,
   // Additional z-depth per stacked card (for cards waiting on right)
   stackDepth: 60, // pixels
+  // Scale reduction for side cards. Desktop relies on perspective only.
+  scaleDepth: 0,
+  // 2D fallback tilt for browsers that flatten rotateY in nested 3D contexts.
+  skewFallback: 0,
   // DEBUG: Set to true to test 2D-only transforms (diagnose if 3D is the issue)
   use2DOnly: false,
+};
+
+const MOBILE_CONFIG = {
+  ...DESKTOP_CONFIG,
+  xOffsetRight: 48,
+  xOffsetLeft: 48,
+  zDepthBack: 150,
+  zDepthFront: 36,
+  yRotation: 32,
+  parallaxFactor: 4,
+  stackDepth: 56,
+  scaleDepth: 0.09,
+  skewFallback: 4,
 };
 
 type FlipbookTransformConfig = typeof DESKTOP_CONFIG;
@@ -129,7 +146,10 @@ function calculateCardTransform(
     const scale = 1 - absOffset * 0.15; // Cards get smaller as they move away
     transform = `translateX(${x}%) scale(${Math.max(0.5, scale)})`;
   } else {
-    transform = `translateX(${x}%) translateZ(${-z}px) rotateY(${rotation}deg)`;
+    const scale = 1 - Math.min(absOffset, 1) * config.scaleDepth;
+    const skew = Math.min(absOffset, 1) * config.skewFallback;
+    const skewDirection = offset >= 0 ? -1 : 1;
+    transform = `translateX(${x}%) translateZ(${-z}px) rotateY(${rotation}deg) skewY(${skew * skewDirection}deg) scale(${scale})`;
   }
 
   // Parallax for inner content
@@ -150,7 +170,8 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   const [debugMode, setDebugMode] = useState(false);
   const [debugDisplayProgress, setDebugDisplayProgress] = useState(0);
   const [manualProgress, setManualProgress] = useState(0);
-  const transformConfig = DESKTOP_CONFIG;
+  const [usesMobileGeometry, setUsesMobileGeometry] = useState(false);
+  const transformConfig = usesMobileGeometry ? MOBILE_CONFIG : DESKTOP_CONFIG;
 
   // Drag-to-scroll state
   const isDragging = useRef(false);
@@ -173,6 +194,16 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   const rafId = useRef<number>(0);
   const isRunning = useRef(false);
   const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const handleMediaChange = () => setUsesMobileGeometry(mediaQuery.matches);
+
+    handleMediaChange();
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    return () => mediaQuery.removeEventListener('change', handleMediaChange);
+  }, []);
 
   // Update transforms based on current scroll position
   // Optimized per Vercel React best practices:

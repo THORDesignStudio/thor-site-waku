@@ -146,22 +146,17 @@
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .flipbook-wrapper {
-    --flipbook-card-width: min(260px, 66vw);
-    height: calc((var(--flipbook-card-width) * 1050 / 680) + 8rem);
+    --flipbook-card-width: min(240px, 60vw);
+    height: calc((var(--flipbook-card-width) * 1050 / 680) + 8.5rem);
     perspective: 1200px;
     perspective-origin: center center;
   }
 
   .flipbook-stack {
-    transform: translate(-50%, -58%);
+    transform: translate(-50%, -59%);
   }
 
   .flipbook-card__cta {
-    max-width: min(calc(var(--flipbook-card-width) * 0.9), 80vw);
-  }
-
-  .flipbook-card__inner,
-  .flipbook-card__cover {
-    clip-path: none;
+    max-width: min(calc(var(--flipbook-card-width) * 1.05), 80vw);
   }
 }
