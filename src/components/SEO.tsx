@@ -16,11 +16,20 @@
 import type { SEOProps } from '../types/seo';
 import { defaultSEO } from '../types/seo';
 
+function getImageType(imageUrl: string) {
+  if (imageUrl.endsWith('.png')) return 'image/png';
+  if (imageUrl.endsWith('.webp')) return 'image/webp';
+  return 'image/jpeg';
+}
+
 export function SEO({
   title,
   description,
   canonicalUrl,
   ogImage,
+  ogImageAlt,
+  ogImageWidth,
+  ogImageHeight,
   ogType = 'website',
   noindex = false,
   additionalMeta = [],
@@ -33,6 +42,12 @@ export function SEO({
 
   // Build full canonical URL
   const fullCanonicalUrl = canonicalUrl || defaultSEO.baseUrl;
+  const imageAlt = ogImageAlt || defaultSEO.defaultOgImageAlt;
+  const imageType = getImageType(fullOgImage);
+  const imageWidth =
+    ogImageWidth ?? (ogImage ? undefined : defaultSEO.defaultOgImageWidth);
+  const imageHeight =
+    ogImageHeight ?? (ogImage ? undefined : defaultSEO.defaultOgImageHeight);
 
   return (
     <>
@@ -45,6 +60,15 @@ export function SEO({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullOgImage} />
+      <meta property="og:image:secure_url" content={fullOgImage} />
+      <meta property="og:image:type" content={imageType} />
+      {imageWidth && (
+        <meta property="og:image:width" content={String(imageWidth)} />
+      )}
+      {imageHeight && (
+        <meta property="og:image:height" content={String(imageHeight)} />
+      )}
+      <meta property="og:image:alt" content={imageAlt} />
       <meta property="og:url" content={fullCanonicalUrl} />
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content={defaultSEO.siteName} />
@@ -54,6 +78,7 @@ export function SEO({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullOgImage} />
+      <meta name="twitter:image:alt" content={imageAlt} />
 
       {/* Canonical link */}
       <link rel="canonical" href={fullCanonicalUrl} />

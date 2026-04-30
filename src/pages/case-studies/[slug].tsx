@@ -15,6 +15,29 @@ interface CaseStudyHeaderProps {
 
 const RELATED_CASE_STUDY_COUNT = 5;
 
+const CASE_STUDY_OG_IMAGE_DIMENSIONS: Record<
+  string,
+  { width: number; height: number }
+> = {
+  'aerospace-america-articles': { width: 1600, height: 900 },
+  'chemonics-media-site': { width: 1600, height: 900 },
+  citiva: { width: 1728, height: 968 },
+  'city-ratings': { width: 1600, height: 900 },
+  'construction-executive-magazine': { width: 1600, height: 900 },
+  'engineering-inc': { width: 1728, height: 968 },
+  'hungry-for-batteries': { width: 1728, height: 968 },
+  'ibd-drug-guide': { width: 1600, height: 900 },
+  'keep-riding': { width: 1727, height: 968 },
+  'leon-hotel': { width: 1727, height: 968 },
+  'lets-beat-hcm': { width: 1741, height: 976 },
+  ltk: { width: 1728, height: 968 },
+  'mash-app': { width: 1728, height: 968 },
+  mayflower: { width: 1772, height: 993 },
+  'niri-investor-relations-rebrand': { width: 1600, height: 900 },
+  'no-kid-hungry': { width: 2000, height: 1121 },
+  nyscheck: { width: 1772, height: 993 },
+};
+
 function getWeightedTagSimilarity(
   currentTags: string[],
   candidateTags: string[],
@@ -319,6 +342,9 @@ export default async function CaseStudyPage({
   slug,
 }: PageProps<'/case-studies/[slug]'>) {
   const study = caseStudies.caseStudies.find((s) => s.slug === slug);
+  const ogImageDimensions = study
+    ? CASE_STUDY_OG_IMAGE_DIMENSIONS[study.slug]
+    : undefined;
 
   if (!study) {
     // Return 404-like content if case study not found
@@ -329,6 +355,7 @@ export default async function CaseStudyPage({
           description="The requested case study could not be found."
           canonicalUrl={`https://www.thor-studio.com/case-studies/${slug}`}
           ogImage="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
+          ogImageAlt="THOR Studio"
         />
         <section className="min-h-screen bg-cream flex items-center justify-center">
           <div className="text-center">
@@ -357,6 +384,9 @@ export default async function CaseStudyPage({
         description={study.dek}
         canonicalUrl={`https://www.thor-studio.com/case-studies/${slug}`}
         ogImage={study.images.cardHorizontal}
+        ogImageAlt={`${study.name} case study`}
+        ogImageWidth={ogImageDimensions?.width}
+        ogImageHeight={ogImageDimensions?.height}
         ogType="article"
       />
 
