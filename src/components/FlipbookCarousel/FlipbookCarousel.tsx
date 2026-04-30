@@ -15,7 +15,7 @@ interface FlipbookCarouselProps {
 
 const ENABLE_DEBUG_CONTROLS = false;
 
-const CONFIG = {
+const DESKTOP_CONFIG = {
   // How far cards translate on X axis when fully to the side
   xOffsetRight: 51, // percentage - where incoming cards wait (right side)
   xOffsetLeft: 51, // percentage - where outgoing cards end up (left side)
@@ -34,6 +34,19 @@ const CONFIG = {
   use2DOnly: false,
 };
 
+const MOBILE_CONFIG = {
+  ...DESKTOP_CONFIG,
+  xOffsetRight: 68,
+  xOffsetLeft: 68,
+  zDepthBack: 210,
+  zDepthFront: 50,
+  yRotation: 40,
+  parallaxFactor: 5,
+  stackDepth: 80,
+};
+
+type FlipbookTransformConfig = typeof DESKTOP_CONFIG;
+
 interface CardTransform {
   transform: string;
   opacity: number;
@@ -50,7 +63,8 @@ function easeOutQuad(t: number): number {
 function calculateCardTransform(
   cardIndex: number,
   scrollProgress: number,
-  totalCards: number
+  totalCards: number,
+  config: FlipbookTransformConfig
 ): CardTransform {
   // scrollProgress is 0 to (totalCards - 1)
   // offset: negative = card has passed (to the left), positive = upcoming (to the right)
@@ -58,7 +72,7 @@ function calculateCardTransform(
   const absOffset = Math.abs(offset);
 
   const opacity = 1; // Always 100% opaque
-  let visibility = absOffset <= CONFIG.visibleCards + 1;
+  let visibility = absOffset <= config.visibleCards + 1;
   let zIndex = 0;
   let transform: string;
   let innerTransform: string;
@@ -85,17 +99,17 @@ function calculateCardTransform(
     // X: Move from center (0) to side position (±51%)
     x =
       offset >= 0
-        ? easedActiveT * CONFIG.xOffsetRight
-        : -easedActiveT * CONFIG.xOffsetLeft;
+        ? easedActiveT * config.xOffsetRight
+        : -easedActiveT * config.xOffsetLeft;
 
     // Z: Stay shallow in active zone
-    z = easedActiveT * CONFIG.zDepthFront;
+    z = easedActiveT * config.zDepthFront;
 
     // Rotation
     rotation =
       offset >= 0
-        ? -easedActiveT * CONFIG.yRotation
-        : easedActiveT * CONFIG.yRotation;
+        ? -easedActiveT * config.yRotation
+        : easedActiveT * config.yRotation;
 
     // Z-index: Active cards are in front
     zIndex = 100;
@@ -104,24 +118,24 @@ function calculateCardTransform(
     // absOffset 0.5 to 1+
 
     // X: Stay at side position
-    x = offset >= 0 ? CONFIG.xOffsetRight : -CONFIG.xOffsetLeft;
+    x = offset >= 0 ? config.xOffsetRight : -config.xOffsetLeft;
 
     // Z: Cards further from center go deeper
     const sideT = Math.min(absOffset - 0.5, 0.5) * 2; // 0 at 0.5 offset, 1 at 1.0 offset
     const depthBase =
-      CONFIG.zDepthFront + sideT * (CONFIG.zDepthBack - CONFIG.zDepthFront);
-    const stackExtra = Math.max(0, absOffset - 1) * CONFIG.stackDepth;
+      config.zDepthFront + sideT * (config.zDepthBack - config.zDepthFront);
+    const stackExtra = Math.max(0, absOffset - 1) * config.stackDepth;
     z = depthBase + stackExtra;
 
     // Rotation: Full rotation at side
-    rotation = offset >= 0 ? -CONFIG.yRotation : CONFIG.yRotation;
+    rotation = offset >= 0 ? -config.yRotation : config.yRotation;
 
     // Z-index: Side cards are behind active cards
     zIndex = Math.round(50 - absOffset * 5);
   }
 
   // 2D mode for debugging iOS performance
-  if (CONFIG.use2DOnly) {
+  if (config.use2DOnly) {
     // Simple 2D: just translateX and scale for depth illusion
     const scale = 1 - absOffset * 0.15; // Cards get smaller as they move away
     transform = `translateX(${x}%) scale(${Math.max(0.5, scale)})`;
@@ -131,7 +145,7 @@ function calculateCardTransform(
 
   // Parallax for inner content
   const parallax =
-    offset >= 0 ? -t * CONFIG.parallaxFactor : t * CONFIG.parallaxFactor;
+    offset >= 0 ? -t * config.parallaxFactor : t * config.parallaxFactor;
   innerTransform = `translateX(${parallax}%)`;
 
   return { transform, opacity, visibility, zIndex, innerTransform };
@@ -147,6 +161,8 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   const [debugMode, setDebugMode] = useState(false);
   const [debugDisplayProgress, setDebugDisplayProgress] = useState(0);
   const [manualProgress, setManualProgress] = useState(0);
+  const [usesMobileGeometry, setUsesMobileGeometry] = useState(false);
+  const transformConfig = usesMobileGeometry ? MOBILE_CONFIG : DESKTOP_CONFIG;
 
   // Drag-to-scroll state
   const isDragging = useRef(false);
@@ -169,6 +185,16 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   const rafId = useRef<number>(0);
   const isRunning = useRef(false);
   const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const handleMediaChange = () => setUsesMobileGeometry(mediaQuery.matches);
+
+    handleMediaChange();
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    return () => mediaQuery.removeEventListener('change', handleMediaChange);
+  }, []);
 
   // Update transforms based on current scroll position
   // Optimized per Vercel React best practices:
@@ -206,8 +232,14 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
       if (!card) continue;
 
       const absOffset = Math.abs(i - progress);
-      const transforms = calculateCardTransform(i, progress, totalSlides);
+      const transforms = calculateCardTransform(
+        i,
+        progress,
+        totalSlides,
+        transformConfig
+      );
       const isInactive = absOffset > 2;
+      const isActive = absOffset < 0.05;
       const vis = isInactive
         ? 'hidden'
         : transforms.visibility
@@ -227,10 +259,16 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
       } else {
         card.classList.remove('flipbook-card--inactive');
       }
+
+      if (isActive) {
+        card.classList.add('flipbook-card--active');
+      } else {
+        card.classList.remove('flipbook-card--active');
+      }
     }
 
     return true;
-  }, [slideCount]);
+  }, [slideCount, transformConfig]);
 
   // RAF loop - polls scroll position every frame, but pauses when settled
   // This saves CPU when user is not interacting and carousel is settled
@@ -291,7 +329,12 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
           if (!card) continue;
 
           const absOffset = Math.abs(i - progress);
-          const transforms = calculateCardTransform(i, progress, slideCount);
+          const transforms = calculateCardTransform(
+            i,
+            progress,
+            slideCount,
+            transformConfig
+          );
 
           // Always set transform to prevent ghost animation
           card.style.setProperty('--tx', transforms.transform);
@@ -311,6 +354,12 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
               ? 'visible'
               : 'hidden';
           }
+
+          if (absOffset < 0.05) {
+            card.classList.add('flipbook-card--active');
+          } else {
+            card.classList.remove('flipbook-card--active');
+          }
         }
       } else if (stackRef.current) {
         // Fallback for initial render before refs are cached
@@ -324,7 +373,8 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
           const transforms = calculateCardTransform(
             index,
             progress,
-            slideCount
+            slideCount,
+            transformConfig
           );
 
           cardEl.style.setProperty('--tx', transforms.transform);
@@ -343,10 +393,16 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
               ? 'visible'
               : 'hidden';
           }
+
+          if (absOffset < 0.05) {
+            cardEl.classList.add('flipbook-card--active');
+          } else {
+            cardEl.classList.remove('flipbook-card--active');
+          }
         });
       }
     },
-    [slideCount]
+    [slideCount, transformConfig]
   );
 
   // Single initialization effect: cache DOM refs, apply initial transforms, set up IntersectionObserver
@@ -778,7 +834,8 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
                 {slides.map((_, i) => {
                   const offset = i - debugDisplayProgress;
                   const absOffset = Math.abs(offset);
-                  const isVisible = absOffset <= CONFIG.visibleCards + 1;
+                  const isVisible =
+                    absOffset <= transformConfig.visibleCards + 1;
                   if (absOffset > 8) return null;
 
                   let x = 0;
@@ -789,12 +846,14 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
                       const easedActiveT = easeOutQuad(activeT);
                       x =
                         offset >= 0
-                          ? easedActiveT * CONFIG.xOffsetRight
-                          : -easedActiveT * CONFIG.xOffsetLeft;
+                          ? easedActiveT * transformConfig.xOffsetRight
+                          : -easedActiveT * transformConfig.xOffsetLeft;
                       zIndex = 100;
                     } else {
                       x =
-                        offset >= 0 ? CONFIG.xOffsetRight : -CONFIG.xOffsetLeft;
+                        offset >= 0
+                          ? transformConfig.xOffsetRight
+                          : -transformConfig.xOffsetLeft;
                       zIndex = Math.round(50 - absOffset * 5);
                     }
                   }

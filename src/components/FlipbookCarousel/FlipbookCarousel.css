@@ -125,7 +125,7 @@
 }
 
 /* Active card label - shown only for centered card */
-/* Uses attribute selector to detect translateX(0%) */
+.flipbook-card--active .flipbook-card__body,
 .flipbook-card[style*='translateX(0%)'] .flipbook-card__body {
   opacity: 1;
   transform: translateY(0);
@@ -146,6 +146,13 @@
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .flipbook-wrapper {
-    --flipbook-card-width: min(320px, 80vw);
+    --flipbook-card-width: min(300px, 72vw);
+    height: calc((var(--flipbook-card-width) * 1050 / 680) + 9rem);
+    perspective: 900px;
+    perspective-origin: center 45%;
+  }
+
+  .flipbook-card__cta {
+    max-width: min(calc(var(--flipbook-card-width) * 0.78), 78vw);
   }
 }
