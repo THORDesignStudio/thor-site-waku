@@ -163,12 +163,13 @@ export function CapabilitiesHomePageSection() {
         <div className="w-full max-w-[1400px] mx-auto px-fluid-6">
           {capabilityItems.map((capability, index) => (
             <button
+              type="button"
               key={capability.slug}
               ref={(el) => {
                 capabilityRefs.current[index] = el;
               }}
-              // onClick={() => handleOpenCapability(capability)}
-              className="w-full text-left py-fluid-6 border-t border-dashed border-cream/40 first:border-t-0 group cursor-pointer"
+              onClick={() => handleOpenCapability(capability)}
+              className="w-full text-left py-fluid-6 border-t border-dashed border-cream/40 first:border-t-0 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-4 focus-visible:ring-offset-night"
             >
               <div className="flex items-center gap-fluid-4">
                 <h3
@@ -180,14 +181,9 @@ export function CapabilitiesHomePageSection() {
                 >
                   {capability.name}
                 </h3>
-                <button
-                  type="button"
-                  className="capability-arrow opacity-0 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
-                  // onClick={(e) => {
-                  //   e.stopPropagation();
-                  //   handleOpenCapability(capability);
-                  // }}
-                  aria-label={`View ${capability.name} details`}
+                <span
+                  className="capability-arrow opacity-0 p-4 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors"
+                  aria-hidden="true"
                 >
                   <svg
                     className="w-6 h-6 text-white"
@@ -202,7 +198,7 @@ export function CapabilitiesHomePageSection() {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                </button>
+                </span>
               </div>
               <p
                 className="capability-dek body-lg text-cream mt-fluid-1"

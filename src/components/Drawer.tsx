@@ -2,6 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import FlipbookCarousel, {
+  type FlipbookCarouselSlide,
+} from './FlipbookCarousel/FlipbookCarousel';
 
 const DRAWER_ANIMATION_MS = 500;
 const DRAWER_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
@@ -13,6 +16,7 @@ interface Item {
   description: string;
   url: string;
   skills: string[];
+  relatedSlides?: FlipbookCarouselSlide[];
 }
 
 interface DrawerProps {
@@ -303,6 +307,15 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
                   Start a Project
                 </button>
               </div>
+
+              {item.relatedSlides && item.relatedSlides.length > 0 && (
+                <div className="mt-fluid-10 border-t border-night/10 pt-fluid-8">
+                  <h3 className="heading-sm mb-fluid-4 text-night/90">
+                    Related Case Studies
+                  </h3>
+                  <FlipbookCarousel slides={item.relatedSlides} />
+                </div>
+              )}
             </div>
           </div>
         </div>
