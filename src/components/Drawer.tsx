@@ -225,7 +225,7 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
           transition: isDragging
             ? 'none'
             : `transform ${DRAWER_ANIMATION_MS}ms ${DRAWER_EASE}`,
-          touchAction: 'none',
+          touchAction: 'auto',
           willChange: 'transform',
         }}
       >
@@ -237,6 +237,7 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
             <div
               className="relative w-12 h-1.5 bg-night/20 rounded-full opacity-70 hover:opacity-100 active:opacity-100"
               data-drawer-handle
+              style={{ touchAction: 'none' }}
             >
               <span className="absolute left-1/2 top-1/2 h-11 w-11 -translate-x-1/2 -translate-y-1/2" />
             </div>
@@ -268,8 +269,9 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
 
           {/* Scrollable content area */}
           <div
-            className="flex-1 overflow-y-auto px-fluid-6 pb-fluid-8"
+            className="flex-1 overflow-y-auto overscroll-contain px-fluid-6 pb-fluid-8 [-webkit-overflow-scrolling:touch]"
             data-drawer-scroll
+            data-lenis-prevent
           >
             {/* Item content */}
             <div className="text-night">
