@@ -4,19 +4,24 @@ import { useState } from 'react';
 import { Drawer } from './Drawer';
 import type { Capability } from '../data/capabilities';
 
+const DRAWER_ANIMATION_MS = 500;
+
 interface CapabilityDrawerProps {
   capability: Capability;
   onClose?: () => void;
 }
 
-export function CapabilityDrawer({ capability, onClose }: CapabilityDrawerProps) {
+export function CapabilityDrawer({
+  capability,
+  onClose,
+}: CapabilityDrawerProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (!open && onClose) {
       // Small delay to allow exit animation to complete
-      setTimeout(() => onClose(), 300);
+      setTimeout(() => onClose(), DRAWER_ANIMATION_MS);
     }
   };
 

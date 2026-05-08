@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Drawer } from './Drawer';
 import type { Program } from '../data/programs';
 
+const DRAWER_ANIMATION_MS = 500;
+
 interface ProgramDrawerProps {
   program: Program;
   onClose?: () => void;
@@ -16,7 +18,7 @@ export function ProgramDrawer({ program, onClose }: ProgramDrawerProps) {
     setIsOpen(open);
     if (!open && onClose) {
       // Small delay to allow exit animation to complete
-      setTimeout(() => onClose(), 300);
+      setTimeout(() => onClose(), DRAWER_ANIMATION_MS);
     }
   };
 
