@@ -16,7 +16,6 @@ interface FlipbookCarouselProps {
 const ENABLE_DEBUG_CONTROLS = false;
 
 const DESKTOP_CONFIG = {
-  // How far cards translate on X axis when fully to the side
   xOffsetRight: 51, // percentage - where incoming cards wait (right side)
   xOffsetLeft: 51, // percentage - where outgoing cards end up (left side)
   // Z-depth for cards at their side positions (reduced for less perspective size change)
@@ -38,6 +37,7 @@ const DESKTOP_CONFIG = {
   use2DOnly: false,
 };
 
+// need to modify the offsets for mobile, skew needs to be more graduated
 const MOBILE_CONFIG = {
   ...DESKTOP_CONFIG,
   xOffsetRight: 48,
@@ -457,6 +457,10 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
       intersectionObserverRef.current?.disconnect();
       isRunning.current = false;
       cancelAnimationFrame(rafId.current);
+      if (scrollEndTimer.current) {
+        clearTimeout(scrollEndTimer.current);
+        scrollEndTimer.current = null;
+      }
     };
   }, [applyTransforms, rafLoop]);
 
@@ -619,8 +623,19 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
   }, []);
 
   const handleTouchEnd = useCallback(() => {
-    // Don't immediately remove is-dragging - let the scroll end detection handle it
-    // This allows native inertia to complete before transitions kick back in
+    // Defer cleanup so native iOS inertia can complete before transitions
+    // resume. A real swipe will produce scroll events that hit wakeRafLoop,
+    // which will clear this timer and install its own. For taps, long-presses,
+    // or touchcancel with no scroll, this timer ensures is-dragging is cleared.
+    const wrapper = wrapperRef.current;
+    if (!wrapper || !isDragging.current) return;
+
+    if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
+    scrollEndTimer.current = setTimeout(() => {
+      if (!wrapperRef.current) return;
+      isDragging.current = false;
+      wrapperRef.current.classList.remove('is-dragging');
+    }, 150);
   }, []);
 
   return (
