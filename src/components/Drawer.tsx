@@ -193,6 +193,11 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
 
   if (!item || !shouldRender) return null;
 
+  const descriptionParagraphs = item.description
+    .split(/(?:\\n\\n|\n{2,})/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
   return createPortal(
     <>
       <button
@@ -229,7 +234,7 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
           willChange: 'transform',
         }}
       >
-        <div className="w-full max-w-6xl bg-cream rounded-t-3xl h-[85vh] overflow-hidden flex flex-col">
+        <div className="w-full max-w-6xl xl:max-w-[57.6rem] bg-cream rounded-t-3xl h-[85vh] overflow-hidden flex flex-col">
           <div className="absolute left-0 right-0 top-full h-[200%] bg-cream" />
 
           {/* Drag handle indicator */}
@@ -274,16 +279,28 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
             data-lenis-prevent
           >
             {/* Item content */}
-            <div className="text-night">
-              <h2 id="drawer-title" className="heading-lg mb-4">
+            <div className="w-full text-night">
+              <h2
+                id="drawer-title"
+                className="heading-lg mb-fluid-7 text-center"
+              >
                 {item.name}
               </h2>
-              <p
+
+              {item.relatedSlides && item.relatedSlides.length > 0 && (
+                <div className="mb-fluid-10">
+                  <FlipbookCarousel slides={item.relatedSlides} />
+                </div>
+              )}
+
+              <div
                 id="drawer-description"
-                className="body-lg text-night/70 mb-8 max-w-2xl"
+                className="body-lg text-night/70 mb-8 grid w-full gap-5"
               >
-                {item.description}
-              </p>
+                {descriptionParagraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
 
               {/* Items list - only render if skills exist */}
               {item.skills.length > 0 && (
@@ -300,22 +317,6 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
                       </li>
                     ))}
                   </ul>
-                </div>
-              )}
-
-              {/* CTA */}
-              <div className="pt-4">
-                <button className="px-8 py-4 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors body-md font-medium">
-                  Start a Project
-                </button>
-              </div>
-
-              {item.relatedSlides && item.relatedSlides.length > 0 && (
-                <div className="mt-fluid-10 border-t border-night/10 pt-fluid-8">
-                  <h3 className="heading-sm mb-fluid-4 text-night/90">
-                    Related Case Studies
-                  </h3>
-                  <FlipbookCarousel slides={item.relatedSlides} />
                 </div>
               )}
             </div>
