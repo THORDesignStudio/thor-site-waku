@@ -83,7 +83,6 @@ export function CapabilityDrawer({
     name: capability.name,
     description: capability.description,
     url: capability.url,
-    skills: [], // Capabilities don't have skills - Drawer will hide this section
     relatedSlides:
       scoreCaseStudiesForCapability(capability).map(toRelatedSlide),
   };

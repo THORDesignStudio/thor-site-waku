@@ -15,7 +15,6 @@ interface Item {
   name: string;
   description: string;
   url: string;
-  skills: string[];
   relatedSlides?: FlipbookCarouselSlide[];
 }
 
@@ -287,12 +286,6 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
                 {item.name}
               </h2>
 
-              {item.relatedSlides && item.relatedSlides.length > 0 && (
-                <div className="mb-fluid-10">
-                  <FlipbookCarousel slides={item.relatedSlides} />
-                </div>
-              )}
-
               <div
                 id="drawer-description"
                 className="body-lg text-night/70 mb-8 grid w-full gap-5"
@@ -302,21 +295,9 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
                 ))}
               </div>
 
-              {/* Items list - only render if skills exist */}
-              {item.skills.length > 0 && (
-                <div className="mb-8">
-                  <h2 className="heading-sm mb-4 text-night/90">What we do</h2>
-                  <ul className="grid gap-3">
-                    {item.skills.map((skill) => (
-                      <li
-                        key={skill}
-                        className="flex items-center gap-3 body-md text-night/80"
-                      >
-                        <span className="w-2 h-2 rounded-full bg-pink shrink-0" />
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
+              {item.relatedSlides && item.relatedSlides.length > 0 && (
+                <div className="mb-fluid-10">
+                  <FlipbookCarousel slides={item.relatedSlides} />
                 </div>
               )}
             </div>
