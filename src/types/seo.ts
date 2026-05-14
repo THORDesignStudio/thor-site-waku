@@ -25,10 +25,10 @@ export interface SEOProps {
  * Default SEO configuration for the site
  */
 export const defaultSEO = {
-  siteName: 'THOR Studio | THORDigital',
+  siteName: 'THOR Studio | THOR Digital',
   baseUrl: 'https://www.thor-studio.com',
   defaultOgImage: '/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg',
-  defaultOgImageAlt: 'THOR Studio',
+  defaultOgImageAlt: 'THOR Studio | THOR Digital',
   defaultOgImageWidth: 1200,
   defaultOgImageHeight: 630,
   twitterHandle: '@thorstudio',
