@@ -61,8 +61,7 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/ibd-drug-guide.jpg',
-        cardVertical:
-          '/images/case-studies/cards-vertical/ibd-drug-guide.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/ibd-drug-guide.jpg',
         header: {
           png: '/images/case-studies/headers/ibd-drug-guide.png',
           webp: '/images/case-studies/headers/ibd-drug-guide.webp',
@@ -104,8 +103,7 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/city-ratings.jpg',
-        cardVertical:
-          '/images/case-studies/cards-vertical/city-ratings.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/city-ratings.jpg',
         header: {
           png: '/images/case-studies/headers/city-ratings.png',
           webp: '/images/case-studies/headers/city-ratings.webp',
@@ -213,7 +211,7 @@ export const caseStudies: CaseStudies = {
         'organizational-rebranding',
       ],
       client: 'Chemonics',
-      url: 'https://media.chemonics.org/',
+      url: 'https://chemonics.thor-studio.com/',
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/chemonics-media-site.jpg',
@@ -331,8 +329,7 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/engineering-inc.jpg',
-        cardVertical:
-          '/images/case-studies/cards-vertical/engineering-inc.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/engineering-inc.jpg',
         header: {
           png: '/images/case-studies/headers/engineering-inc.png',
           webp: '/images/case-studies/headers/engineering-inc.webp',
@@ -367,8 +364,7 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/lets-beat-hcm.jpg',
-        cardVertical:
-          '/images/case-studies/cards-vertical/lets-beat-hcm.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/lets-beat-hcm.jpg',
         header: {
           png: '/images/case-studies/headers/lets-beat-hcm.png',
           webp: '/images/case-studies/headers/lets-beat-hcm.webp',
@@ -539,8 +535,7 @@ export const caseStudies: CaseStudies = {
       images: {
         cardHorizontal:
           '/images/case-studies/cards-horizontal/no-kid-hungry.jpg',
-        cardVertical:
-          '/images/case-studies/cards-vertical/no-kid-hungry.jpg',
+        cardVertical: '/images/case-studies/cards-vertical/no-kid-hungry.jpg',
         header: {
           png: '/images/case-studies/headers/no-kid-hungry.png',
           webp: '/images/case-studies/headers/no-kid-hungry.webp',
