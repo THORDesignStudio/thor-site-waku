@@ -15,6 +15,8 @@ import type { getConfig as File_Index_getConfig } from './pages/index';
 import type { getConfig as File_Tester_getConfig } from './pages/tester';
 // prettier-ignore
 import type { getConfig as File_Typography_getConfig } from './pages/typography';
+// prettier-ignore
+import type { getConfig as File_VerticalsPublications_getConfig } from './pages/verticals/publications';
 
 // prettier-ignore
 type Page =
@@ -23,7 +25,8 @@ type Page =
 | ({ path: '/case-studies' } & GetConfigResponse<typeof File_CaseStudies_getConfig>)
 | ({ path: '/' } & GetConfigResponse<typeof File_Index_getConfig>)
 | ({ path: '/tester' } & GetConfigResponse<typeof File_Tester_getConfig>)
-| ({ path: '/typography' } & GetConfigResponse<typeof File_Typography_getConfig>);
+| ({ path: '/typography' } & GetConfigResponse<typeof File_Typography_getConfig>)
+| ({ path: '/verticals/publications' } & GetConfigResponse<typeof File_VerticalsPublications_getConfig>);
 
 // prettier-ignore
 declare module 'waku/router' {

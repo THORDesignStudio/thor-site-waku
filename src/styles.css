@@ -736,4 +736,27 @@
     will-change: transform;
     pointer-events: none;
   }
+
+  @keyframes publication-carousel-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(1.25rem, 0, 0) scale(0.985);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  .publication-carousel-frame {
+    animation: publication-carousel-enter 450ms var(--ease-out-quart) both;
+    will-change: opacity, transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .publication-carousel-frame {
+      animation: none;
+    }
+  }
 }
