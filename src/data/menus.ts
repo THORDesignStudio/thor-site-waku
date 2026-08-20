@@ -68,7 +68,7 @@ export const footerMenu: FooterMenu = {
           url: '#',
         },
         {
-          name: 'Media',
+          name: 'Publications',
           url: '/verticals/publications',
         },
         {
