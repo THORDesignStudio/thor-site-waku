@@ -5,6 +5,7 @@
   /* Font Families */
   --font-family-sans: 'proxima-nova', system-ui, sans-serif;
   --font-family-display: 'rift', system-ui, sans-serif;
+  --font-family-serif: 'utopia-std', serif;
 
   /* Font Weights */
   --font-weight-thin: 100;
@@ -526,7 +527,7 @@
   }
 
   /* Skip link specific styles */
-  a[href="#main-content"]:focus {
+  a[href='#main-content']:focus {
     outline: 3px solid var(--color-pink);
     outline-offset: 2px;
   }
@@ -602,7 +603,7 @@
 
   .heading-lg {
     font-size: var(--text-fluid-6xl);
-    font-family: var(--font-family-display);
+    font-family: var(--font-family-serif);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-fluid-tight);
   }

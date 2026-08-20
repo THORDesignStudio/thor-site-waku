@@ -124,7 +124,9 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
             <p className="text-fluid-md text-cream uppercase tracking-widest font-bold pb-fluid-1 pl-[0.3rem]">
               Case Study
             </p>
-            <h1 className="heading-lg text-white mb-fluid-2">{study.name}</h1>
+            <h1 className="heading-lg font-family-serif text-white mb-fluid-2">
+              {study.name}
+            </h1>
             <p className="font-sans font-light text-fluid-xl text-cream/90 leading-relaxed">
               {study.dek}
             </p>
