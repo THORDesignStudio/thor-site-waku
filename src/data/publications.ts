@@ -15,6 +15,13 @@ export interface Magazine {
   texture: string;
 }
 
+export interface AerospaceSpotlightSlide {
+  image: string;
+  alt: string;
+  background?: string;
+  imageClassName?: string;
+}
+
 const publicationImagePath = '/images/verticals/publications';
 
 export const flagshipPublications: FlagshipPublication[] = [
@@ -53,11 +60,38 @@ export const flagshipPublications: FlagshipPublication[] = [
   },
 ];
 
-export const aerospaceSpotlightImages = Array.from(
-  { length: 6 },
-  (_, index) =>
-    `${publicationImagePath}/aerospace/spotlight-${String(index + 1).padStart(2, '0')}.png`
-);
+export const aerospaceSpotlightSlides: AerospaceSpotlightSlide[] = [
+  {
+    image: `${publicationImagePath}/aerospace/spotlight-01.png`,
+    alt: 'Aerospace America digital campaign shown on mobile devices',
+  },
+  {
+    image: `${publicationImagePath}/aerospace/spotlight-06.png`,
+    alt: 'Aerospace America presentation shown in an auditorium',
+  },
+  {
+    image: `${publicationImagePath}/aerospace/spotlight-hydrogen.png`,
+    alt: 'Aerospace America hydrogen feature magazine spread',
+    background: `${publicationImagePath}/bg-wood-warm.jpg`,
+    imageClassName: 'left-[-17.76%] top-[-19.81%] h-[139.7%] w-[130.36%]',
+  },
+  {
+    image: `${publicationImagePath}/aerospace/spotlight-staying-alive.png`,
+    alt: 'Aerospace America Staying Alive feature magazine spread',
+    background: `${publicationImagePath}/bg-wood-warm.jpg`,
+    imageClassName: 'left-[-19.94%] top-[-19.1%] h-[139.77%] w-[130.43%]',
+  },
+  {
+    image: `${publicationImagePath}/aerospace/spotlight-05.png`,
+    alt: 'Aerospace America Mars digital campaign cards',
+  },
+  {
+    image: `${publicationImagePath}/aerospace/spotlight-monster.png`,
+    alt: 'Aerospace America Monster feature magazine spread',
+    background: `${publicationImagePath}/bg-wood-warm.jpg`,
+    imageClassName: 'left-[-20.06%] top-[-19.85%] h-[139.7%] w-[130.36%]',
+  },
+];
 
 const textures = [
   `${publicationImagePath}/bg-marble-white.jpg`,

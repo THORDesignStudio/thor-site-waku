@@ -6,7 +6,7 @@ import type {
   WheelEvent as ReactWheelEvent,
 } from 'react';
 import {
-  aerospaceSpotlightImages,
+  aerospaceSpotlightSlides,
   flagshipPublications,
 } from '../data/publications';
 
@@ -279,7 +279,8 @@ export function FlagshipPublications() {
 
 export function AerospaceSpotlight() {
   const { activeIndex, setActiveIndex, goPrevious, goNext, gestureProps } =
-    useGestureCarousel(aerospaceSpotlightImages.length);
+    useGestureCarousel(aerospaceSpotlightSlides.length);
+  const slide = aerospaceSpotlightSlides[activeIndex];
 
   return (
     <section
@@ -288,14 +289,30 @@ export function AerospaceSpotlight() {
     >
       <div className="mx-auto grid max-w-[1580px] items-center gap-fluid-8 lg:grid-cols-2">
         <div>
-          <div className="aspect-[721/505] w-full overflow-hidden bg-cream-dark">
+          <div className="relative aspect-[721/505] w-full overflow-hidden bg-cream-dark">
+            {slide.background && (
+              <img
+                src={slide.background}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                width="721"
+                height="505"
+                loading="lazy"
+                draggable="false"
+                aria-hidden="true"
+              />
+            )}
             <img
-              key={aerospaceSpotlightImages[activeIndex]}
-              src={aerospaceSpotlightImages[activeIndex]}
-              alt={`Aerospace America campaign example ${activeIndex + 1}`}
-              className="publication-carousel-frame h-full w-full object-cover"
-              width="722"
-              height="505"
+              key={slide.image}
+              src={slide.image}
+              alt={slide.alt}
+              className={`publication-carousel-frame ${
+                slide.imageClassName
+                  ? `absolute max-w-none drop-shadow-[7px_14px_7px_rgba(0,0,0,0.4)] ${slide.imageClassName}`
+                  : 'h-full w-full object-cover'
+              }`}
+              width={slide.imageClassName ? '4096' : '722'}
+              height={slide.imageClassName ? '3072' : '505'}
               loading="lazy"
               draggable="false"
             />
@@ -308,7 +325,7 @@ export function AerospaceSpotlight() {
             />
             <Pagination
               activeIndex={activeIndex}
-              count={aerospaceSpotlightImages.length}
+              count={aerospaceSpotlightSlides.length}
               label="Select an Aerospace America campaign image"
               onSelect={setActiveIndex}
             />
