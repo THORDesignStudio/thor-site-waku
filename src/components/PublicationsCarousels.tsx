@@ -31,9 +31,20 @@ function useGestureCarousel(itemCount: number) {
     [itemCount]
   );
 
+  const goPrevious = useCallback(() => move(-1), [move]);
+  const goNext = useCallback(() => move(1), [move]);
+
   const handlePointerDown = useCallback(
     (event: ReactPointerEvent<HTMLElement>) => {
       if (!event.isPrimary) return;
+
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest('button, a, input, textarea, select')
+      ) {
+        return;
+      }
 
       pointerStartRef.current = {
         x: event.clientX,
@@ -98,6 +109,8 @@ function useGestureCarousel(itemCount: number) {
   return {
     activeIndex,
     setActiveIndex,
+    goPrevious,
+    goNext,
     gestureProps: {
       onPointerDown: handlePointerDown,
       onPointerUp: handlePointerUp,
@@ -105,6 +118,45 @@ function useGestureCarousel(itemCount: number) {
       onWheel: handleWheel,
     },
   };
+}
+
+function CarouselArrow({
+  direction,
+  label,
+  onClick,
+  inverse = false,
+}: {
+  direction: 'left' | 'right';
+  label: string;
+  onClick: () => void;
+  inverse?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex size-12 touch-manipulation shrink-0 cursor-pointer select-none items-center justify-center rounded-full border-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink ${
+        inverse
+          ? 'border-white/60 text-white hover:border-white hover:bg-white hover:text-[#0f1847]'
+          : 'border-[#0f1847] text-[#0f1847] hover:bg-[#0f1847] hover:text-white'
+      }`}
+      aria-label={label}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="pointer-events-none size-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d={direction === 'left' ? 'M15 18l-6-6 6-6' : 'M9 6l6 6-6 6'} />
+      </svg>
+    </button>
+  );
 }
 
 function Pagination({
@@ -143,9 +195,8 @@ function Pagination({
 }
 
 export function FlagshipPublications() {
-  const { activeIndex, setActiveIndex, gestureProps } = useGestureCarousel(
-    flagshipPublications.length
-  );
+  const { activeIndex, setActiveIndex, goPrevious, goNext, gestureProps } =
+    useGestureCarousel(flagshipPublications.length);
   const publication = flagshipPublications[activeIndex];
 
   return (
@@ -199,12 +250,24 @@ export function FlagshipPublications() {
               </div>
             ))}
           </div>
-          <div className="mt-fluid-6">
+          <div className="mt-fluid-6 flex items-center justify-center gap-4">
+            <CarouselArrow
+              direction="left"
+              label="Show previous flagship publication"
+              onClick={goPrevious}
+              inverse
+            />
             <Pagination
               activeIndex={activeIndex}
               count={flagshipPublications.length}
               label="Select a flagship publication"
               onSelect={setActiveIndex}
+              inverse
+            />
+            <CarouselArrow
+              direction="right"
+              label="Show next flagship publication"
+              onClick={goNext}
               inverse
             />
           </div>
@@ -215,9 +278,8 @@ export function FlagshipPublications() {
 }
 
 export function AerospaceSpotlight() {
-  const { activeIndex, setActiveIndex, gestureProps } = useGestureCarousel(
-    aerospaceSpotlightImages.length
-  );
+  const { activeIndex, setActiveIndex, goPrevious, goNext, gestureProps } =
+    useGestureCarousel(aerospaceSpotlightImages.length);
 
   return (
     <section
@@ -238,12 +300,22 @@ export function AerospaceSpotlight() {
               draggable="false"
             />
           </div>
-          <div className="mt-fluid-3">
+          <div className="mt-fluid-3 flex items-center justify-center gap-4">
+            <CarouselArrow
+              direction="left"
+              label="Show previous Aerospace America image"
+              onClick={goPrevious}
+            />
             <Pagination
               activeIndex={activeIndex}
               count={aerospaceSpotlightImages.length}
               label="Select an Aerospace America campaign image"
               onSelect={setActiveIndex}
+            />
+            <CarouselArrow
+              direction="right"
+              label="Show next Aerospace America image"
+              onClick={goNext}
             />
           </div>
         </div>
