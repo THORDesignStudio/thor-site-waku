@@ -15,6 +15,7 @@ declare global {
           size?: 'normal' | 'flexible' | 'compact';
           /** always | execute | interaction-only — see Cloudflare Turnstile docs */
           appearance?: 'always' | 'execute' | 'interaction-only';
+          action?: string;
         }
       ) => string;
       reset: (widgetId: string) => void;
@@ -32,6 +33,8 @@ interface UseTurnstileOptions {
   attachmentKey?: string;
   /** Widget size. `flexible` needs ≥300px of horizontal space; use `compact` on narrow mobile. */
   size?: 'normal' | 'flexible' | 'compact';
+  /** Stable server-validated action for the protected form. */
+  action?: string;
 }
 
 export const useTurnstile = ({
@@ -40,6 +43,7 @@ export const useTurnstile = ({
   onTokenChange,
   attachmentKey = '',
   size = 'flexible',
+  action,
 }: UseTurnstileOptions) => {
   const [token, setToken] = useState<string | null>(null);
   const widgetIdRef = useRef<string | null>(null);
@@ -52,10 +56,13 @@ export const useTurnstile = ({
       window.turnstile.remove(widgetIdRef.current);
     }
 
-    const siteKey = (import.meta as ImportMeta & { env?: Record<string, string> }).env
-      ?.WAKU_PUBLIC_TURNSTILE_SITE_KEY;
+    const siteKey = (
+      import.meta as ImportMeta & { env?: Record<string, string> }
+    ).env?.WAKU_PUBLIC_TURNSTILE_SITE_KEY;
     if (!siteKey) {
-      console.error('Turnstile site key not found (set WAKU_PUBLIC_TURNSTILE_SITE_KEY in .env.local)');
+      console.error(
+        'Turnstile site key not found (set WAKU_PUBLIC_TURNSTILE_SITE_KEY in .env.local)'
+      );
       return;
     }
 
@@ -64,6 +71,7 @@ export const useTurnstile = ({
       theme: 'dark',
       size,
       appearance: 'always',
+      ...(action ? { action } : {}),
       callback: (newToken: string) => {
         setToken(newToken);
         onTokenChange?.(newToken);
@@ -77,7 +85,7 @@ export const useTurnstile = ({
         onTokenChange?.(null);
       },
     });
-  }, [containerRef, onTokenChange, size]);
+  }, [action, containerRef, onTokenChange, size]);
 
   useEffect(() => {
     if (!isActive) {
@@ -96,7 +104,8 @@ export const useTurnstile = ({
     if (!existingScript) {
       // Load script
       const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.src =
+        'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
       script.async = true;
       script.defer = true;
       script.setAttribute('data-turnstile', 'true');

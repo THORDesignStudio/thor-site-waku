@@ -10,6 +10,8 @@ import type { getConfig as File_CaseStudiesSlug_getConfig } from './pages/case-s
 // prettier-ignore
 import type { getConfig as File_CaseStudies_getConfig } from './pages/case-studies';
 // prettier-ignore
+import type { getConfig as File_Events_getConfig } from './pages/events';
+// prettier-ignore
 import type { getConfig as File_Index_getConfig } from './pages/index';
 // prettier-ignore
 import type { getConfig as File_Tester_getConfig } from './pages/tester';
@@ -23,6 +25,7 @@ type Page =
 | ({ path: '/about' } & GetConfigResponse<typeof File_About_getConfig>)
 | ({ path: '/case-studies/[slug]' } & GetConfigResponse<typeof File_CaseStudiesSlug_getConfig>)
 | ({ path: '/case-studies' } & GetConfigResponse<typeof File_CaseStudies_getConfig>)
+| ({ path: '/events' } & GetConfigResponse<typeof File_Events_getConfig>)
 | ({ path: '/' } & GetConfigResponse<typeof File_Index_getConfig>)
 | ({ path: '/tester' } & GetConfigResponse<typeof File_Tester_getConfig>)
 | ({ path: '/typography' } & GetConfigResponse<typeof File_Typography_getConfig>)
