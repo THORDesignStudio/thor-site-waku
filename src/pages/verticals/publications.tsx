@@ -2,6 +2,7 @@ import {
   AerospaceSpotlight,
   FlagshipPublications,
 } from '../../components/PublicationsCarousels';
+import { PublicationsExperienceSection } from '../../components/PublicationsExperienceSection';
 import { SEO } from '../../components/SEO';
 import { awardImages, magazines } from '../../data/publications';
 
@@ -104,6 +105,8 @@ export default function PublicationsPage() {
             ))}
           </div>
         </section>
+
+        <PublicationsExperienceSection />
       </div>
     </>
   );
