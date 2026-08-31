@@ -41,17 +41,6 @@ export default function PublicationsPage() {
 
         <FlagshipPublications />
 
-        <section aria-label="Aerospace America environmental campaign">
-          <img
-            src="/images/verticals/publications-aa.jpg"
-            alt="Aerospace America campaign displayed in a public lobby"
-            className="aspect-[1724/1149] h-auto w-full object-cover"
-            width="1600"
-            height="1066"
-            loading="lazy"
-          />
-        </section>
-
         <AerospaceSpotlight />
 
         <section className="bg-[#0f1847] px-fluid-6 py-fluid-10 text-white">

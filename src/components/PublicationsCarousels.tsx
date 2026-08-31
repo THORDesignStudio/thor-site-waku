@@ -15,6 +15,14 @@ const WHEEL_THRESHOLD_PX = 48;
 const WHEEL_GESTURE_GAP_MS = 180;
 const WHEEL_NAVIGATION_LOCK_MS = 450;
 
+function getCarouselItem<T>(items: readonly T[], index: number): T {
+  const item = items[index] ?? items[0];
+  if (item === undefined) {
+    throw new Error('Carousel requires at least one item');
+  }
+  return item;
+}
+
 function useGestureCarousel(itemCount: number) {
   const [activeIndex, setActiveIndex] = useState(0);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -197,7 +205,7 @@ function Pagination({
 export function FlagshipPublications() {
   const { activeIndex, setActiveIndex, goPrevious, goNext, gestureProps } =
     useGestureCarousel(flagshipPublications.length);
-  const publication = flagshipPublications[activeIndex];
+  const publication = getCarouselItem(flagshipPublications, activeIndex);
 
   return (
     <section
@@ -280,80 +288,101 @@ export function FlagshipPublications() {
 export function AerospaceSpotlight() {
   const { activeIndex, setActiveIndex, goPrevious, goNext, gestureProps } =
     useGestureCarousel(aerospaceSpotlightSlides.length);
-  const slide = aerospaceSpotlightSlides[activeIndex];
+  const slide = getCarouselItem(aerospaceSpotlightSlides, activeIndex);
 
   return (
-    <section
-      className="touch-pan-y overscroll-x-contain bg-white px-fluid-6 py-fluid-10 text-black"
-      {...gestureProps}
-    >
-      <div className="mx-auto grid max-w-[1580px] items-center gap-fluid-8 lg:grid-cols-2">
-        <div>
-          <div className="relative aspect-[721/505] w-full overflow-hidden bg-cream-dark">
-            {slide.background && (
+    <>
+      <section aria-label="Aerospace America environmental campaign">
+        <picture>
+          <source
+            media="(max-width: 1023px)"
+            srcSet="/images/verticals/publications-aa-vert.jpg"
+            width="1080"
+            height="1350"
+          />
+          <img
+            src="/images/verticals/publications-aa.jpg"
+            alt="Aerospace America campaign displayed in a public lobby"
+            className="h-auto w-full object-cover"
+            width="1600"
+            height="1066"
+            loading="lazy"
+          />
+        </picture>
+      </section>
+
+      <section
+        className="touch-pan-y overscroll-x-contain bg-white px-fluid-6 py-fluid-10 text-black"
+        {...gestureProps}
+      >
+        <div className="mx-auto grid max-w-[1580px] items-center gap-fluid-8 lg:grid-cols-2">
+          <div>
+            <div className="relative aspect-[721/505] w-full overflow-hidden bg-cream-dark">
+              {slide.background && (
+                <img
+                  src={slide.background}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                  width="721"
+                  height="505"
+                  loading="lazy"
+                  draggable="false"
+                  aria-hidden="true"
+                />
+              )}
               <img
-                src={slide.background}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-                width="721"
-                height="505"
+                key={slide.image}
+                src={slide.image}
+                alt={slide.alt}
+                className={`publication-carousel-frame ${
+                  slide.imageClassName
+                    ? `absolute max-w-none drop-shadow-[7px_14px_7px_rgba(0,0,0,0.4)] ${slide.imageClassName}`
+                    : 'h-full w-full object-cover'
+                }`}
+                width={slide.imageClassName ? '4096' : '722'}
+                height={slide.imageClassName ? '3072' : '505'}
                 loading="lazy"
                 draggable="false"
-                aria-hidden="true"
               />
-            )}
-            <img
-              key={slide.image}
-              src={slide.image}
-              alt={slide.alt}
-              className={`publication-carousel-frame ${
-                slide.imageClassName
-                  ? `absolute max-w-none drop-shadow-[7px_14px_7px_rgba(0,0,0,0.4)] ${slide.imageClassName}`
-                  : 'h-full w-full object-cover'
-              }`}
-              width={slide.imageClassName ? '4096' : '722'}
-              height={slide.imageClassName ? '3072' : '505'}
-              loading="lazy"
-              draggable="false"
-            />
+            </div>
+            <div className="mt-fluid-3 flex items-center justify-center gap-4">
+              <CarouselArrow
+                direction="left"
+                label="Show previous Aerospace America image"
+                onClick={goPrevious}
+              />
+              <Pagination
+                activeIndex={activeIndex}
+                count={aerospaceSpotlightSlides.length}
+                label="Select an Aerospace America campaign image"
+                onSelect={setActiveIndex}
+              />
+              <CarouselArrow
+                direction="right"
+                label="Show next Aerospace America image"
+                onClick={goNext}
+              />
+            </div>
           </div>
-          <div className="mt-fluid-3 flex items-center justify-center gap-4">
-            <CarouselArrow
-              direction="left"
-              label="Show previous Aerospace America image"
-              onClick={goPrevious}
-            />
-            <Pagination
-              activeIndex={activeIndex}
-              count={aerospaceSpotlightSlides.length}
-              label="Select an Aerospace America campaign image"
-              onSelect={setActiveIndex}
-            />
-            <CarouselArrow
-              direction="right"
-              label="Show next Aerospace America image"
-              onClick={goNext}
-            />
-          </div>
-        </div>
 
-        <div className="max-w-3xl">
-          <p className="mb-fluid-2 text-fluid-sm font-extrabold uppercase tracking-wide text-pink">
-            Spotlight
-          </p>
-          <h2 className="text-fluid-5xl font-normal leading-tight tracking-tight">
-            Aerospace America
-          </h2>
-          <p className="mt-fluid-3 text-fluid-xl font-light leading-relaxed text-black/85">
-            A nine-year partnership and counting, with more than 100 issues
-            completed. THOR led an EXCEL Award-winning redesign, designed and
-            developed the companion digital edition, and created a sophisticated
-            visual system extending across web and social media. Our team has
-            also produced more than 100 highly technical aerospace
-            illustrations, charts, and schematics.
-          </p>
+          <div className="max-w-3xl">
+            <p className="mb-fluid-2 text-fluid-sm font-extrabold uppercase tracking-wide text-pink">
+              Spotlight
+            </p>
+            <h2 className="text-fluid-5xl font-normal leading-tight tracking-tight">
+              Aerospace America
+            </h2>
+            <p className="mt-fluid-3 text-fluid-xl font-light leading-relaxed text-black/85">
+              A nine-year partnership and counting, with more than 100 issues
+              completed. THOR led an EXCEL Award-winning redesign, designed and
+              developed the companion digital edition, and created a
+              sophisticated visual system extending across web and social media.
+              Our team has also produced more than 100 highly technical
+              aerospace illustrations, charts, and schematics.
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
