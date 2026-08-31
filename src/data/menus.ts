@@ -26,12 +26,12 @@ export const footerMenu: FooterMenu = {
           url: '/',
         },
         {
-          name: 'About',
+          name: 'About \/ Team',
           url: '/about',
         },
         {
-          name: 'Team',
-          url: '#',
+          name: 'Events',
+          url: '/events',
         },
       ],
     },
