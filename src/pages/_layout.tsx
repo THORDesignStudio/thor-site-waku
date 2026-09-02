@@ -16,6 +16,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <SmoothScroll>
         <div>
           <link rel="icon" type="image/png" href="/images/favicon.png" />
+          <link rel="describedby" href="/llms.txt" />
           <link
             rel="preconnect"
             href="https://use.typekit.net"
