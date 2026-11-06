@@ -141,7 +141,7 @@ export function CapabilitiesHomePageSection() {
       className="relative w-full overflow-hidden py-fluid-16"
       style={{
         background:
-          'linear-gradient(to bottom, var(--color-night) 0%, var(--color-night-blue) 50%, var(--color-night) 100%)',
+          'linear-gradient(to bottom, var(--color-navy) 0%, var(--color-indigo) 50%, var(--color-navy) 100%)',
       }}
     >
       {/* Content layer */}
@@ -149,10 +149,10 @@ export function CapabilitiesHomePageSection() {
         {/* Section Header */}
         <div ref={headerRef} className="w-full mx-auto px-fluid-6 mb-fluid-12">
           <h1 className="leading-none">
-            <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-cream tracking-tight text-center">
+            <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-white tracking-tight text-center">
               Capabilities
             </span>
-            <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal text-center">
+            <p className="section-subtitle font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal text-center">
               THOR Digital is a studio that offers a wide array of capabilities
               to our clients.
             </p>
@@ -169,13 +169,13 @@ export function CapabilitiesHomePageSection() {
                 capabilityRefs.current[index] = el;
               }}
               onClick={() => handleOpenCapability(capability)}
-              className="w-full text-left py-fluid-6 border-t border-dashed border-cream/40 first:border-t-0 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-4 focus-visible:ring-offset-night"
+              className="w-full text-left py-fluid-6 border-t border-dashed border-white/40 first:border-t-0 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-4 focus-visible:ring-offset-navy"
             >
               <div className="flex items-center gap-fluid-4">
                 <h3
                   className="capability-title heading-lg"
                   style={{
-                    WebkitTextStroke: '1px var(--color-cream)',
+                    WebkitTextStroke: '1px var(--color-white)',
                     color: 'transparent',
                   }}
                 >
@@ -201,7 +201,7 @@ export function CapabilitiesHomePageSection() {
                 </span>
               </div>
               <p
-                className="capability-dek body-lg text-cream mt-fluid-1"
+                className="capability-dek body-lg text-white mt-fluid-1"
                 style={{ opacity: 0.3 }}
               >
                 {capability.dek}

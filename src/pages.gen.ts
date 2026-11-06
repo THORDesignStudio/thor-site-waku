@@ -14,9 +14,9 @@ import type { getConfig as File_Events_getConfig } from './pages/events';
 // prettier-ignore
 import type { getConfig as File_Index_getConfig } from './pages/index';
 // prettier-ignore
-import type { getConfig as File_Tester_getConfig } from './pages/tester';
+import type { getConfig as File_Styleguide_getConfig } from './pages/styleguide';
 // prettier-ignore
-import type { getConfig as File_Typography_getConfig } from './pages/typography';
+import type { getConfig as File_Tester_getConfig } from './pages/tester';
 // prettier-ignore
 import type { getConfig as File_VerticalsAerospace_getConfig } from './pages/verticals/aerospace';
 // prettier-ignore
@@ -29,8 +29,8 @@ type Page =
 | ({ path: '/case-studies' } & GetConfigResponse<typeof File_CaseStudies_getConfig>)
 | ({ path: '/events' } & GetConfigResponse<typeof File_Events_getConfig>)
 | ({ path: '/' } & GetConfigResponse<typeof File_Index_getConfig>)
+| ({ path: '/styleguide' } & GetConfigResponse<typeof File_Styleguide_getConfig>)
 | ({ path: '/tester' } & GetConfigResponse<typeof File_Tester_getConfig>)
-| ({ path: '/typography' } & GetConfigResponse<typeof File_Typography_getConfig>)
 | ({ path: '/verticals/aerospace' } & GetConfigResponse<typeof File_VerticalsAerospace_getConfig>)
 | ({ path: '/verticals/publications' } & GetConfigResponse<typeof File_VerticalsPublications_getConfig>);
 

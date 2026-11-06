@@ -32,13 +32,13 @@ export function HomeContent() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="max-w-6xl w-full relative z-10">
-          <h1 className="heading-xl mb-8 text-cream">
+          <h1 className="heading-xl mb-8 text-white">
             Discoverers of
             <br />
             Elusive Solutions
           </h1>
           <div className="mt-12 flex gap-4">
-            <button className="px-8 py-4 bg-pink text-white rounded-lg hover:bg-pink-dark transition-colors text-fluid-base font-medium">
+            <button className="px-8 py-4 bg-magenta text-white rounded-lg hover:opacity-80 transition-colors text-fluid-base font-medium">
               Explore More
             </button>
           </div>

@@ -87,11 +87,11 @@ export const ContactForm = ({
           data-lenis-prevent
           className={isVisible ? styles.scrollContainer : 'overflow-hidden'}
         >
-        <h1 className={`block font-sans font-extrabold ${styles.title} text-cream tracking-tight`}>
+        <h1 className={`block font-sans font-extrabold ${styles.title} text-white tracking-tight`}>
           Work with us
         </h1>
 
-        <p className={`font-sans font-light ${styles.description} text-cream leading-normal`}>
+        <p className={`font-sans font-light ${styles.description} text-white leading-normal`}>
           Contact John and Colby to talk about your new project.
         </p>
 
@@ -99,7 +99,7 @@ export const ContactForm = ({
           <div>
             <label
               htmlFor={`${idPrefix}-name`}
-              className="block font-sans text-sm text-cream mb-2"
+              className="block font-sans text-sm text-white mb-2"
             >
               Name
             </label>
@@ -110,7 +110,7 @@ export const ContactForm = ({
               value={formData.name}
               onChange={onInputChange}
               required
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 transition-colors text-base"
               placeholder="Your name"
             />
           </div>
@@ -118,7 +118,7 @@ export const ContactForm = ({
           <div>
             <label
               htmlFor={`${idPrefix}-email`}
-              className="block font-sans text-sm text-cream mb-2"
+              className="block font-sans text-sm text-white mb-2"
             >
               Email
             </label>
@@ -129,7 +129,7 @@ export const ContactForm = ({
               value={formData.email}
               onChange={onInputChange}
               required
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors text-base"
+              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 transition-colors text-base"
               placeholder="your@email.com"
             />
           </div>
@@ -137,7 +137,7 @@ export const ContactForm = ({
           <div>
             <label
               htmlFor={`${idPrefix}-message`}
-              className="block font-sans text-sm text-cream mb-2"
+              className="block font-sans text-sm text-white mb-2"
             >
               Message
             </label>
@@ -148,13 +148,13 @@ export const ContactForm = ({
               onChange={onInputChange}
               required
               rows={4}
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-cream/60 transition-colors resize-none text-base"
+              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 transition-colors resize-none text-base"
               placeholder="Tell us about your project..."
             />
           </div>
 
           <div>
-            <span className="block font-sans text-sm text-cream mb-2">
+            <span className="block font-sans text-sm text-white mb-2">
               Security check
             </span>
             <div
@@ -178,12 +178,12 @@ export const ContactForm = ({
           </div>
 
           {submitStatus === 'success' && (
-            <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-cream text-center text-sm" role="status">
+            <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-white text-center text-sm" role="status">
               Thank you! We&apos;ll be in touch soon.
             </div>
           )}
           {submitStatus === 'error' && (
-            <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-cream text-center text-sm" role="alert">
+            <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-white text-center text-sm" role="alert">
               Something went wrong. Please try again.
             </div>
           )}
@@ -191,7 +191,7 @@ export const ContactForm = ({
           <button
             type="submit"
             disabled={isSubmitting || !turnstileToken}
-            className={`px-8 py-4 bg-pink text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:bg-pink-light disabled:cursor-not-allowed text-sm ${styles.buttonDisabled}`}
+            className={`px-8 py-4 bg-magenta text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:opacity-80 disabled:cursor-not-allowed text-sm ${styles.buttonDisabled}`}
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>

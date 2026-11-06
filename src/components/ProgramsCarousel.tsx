@@ -80,10 +80,10 @@ function CarouselControls({
   total,
 }: CarouselControlsProps) {
   const buttonBase =
-    'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
+    'w-10 h-10 rounded-full border-2 border-magenta flex items-center justify-center transition-all duration-200';
   const buttonEnabled =
-    'text-pink hover:bg-pink hover:text-white cursor-pointer';
-  const buttonDisabled = 'text-pink/30 border-pink/30 cursor-not-allowed';
+    'text-magenta hover:bg-magenta hover:text-white cursor-pointer';
+  const buttonDisabled = 'text-magenta/30 border-magenta/30 cursor-not-allowed';
 
   const showPosition = currentIndex !== undefined && total !== undefined;
 
@@ -537,10 +537,10 @@ export function ProgramsCarousel() {
         className="relative z-10 pt-fluid-12 px-fluid-6 text-center"
       >
         <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-cream tracking-tight">
+          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-white tracking-tight">
             Programs
           </span>
-          <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+          <p className="section-subtitle font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal">
             THOR offers five programs to help organizations grow.
           </p>
         </h1>
@@ -549,7 +549,7 @@ export function ProgramsCarousel() {
         <div className="hidden sm:flex items-center justify-center gap-4 my-fluid-6">
           <button
             onClick={goToPrev}
-            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
+            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-magenta"
             aria-label={activeIndex !== null ? `Previous program (showing ${activeIndex + 1} of ${ITEM_COUNT})` : 'Previous program'}
           >
             <svg
@@ -571,7 +571,7 @@ export function ProgramsCarousel() {
           </span>
           <button
             onClick={goToNext}
-            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-pink"
+            className="p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-magenta"
             aria-label={activeIndex !== null ? `Next program (showing ${activeIndex + 1} of ${ITEM_COUNT})` : 'Next program'}
           >
             <svg
@@ -627,7 +627,7 @@ export function ProgramsCarousel() {
             height: '30px',
             transform: 'translate(-50%, -50%)',
             background:
-              'linear-gradient(135deg, var(--color-pink) 0%, var(--color-spicy-purple) 100%)',
+              'linear-gradient(135deg, var(--color-magenta) 0%, var(--color-plum) 100%)',
             boxShadow: '0 0 20px rgba(234, 43, 111, 0.8)',
             animation: 'orbit-half-circle 24s linear infinite',
             zIndex: 2,
@@ -670,7 +670,7 @@ export function ProgramsCarousel() {
                   pointerEvents: 'none',
                   borderRadius: '50%',
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                  backgroundColor: 'var(--color-cream)',
+                  backgroundColor: 'var(--color-white)',
                   transitionProperty: 'opacity, top',
                   transitionDuration: 'var(--spring-common-duration)',
                   transitionTimingFunction: 'var(--spring-common)',
@@ -708,7 +708,7 @@ export function ProgramsCarousel() {
               >
                 {/* Thumbnail state - always rendered, fades out when active */}
                 <button
-                  className="absolute inset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2"
+                  className="absolute inset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2"
                   onClick={() => goToIndex(index)}
                   aria-label={`View ${item.name}`}
                   style={{
@@ -750,7 +750,7 @@ export function ProgramsCarousel() {
                   }}
                 >
                   <button
-                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-night/10 hover:bg-night/20 transition-colors cursor-pointer"
+                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-navy/10 hover:bg-navy/20 transition-colors cursor-pointer"
                     aria-label="Close"
                     type="button"
                     onClick={(e) => {
@@ -759,7 +759,7 @@ export function ProgramsCarousel() {
                     }}
                   >
                     <svg
-                      className="w-4 h-4 text-night"
+                      className="w-4 h-4 text-navy"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -784,17 +784,17 @@ export function ProgramsCarousel() {
                     }}
                   >
                     {/* Title centered below thumbnail */}
-                    <h3 className="text-fluid-xl heading-sm font-semibold text-night leading-tight text-center mt-fluid-5 mb-fluid-2">
+                    <h3 className="text-fluid-xl heading-sm font-semibold text-navy leading-tight text-center mt-fluid-5 mb-fluid-2">
                       {item.name}
                     </h3>
 
                     {/* Dek */}
-                    <p className="text-fluid-base text-center text-night/80 body-md mb-fluid-3">
+                    <p className="text-fluid-base text-center text-navy/80 body-md mb-fluid-3">
                       {item.dek}
                     </p>
 
                     {/* Description */}
-                    <p className="text-fluid-sm text-night/60 leading-relaxed flex-1">
+                    <p className="text-fluid-sm text-navy/60 leading-relaxed flex-1">
                       {item.description}
                     </p>
 
@@ -802,7 +802,7 @@ export function ProgramsCarousel() {
                     <div className="mt-fluid-3 text-center">
                       <button
                         // onClick={(e) => openProgramDrawer(item, e)}
-                        className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
+                        className="px-6 py-2 bg-magenta text-white rounded-full hover:opacity-80 transition-colors text-fluid-sm font-medium"
                       >
                         Learn More
                       </button>
@@ -821,7 +821,7 @@ export function ProgramsCarousel() {
                   transitionDelay: isActive ? '0ms' : '400ms',
                 }}
               >
-                <h3 className="text-fluid-md font-light text-cream leading-tight text-center tracking-wider">
+                <h3 className="text-fluid-md font-light text-white leading-tight text-center tracking-wider">
                   {item.name}
                 </h3>
               </div>
@@ -860,19 +860,19 @@ export function ProgramsCarousel() {
               <article className="relative bg-white rounded-[10px] shadow-lg">
                 {/* Card content */}
                 <div className="p-fluid-6 flex flex-col">
-                  <h3 className="text-fluid-2xl font-display text-night text-center mb-fluid-2">
+                  <h3 className="text-fluid-2xl font-display text-navy text-center mb-fluid-2">
                     {item.name}
                   </h3>
-                  <p className="text-lg font-sans text-center text-night/80 mb-fluid-3">
+                  <p className="text-lg font-sans text-center text-navy/80 mb-fluid-3">
                     {item.dek}
                   </p>
-                  <p className="text-lg font-sans text-night/60 leading-relaxed flex-1">
+                  <p className="text-lg font-sans text-navy/60 leading-relaxed flex-1">
                     {item.description}
                   </p>
                   <div className="mt-fluid-4 text-center">
                     <button
                       onClick={(e) => openProgramDrawer(item, e)}
-                      className="px-6 py-2 bg-pink text-white rounded-full hover:bg-pink-dark transition-colors text-fluid-sm font-medium"
+                      className="px-6 py-2 bg-magenta text-white rounded-full hover:opacity-80 transition-colors text-fluid-sm font-medium"
                       aria-label={`Learn more about ${item.name}`}
                     >
                       Learn More

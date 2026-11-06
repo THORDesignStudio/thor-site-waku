@@ -92,7 +92,7 @@ function toFlipbookSlide(study: CaseStudy): FlipbookCarouselSlide {
 
 function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
   return (
-    <section className="relative overflow-hide bg-cream">
+    <section className="relative overflow-hide bg-white">
       {/* iOS-specific top mask via @supports - only fades in from top, not out at bottom */}
       <style>{`
         @supports (-webkit-touch-callout: none) {
@@ -104,11 +104,11 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
       `}</style>
 
       {/* Night background - shows through where mask is transparent at top */}
-      <div className="absolute top-0 left-0 right-0 h-[400px] bg-[#0B0F3C]" />
+      <div className="absolute top-0 left-0 right-0 h-[400px] bg-[var(--color-navy)]" />
 
       {/* Smoke Background - behind title + dek */}
       <div
-        className="absolute top-0 left-0 right-0 h-[500px] sm:h-[500px] bg-no-repeat bg-[#0B0F3C] header-image-ios"
+        className="absolute top-0 left-0 right-0 h-[500px] sm:h-[500px] bg-no-repeat bg-[var(--color-navy)] header-image-ios"
         style={{
           backgroundImage: `url(/images/smoke-scene/smoke-bg-combined-titlebar.jpg)`,
           backgroundPosition: 'left top',
@@ -121,13 +121,13 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
         <div className="pt-fluid-24 sm:pt-[150px] pb-fluid-4 flex flex-col md:flex-row md:min-h-[500px]">
           {/* Left Column - Title + Dek - overflows onto right side */}
           <div className="w-full md:w-[60%] relative z-20">
-            <p className="text-fluid-md text-cream uppercase tracking-widest font-bold pb-fluid-1 pl-[0.3rem]">
+            <p className="text-fluid-md text-white uppercase tracking-widest font-bold pb-fluid-1 pl-[0.3rem]">
               Case Study
             </p>
-            <h1 className="heading-lg font-family-serif text-white mb-fluid-2">
+            <h1 className="heading-lg text-white mb-fluid-2">
               {study.name}
             </h1>
-            <p className="font-sans font-light text-fluid-xl text-cream/90 leading-relaxed">
+            <p className="font-sans font-light text-fluid-xl text-white/90 leading-relaxed">
               {study.dek}
             </p>
           </div>
@@ -140,7 +140,7 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
                 className="w-[75%] mx-auto aspect-square rounded-full"
                 style={{
                   background:
-                    'linear-gradient(180deg, var(--color-pink) 0%, var(--color-night) 100%)',
+                    'linear-gradient(180deg, var(--color-magenta) 0%, var(--color-navy) 100%)',
                 }}
               />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -165,7 +165,7 @@ function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
 function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
   return (
     <div className="mx-fluid-6">
-      <div className="bg-pink-flat rounded-4xl p-fluid-8 max-w-[1300px] mx-auto w-full md:mt-fluid-24">
+      <div className="bg-deep-magenta rounded-4xl p-fluid-8 max-w-[1300px] mx-auto w-full md:mt-fluid-24">
         <h3 className="text-fluid-lg font-bold text-white mb-fluid-3 uppercase tracking-widest">
           Project Brief
         </h3>
@@ -178,7 +178,7 @@ function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
               href={study.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-fluid-6 py-4 bg-cream text-night text-center text-xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer"
+              className="px-fluid-6 py-4 bg-white text-navy text-center text-xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer"
               aria-label={`Visit ${study.name} website (opens in new tab)`}
             >
               Visit Website
@@ -193,7 +193,7 @@ function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
 
 function ProjectImageSection({ study }: CaseStudyHeaderProps) {
   return (
-    <section className="bg-cream pt-fluid-12 ">
+    <section className="bg-white pt-fluid-12 ">
       <div className="max-w-[1600px] mx-auto px-fluid-6">
         <picture>
           <source srcSet={study.images.project.webp} type="image/webp" />
@@ -220,7 +220,7 @@ function renderContentBlock(block: ContentBlock, index: number) {
         {items.map((item, itemIndex) => (
           <li
             key={itemIndex}
-            className="font-sans font-light text-fluid-xl text-night leading-normal pl-fluid-2"
+            className="font-sans font-light text-fluid-xl text-navy leading-normal pl-fluid-2"
           >
             {item}
           </li>
@@ -232,7 +232,7 @@ function renderContentBlock(block: ContentBlock, index: number) {
   return (
     <p
       key={index}
-      className="font-sans font-light text-fluid-xl text-night mt-fluid-2 leading-normal mb-fluid-6"
+      className="font-sans font-light text-fluid-xl text-navy mt-fluid-2 leading-normal mb-fluid-6"
     >
       {block.content as string}
     </p>
@@ -243,9 +243,9 @@ function MainContentSection({ study }: CaseStudyHeaderProps) {
   const contentBlocks = parseContentBlocks(study.mainText);
 
   return (
-    <section className="bg-cream py-fluid-8">
+    <section className="bg-white py-fluid-8">
       <div className="max-w-[800px] mx-auto px-fluid-6">
-        <h3 className="text-fluid-lg font-bold text-night mb-fluid-3 uppercase tracking-widest">
+        <h3 className="text-fluid-lg font-bold text-navy mb-fluid-3 uppercase tracking-widest">
           Project Overview
         </h3>
         <div className="w-full">
@@ -304,9 +304,9 @@ function AchievementItem({
 
 function AchievementsSection({ study }: CaseStudyHeaderProps) {
   return (
-    <section className="bg-cream">
+    <section className="bg-white">
       <div className="max-w-[1400px] mx-auto pb-fluid-8 px-fluid-6">
-        <div className="bg-night rounded-4xl px-fluid-6 py-fluid-8 md:px-fluid-6 md:py-fluid-8">
+        <div className="bg-navy rounded-4xl px-fluid-6 py-fluid-8 md:px-fluid-6 md:py-fluid-8">
           <h3 className="heading-lg text-white mb-fluid-6">Key Achievements</h3>
           <ul className="list-disc list-outside ml-fluid-6 space-y-fluid-3">
             {study.achievements.map((achievement, index) => (
@@ -329,9 +329,9 @@ function RelatedCaseStudiesSection({ study }: CaseStudyHeaderProps) {
   if (relatedSlides.length === 0) return null;
 
   return (
-    <section className="bg-cream pb-fluid-16 pt-fluid-4 px-fluid-6">
+    <section className="bg-white pb-fluid-16 pt-fluid-4 px-fluid-6">
       <div className="mx-auto max-w-[1100px]">
-        <h2 className="mb-fluid-6 text-center font-display text-fluid-5xl font-bold leading-tight text-night">
+        <h2 className="mb-fluid-6 text-center font-display text-fluid-5xl font-bold leading-tight text-navy">
           Related Case Studies
         </h2>
         <FlipbookCarousel slides={relatedSlides} />
@@ -359,17 +359,17 @@ export default async function CaseStudyPage({
           ogImage="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
           ogImageAlt="THOR Studio"
         />
-        <section className="min-h-screen bg-cream flex items-center justify-center">
+        <section className="min-h-screen bg-white flex items-center justify-center">
           <div className="text-center">
-            <h1 className="heading-lg text-night mb-fluid-4">
+            <h1 className="heading-lg text-navy mb-fluid-4">
               Case Study Not Found
             </h1>
-            <p className="font-sans font-light text-fluid-xl text-night/70">
+            <p className="font-sans font-light text-fluid-xl text-navy/70">
               The case study you're looking for doesn't exist.
             </p>
             <a
               href="/case-studies"
-              className="inline-block mt-fluid-6 px-fluid-6 py-fluid-3 bg-pink text-white rounded-full font-sans font-medium text-fluid-base hover:opacity-90 transition-opacity"
+              className="inline-block mt-fluid-6 px-fluid-6 py-fluid-3 bg-magenta text-white rounded-full font-sans font-medium text-fluid-base hover:opacity-90 transition-opacity"
             >
               View All Case Studies
             </a>
@@ -392,7 +392,7 @@ export default async function CaseStudyPage({
         ogType="article"
       />
 
-      <article className="bg-cream">
+      <article className="bg-white">
         <CaseStudyHeader study={study} />
         <ProjectBriefCard study={study} />
         <ProjectImageSection study={study} />

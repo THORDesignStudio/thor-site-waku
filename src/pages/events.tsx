@@ -33,7 +33,7 @@ export default function EventsPage() {
         <section className="bg-[#0f1847] px-fluid-6 pb-fluid-12 pt-fluid-6 text-white sm:pb-fluid-16">
           <div className="mx-auto max-w-[1219px]">
             <div className="py-fluid-5 sm:py-fluid-6">
-              <p className="font-sans text-fluid-lg font-extrabold uppercase tracking-[-0.02em] text-pink sm:text-fluid-xl">
+              <p className="font-sans text-fluid-lg font-extrabold uppercase tracking-[-0.02em] text-magenta sm:text-fluid-xl">
                 Upcoming Event
               </p>
               <h2 className="mt-4 font-sans text-[clamp(2.25rem,3.2vw,3.45rem)] font-normal leading-tight tracking-[-0.02em]">

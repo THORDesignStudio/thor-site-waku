@@ -30,17 +30,17 @@ function CaseStudyCard({ study }: CaseStudyCardProps) {
       {/* Card Content */}
       <div className="pt-fluid-4 flex flex-col gap-fluid-1">
         {/* Vertical Tag */}
-        <p className="text-fluid-xs text-night/50 uppercase tracking-widest font-bold">
+        <p className="text-fluid-xs text-navy/50 uppercase tracking-widest font-bold">
           {study.verticals[0]}
         </p>
 
         {/* Title */}
-        <h3 className="text-fluid-xl font-extrabold uppercase text-night leading-tight tracking-wide">
+        <h3 className="text-fluid-xl font-extrabold uppercase text-navy leading-tight tracking-wide">
           {study.name}
         </h3>
 
         {/* Dek */}
-        <p className="text-fluid-base font-light text-night/80 leading-relaxed">
+        <p className="text-fluid-base font-light text-navy/80 leading-relaxed">
           {study.dek}
         </p>
       </div>
@@ -64,13 +64,13 @@ export default function CaseStudiesPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#0B0F3C]">
+      <section className="relative overflow-hidden bg-[var(--color-navy)]">
         <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
           <h1 className="mb-fluid-4 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
             CASE STUDIES
           </h1>
           <div className="max-w-3xl">
-            <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+            <p className="section-subtitle font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal">
               See how THOR has delivered for our clients.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function CaseStudiesPage() {
       </section>
 
       {/* Case Studies Grid */}
-      <section className="bg-cream py-fluid-12 px-fluid-6 lg:px-fluid-12">
+      <section className="bg-white py-fluid-12 px-fluid-6 lg:px-fluid-12">
         <div className="mx-auto max-w-[1600px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-fluid-6">
             {sortedStudies.map((study) => (
