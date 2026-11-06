@@ -24,7 +24,7 @@ export const programs: Programs = {
         "If your organization is struggling with outdated thinking, it can cloud your entire company's vision. Our ability to transform your digital operations with design and technology solutions will reposition your firm as a leader.",
       url: '/programs/digital-transformation',
       image: '/images/programs/01-bridge-digital-transformation.png',
-      backgroundColor: 'var(--color-night)',
+      backgroundColor: 'var(--color-navy)',
     },
     {
       name: 'Greenfield Projects',
@@ -34,7 +34,7 @@ export const programs: Programs = {
         "Ideas are a brand's currency. But your customers want services that deliver value. THOR turns your visions into reality. We take data and design direction from your team and build them into solutions that delight your users.",
       url: '/programs/greenfield-projects',
       image: '/images/programs/02-flag-greenfield-projects.png',
-      backgroundColor: 'var(--color-gray-blue)',
+      backgroundColor: 'var(--color-indigo)',
     },
     {
       name: 'Organizational Rebranding',
@@ -44,7 +44,7 @@ export const programs: Programs = {
         'Your digital presence is the first impression customers have of you. Getting it wrong can tarnish your brand. We analyze where your brand misses customers and validate a new approach with data. Relaunch to eager audiences.',
       url: '/programs/rebranding',
       image: '/images/programs/05-cube-org-rebranding.png',
-      backgroundColor: 'var(--color-spicy-purple)',
+      backgroundColor: 'var(--color-plum)',
     },
     {
       name: 'Technology Consulting',
@@ -54,7 +54,7 @@ export const programs: Programs = {
         'Legacy systems hurt your brand every day. Our consulting services deliver clarity. We will identify which systems hold your vision back, and which can accelerate your mission. Your organization will be trained for the next chapter of success.',
       url: '/programs/consulting',
       image: '/images/programs/03-flashlight-tech-consultation.png',
-      backgroundColor: 'var(--color-pink-flat)',
+      backgroundColor: 'var(--color-deep-magenta)',
     },
     {
       name: 'Interactive Campaigns',
@@ -64,7 +64,7 @@ export const programs: Programs = {
         'Tired designs communicate a lack of vision. THOR can infuse a new world of creativity into your mission with engaging campaigns. We experiment with new aesthetics that close the gap between your dreams and your customers.',
       url: '/programs/interactive-campaigns',
       image: '/images/programs/04-satellite-interactive-design.png',
-      backgroundColor: 'var(--color-gray-blue)',
+      backgroundColor: 'var(--color-indigo)',
     },
   ],
 };

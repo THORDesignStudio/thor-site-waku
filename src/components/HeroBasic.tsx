@@ -4,7 +4,7 @@ import { HeroText } from './HeroText';
 
 export function HeroBasic() {
   return (
-    <section className="relative h-dvh overflow-hidden bg-night">
+    <section className="relative h-dvh overflow-hidden bg-navy">
       {/* iOS-specific top mask via @supports */}
       <style>{`
         @supports (-webkit-touch-callout: none) {

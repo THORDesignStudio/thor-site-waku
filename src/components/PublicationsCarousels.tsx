@@ -143,7 +143,7 @@ function CarouselArrow({
     <button
       type="button"
       onClick={onClick}
-      className={`flex size-12 touch-manipulation shrink-0 cursor-pointer select-none items-center justify-center rounded-full border-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink ${
+      className={`flex size-12 touch-manipulation shrink-0 cursor-pointer select-none items-center justify-center rounded-full border-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta ${
         inverse
           ? 'border-white/60 text-white hover:border-white hover:bg-white hover:text-[#0f1847]'
           : 'border-[#0f1847] text-[#0f1847] hover:bg-[#0f1847] hover:text-white'
@@ -187,12 +187,12 @@ function Pagination({
           key={index}
           type="button"
           onClick={() => onSelect(index)}
-          className={`size-3 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink ${
+          className={`size-3 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta ${
             activeIndex === index
-              ? 'scale-110 bg-pink'
+              ? 'scale-110 bg-magenta'
               : inverse
                 ? 'bg-white/35 hover:bg-white/65'
-                : 'bg-night/20 hover:bg-night/40'
+                : 'bg-navy/20 hover:bg-navy/40'
           }`}
           aria-label={`Show slide ${index + 1} of ${count}`}
           aria-current={activeIndex === index ? 'true' : undefined}
@@ -230,7 +230,7 @@ export function FlagshipPublications() {
             key={publication.name}
             className="publication-carousel-frame max-w-3xl"
           >
-            <p className="mb-fluid-2 text-fluid-sm font-extrabold uppercase tracking-wide text-pink">
+            <p className="mb-fluid-2 text-fluid-sm font-extrabold uppercase tracking-wide text-magenta">
               {publication.category}
             </p>
             <h2 className="text-fluid-5xl font-normal leading-tight tracking-tight">
@@ -317,7 +317,7 @@ export function AerospaceSpotlight() {
       >
         <div className="mx-auto grid max-w-[1580px] items-center gap-fluid-8 lg:grid-cols-2">
           <div>
-            <div className="relative aspect-[721/505] w-full overflow-hidden bg-cream-dark">
+            <div className="relative aspect-[721/505] w-full overflow-hidden bg-cool">
               {slide.background && (
                 <img
                   src={slide.background}
@@ -366,7 +366,7 @@ export function AerospaceSpotlight() {
           </div>
 
           <div className="max-w-3xl">
-            <p className="mb-fluid-2 text-fluid-sm font-extrabold uppercase tracking-wide text-pink">
+            <p className="mb-fluid-2 text-fluid-sm font-extrabold uppercase tracking-wide text-magenta">
               Spotlight
             </p>
             <h2 className="text-fluid-5xl font-normal leading-tight tracking-tight">

@@ -148,11 +148,11 @@ export const Header = () => {
       >
         <nav
           className={`
-            flex flex-col bg-night/97  transition-all
+            flex flex-col bg-navy/97  transition-all
             rounded-4xl p-2 shadow-lg max-w-[1300px] w-full mx-auto border-2 border-white/60
             backface-visible will-change-scroll
-            ${isMenuOpen ? 'max-sm:rounded-3xl bg-night/97' : ''}
-            ${isContactOpen ? 'max-sm:rounded-3xl bg-night/97' : ''}
+            ${isMenuOpen ? 'max-sm:rounded-3xl bg-navy/97' : ''}
+            ${isContactOpen ? 'max-sm:rounded-3xl bg-navy/97' : ''}
           `}
           style={{
             transitionDuration: 'var(--spring-bounce-duration)',
@@ -207,7 +207,7 @@ export const Header = () => {
               </Link>
               <button
                 onClick={openContactForm}
-                className="px-8 py-4 bg-pink text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
+                className="px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
               >
                 Work With Us
               </button>
@@ -237,7 +237,7 @@ export const Header = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="text-cream"
+                className="text-white"
               >
                 <path
                   d="M18 6L6 18M6 6L18 18"
@@ -348,7 +348,7 @@ export const Header = () => {
               </Link>
               <button
                 onClick={openContactForm}
-                className="px-8 py-4 bg-pink text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase mt-2 cursor-pointer"
+                className="px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase mt-2 cursor-pointer"
               >
                 Work With Us
               </button>

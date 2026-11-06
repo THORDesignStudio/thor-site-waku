@@ -87,13 +87,13 @@ export function HeroText() {
   return (
     <div>
       <h1
-        className="font-sans font-extrabold leading-tight text-cream"
+        className="font-sans font-extrabold leading-tight text-white"
         style={{ fontSize: 'clamp(3rem, 5vw + 1rem, 5rem)' }}
       >
         Your{' '}
         <span
           ref={spanRef}
-          className="inline-block max-[900px]:block text-pink"
+          className="inline-block max-[900px]:block text-magenta"
           style={{
             opacity: isAnimating ? 0 : 1,
             transform: isAnimating ? 'translateY(-20px)' : 'translateY(0)',
@@ -105,7 +105,7 @@ export function HeroText() {
         <span className="min-[900px]:block">is about to get</span>
         <span className="block">a lot better.</span>
       </h1>
-      <p className="font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+      <p className="font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal">
         Learn how THOR brings our clients to the next level.
       </p>
     </div>

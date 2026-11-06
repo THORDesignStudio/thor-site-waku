@@ -21,13 +21,13 @@ export default async function AboutPage() {
         ogImage="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
       />
 
-      <section className="relative min-h-[50vh] overflow-hidden bg-[#0B0F3C]">
+      <section className="relative min-h-[50vh] overflow-hidden bg-[var(--color-navy)]">
         <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
           <h1 className="mb-fluid-8 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
             ABOUT THOR
           </h1>
           <div className="max-w-3xl">
-            <p className="section-subtitle font-sans font-light text-fluid-2xl text-cream mt-fluid-2 leading-normal">
+            <p className="section-subtitle font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal">
               THOR is a collective of designers, developers, and digital experts
               creating tailored solutions and premier publications. For over 15
               years, we've blended creativity and technology to craft
@@ -42,14 +42,14 @@ export default async function AboutPage() {
       {featuredMembers.map((member: Staff, index: number) => (
         <section
           key={member.name}
-          className="relative overflow-hidden bg-night"
+          className="relative overflow-hidden bg-navy"
         >
           <FeaturedTeamMember member={member} index={index} />
         </section>
       ))}
 
       {/* Team Grid Section */}
-      <section className="bg-night py-fluid-10">
+      <section className="bg-navy py-fluid-10">
         <div className="mx-auto max-w-[1600px] px-fluid-6">
           <div className="grid gap-fluid-12 grid-cols-1">
             {gridMembers.map((member) => (
@@ -91,11 +91,11 @@ function FeaturedTeamMember({
         <div className="relative flex-1 pt-fluid-8 lg:pt-fluid-16 z-10 lg:max-w-[50%] px-fluid-6">
           {/* Name and Role */}
           <h2 className="mb-fluid-4 text-fluid-4xl font-semibold leading-[1.1] uppercase tracking-fluid-tight text-white">
-            {member.name} <span className="text-pink block">{member.role}</span>
+            {member.name} <span className="text-magenta block">{member.role}</span>
           </h2>
 
           {/* Bio */}
-          <p className="font-sans font-light text-fluid-xl text-cream mt-fluid-2 leading-normal">
+          <p className="font-sans font-light text-fluid-xl text-white mt-fluid-2 leading-normal">
             {member.bio}
           </p>
         </div>
@@ -137,7 +137,7 @@ function TeamCard({ member }: { member: Staff }) {
           alt={member.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-night/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-navy/60 via-transparent to-transparent" />
       </div>
 
       {/* Content */}
@@ -148,12 +148,12 @@ function TeamCard({ member }: { member: Staff }) {
           style={{ fontFamily: 'var(--font-family-sans)' }}
         >
           {member.name}
-          <span className="text-pink block text-fluid-2xl">{member.role}</span>
+          <span className="text-magenta block text-fluid-2xl">{member.role}</span>
         </h2>
 
         {/* Bio */}
         <p
-          className="font-sans font-light text-fluid-xl text-cream mt-fluid-2 leading-normal"
+          className="font-sans font-light text-fluid-xl text-white mt-fluid-2 leading-normal"
           style={{ fontFamily: 'var(--font-family-sans)' }}
         >
           {member.bio}

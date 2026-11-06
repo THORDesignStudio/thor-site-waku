@@ -695,7 +695,7 @@ export default function FlipbookCarousel({ slides }: FlipbookCarouselProps) {
             <div className="flipbook-card__body absolute -bottom-16 left-0 right-0 flex justify-center px-4 opacity-0 translate-y-2.5 transition-[opacity,transform] duration-200 ease-out">
               <a
                 href={`/case-studies/${slide.slug}`}
-                className="flipbook-card__cta pointer-events-auto m-0 inline-flex items-center justify-center gap-3 rounded-full bg-pink px-5 py-2 font-sans text-base font-medium leading-snug text-white transition-colors duration-200 hover:bg-pink-dark focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink sm:text-lg"
+                className="flipbook-card__cta pointer-events-auto m-0 inline-flex items-center justify-center gap-3 rounded-full bg-magenta px-5 py-2 font-sans text-base font-medium leading-snug text-white transition-colors duration-200 hover:opacity-80 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta sm:text-lg"
               >
                 <span className="min-w-0 whitespace-normal text-center">
                   {slide.label}

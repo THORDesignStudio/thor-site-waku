@@ -79,17 +79,17 @@ function CaseStudyCard({ study }: CaseStudyCardProps) {
       {/* Card Content */}
       <div className="pt-[var(--spacing-fluid-4)] flex flex-col gap-[var(--spacing-fluid-1)]">
         {/* Subtitle - vertical */}
-        <p className="text-fluid-xs text-night/50 uppercase tracking-widest font-bold">
+        <p className="text-fluid-xs text-navy/50 uppercase tracking-widest font-bold">
           {study.verticals[0]}
         </p>
 
         {/* Title */}
-        <h3 className="text-fluid-2xl font-extrabold uppercase text-night leading-tight tracking-wide">
+        <h3 className="text-fluid-2xl font-extrabold uppercase text-navy leading-tight tracking-wide">
           {study.name}
         </h3>
 
         {/* Description / Dek */}
-        <p className="text-fluid-base font-light text-night leading-relaxed">
+        <p className="text-fluid-base font-light text-navy leading-relaxed">
           {study.dek}
         </p>
 
@@ -97,7 +97,7 @@ function CaseStudyCard({ study }: CaseStudyCardProps) {
         <div className="pt-fluid-2">
           <a
             href={`/case-studies/${study.slug}`}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink text-white rounded-full hover:bg-pink-dark hover:-translate-y-1 transition-all duration-300 ease-out text-fluid-sm font-extrabold uppercase"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-magenta text-white rounded-full hover:opacity-80 hover:-translate-y-1 transition-all duration-300 ease-out text-fluid-sm font-extrabold uppercase"
           >
             Read More
             <ArrowRightIcon className="w-4 h-4" />
@@ -122,7 +122,7 @@ function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
   return (
     <aside className="shrink-0 lg:w-[280px] hidden lg:block" aria-label="Case study navigation">
       {/* Section Title */}
-      <h2 className="text-fluid-xl font-extrabold uppercase text-night mb-fluid-4 tracking-wide">
+      <h2 className="text-fluid-xl font-extrabold uppercase text-navy mb-fluid-4 tracking-wide">
         Select Work
       </h2>
 
@@ -138,7 +138,7 @@ function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
                   onClick={() => onSelectIndex(index)}
                   className={`
                     w-full text-left text-fluid-base transition-all duration-300 hover:cursor-pointer
-                    ${isActive ? 'font-bold text-night' : 'text-night/60 hover:text-night/80'}
+                    ${isActive ? 'font-bold text-navy' : 'text-navy/60 hover:text-navy/80'}
                   `}
                   aria-label={`Case Study ${number}: ${study.name}`}
                   aria-pressed={isActive}
@@ -179,10 +179,10 @@ function CarouselControls({
   total,
 }: CarouselControlsProps) {
   const buttonBase =
-    'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
+    'w-10 h-10 rounded-full border-2 border-magenta flex items-center justify-center transition-all duration-200';
   const buttonEnabled =
-    'text-pink hover:bg-pink hover:text-white cursor-pointer';
-  const buttonDisabled = 'text-pink/30 border-pink/30 cursor-not-allowed';
+    'text-magenta hover:bg-magenta hover:text-white cursor-pointer';
+  const buttonDisabled = 'text-magenta/30 border-magenta/30 cursor-not-allowed';
 
   return (
     <div className="flex items-center gap-3">
@@ -404,7 +404,7 @@ export function CaseStudyCarousel() {
   return (
     <section 
       ref={sectionRef} 
-      className="bg-cream py-fluid-12 px-fluid-6"
+      className="bg-white py-fluid-12 px-fluid-6"
       role="region"
       aria-roledescription="carousel"
       aria-label="Case Studies Carousel"
@@ -412,10 +412,10 @@ export function CaseStudyCarousel() {
       {/* Section Title */}
       <div ref={headerRef} className="mb-fluid-12">
         <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-night tracking-tight">
+          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-navy tracking-tight">
             Case Studies
           </span>
-          <p className="section-subtitle font-sans font-light text-fluid-2xl text-night pl-fluid-1 mt-fluid-2">
+          <p className="section-subtitle font-sans font-light text-fluid-2xl text-navy pl-fluid-1 mt-fluid-2">
             See how THOR delivered for our clients.
           </p>
         </h1>

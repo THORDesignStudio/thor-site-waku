@@ -159,7 +159,7 @@ export const EventSignupForm = () => {
         <button
           type="submit"
           disabled={isSubmitting || !turnstileToken}
-          className="mt-5 min-h-[65px] min-w-[min(289px,100%)] cursor-pointer rounded-full bg-pink px-8 font-sans text-xl font-extrabold uppercase tracking-[-0.02em] text-white transition-colors hover:bg-pink-light focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-5 min-h-[65px] min-w-[min(289px,100%)] cursor-pointer rounded-full bg-magenta px-8 font-sans text-xl font-extrabold uppercase tracking-[-0.02em] text-white transition-colors hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? 'Submitting…' : 'Submit Your Info'}
         </button>

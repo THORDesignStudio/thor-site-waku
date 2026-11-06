@@ -72,10 +72,10 @@ function CarouselControls({
   total,
 }: CarouselControlsProps) {
   const buttonBase =
-    'w-10 h-10 rounded-full border-2 border-pink flex items-center justify-center transition-all duration-200';
+    'w-10 h-10 rounded-full border-2 border-magenta flex items-center justify-center transition-all duration-200';
   const buttonEnabled =
-    'text-pink hover:bg-pink hover:text-white cursor-pointer';
-  const buttonDisabled = 'text-pink/30 border-pink/30 cursor-not-allowed';
+    'text-magenta hover:bg-magenta hover:text-white cursor-pointer';
+  const buttonDisabled = 'text-magenta/30 border-magenta/30 cursor-not-allowed';
 
   return (
     <div className="flex items-center gap-3">
@@ -103,10 +103,10 @@ function CarouselControls({
 }
 
 const pinkColors = [
-  'bg-pink',
-  'bg-pink-light',
-  'bg-pink-flat',
-  'bg-pink-dark',
+  'bg-magenta',
+  'bg-magenta',
+  'bg-deep-magenta',
+  'bg-magenta',
 ] as const;
 
 type PinkColor = (typeof pinkColors)[number];
@@ -380,10 +380,10 @@ export function TestimonialCards() {
           return (
             <article
               key={item.key}
-              className={`relative overflow-hidden rounded-[1.1rem] border border-night/80 transition-[width] duration-[750ms] ease-[var(--ease-out-sine)] ${
+              className={`relative overflow-hidden rounded-[1.1rem] border border-navy/80 transition-[width] duration-[750ms] ease-[var(--ease-out-sine)] ${
                 isExpanded
-                  ? 'w-[65%] bg-cream/80 delay-0'
-                  : 'w-[5%] bg-cream/80 delay-[225ms]'
+                  ? 'w-[65%] bg-white/80 delay-0'
+                  : 'w-[5%] bg-white/80 delay-[225ms]'
               }`}
             >
               <div
@@ -401,7 +401,7 @@ export function TestimonialCards() {
                 aria-expanded={isExpanded}
                 aria-controls={panelId}
                 onClick={() => setExpandedIndex(index)}
-                className="absolute inset-0 z-20 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-pink"
+                className="absolute inset-0 z-20 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-magenta"
               >
                 <span className="sr-only">
                   {isExpanded
@@ -418,8 +418,8 @@ export function TestimonialCards() {
                 aria-hidden={!isExpanded}
                 className={`absolute inset-0 z-10 flex flex-col justify-end gap-fluid-6 p-fluid-6 transition-[opacity,transform,color] ease-[var(--ease-out-sine)] ${
                   isExpanded
-                    ? 'translate-x-0 opacity-100 text-cream duration-[360ms] delay-[750ms]'
-                    : 'pointer-events-none translate-x-4 opacity-0 text-night duration-[270ms] delay-0'
+                    ? 'translate-x-0 opacity-100 text-white duration-[360ms] delay-[750ms]'
+                    : 'pointer-events-none translate-x-4 opacity-0 text-navy duration-[270ms] delay-0'
                 }`}
               >
                 <p className="text-fluid-xl font-sans font-light italic leading-relaxed">
@@ -439,7 +439,7 @@ export function TestimonialCards() {
                 }`}
               >
                 <span
-                  className="text-fluid-md font-sans font-extrabold uppercase tracking-wide text-night"
+                  className="text-fluid-md font-sans font-extrabold uppercase tracking-wide text-navy"
                   style={{
                     writingMode: 'vertical-rl',
                     textOrientation: 'mixed',
@@ -480,7 +480,7 @@ export function TestimonialCards() {
               role="group"
               aria-label={`Testimonial ${index + 1} of ${displayTestimonials.length}: ${item.organization}`}
             >
-              <article className="relative flex flex-col overflow-hidden rounded-[1.1rem] border border-night/80 bg-cream/80 min-h-[400px]">
+              <article className="relative flex flex-col overflow-hidden rounded-[1.1rem] border border-navy/80 bg-white/80 min-h-[400px]">
                 {/* Pink background overlay - always visible on mobile carousel */}
                 <div
                   aria-hidden="true"
@@ -490,12 +490,12 @@ export function TestimonialCards() {
                 {/* Content container - always visible */}
                 <div className="relative z-10 flex flex-col justify-end h-full p-fluid-6">
                   {/* Quote text */}
-                  <p className="text-fluid-xl font-sans font-light italic leading-relaxed text-cream pb-fluid-4">
+                  <p className="text-fluid-xl font-sans font-light italic leading-relaxed text-white pb-fluid-4">
                     &ldquo;{item.displayText}&rdquo;
                   </p>
 
                   {/* Organization name */}
-                  <p className="text-fluid-md font-sans font-extrabold uppercase tracking-wide text-cream">
+                  <p className="text-fluid-md font-sans font-extrabold uppercase tracking-wide text-white">
                     {item.organization}
                   </p>
                 </div>

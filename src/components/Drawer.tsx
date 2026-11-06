@@ -201,7 +201,7 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
     <>
       <button
         aria-label="Close drawer"
-        className="fixed inset-0 bg-night/85 z-100 cursor-default"
+        className="fixed inset-0 bg-navy/85 z-100 cursor-default"
         onClick={requestClose}
         style={{
           animation: 'none',
@@ -233,13 +233,13 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
           willChange: 'transform',
         }}
       >
-        <div className="w-full max-w-6xl xl:max-w-[57.6rem] bg-cream rounded-t-3xl h-[85vh] overflow-hidden flex flex-col">
-          <div className="absolute left-0 right-0 top-full h-[200%] bg-cream" />
+        <div className="w-full max-w-6xl xl:max-w-[57.6rem] bg-white rounded-t-3xl h-[85vh] overflow-hidden flex flex-col">
+          <div className="absolute left-0 right-0 top-full h-[200%] bg-white" />
 
           {/* Drag handle indicator */}
           <div className="flex justify-center pt-fluid-2 pb-fluid-1">
             <div
-              className="relative w-12 h-1.5 bg-night/20 rounded-full opacity-70 hover:opacity-100 active:opacity-100"
+              className="relative w-12 h-1.5 bg-navy/20 rounded-full opacity-70 hover:opacity-100 active:opacity-100"
               data-drawer-handle
               style={{ touchAction: 'none' }}
             >
@@ -250,12 +250,12 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
           {/* Header with close button */}
           <div className="flex justify-end px-fluid-4 pb-fluid-1">
             <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-night/10 hover:bg-night/20 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-navy/10 hover:bg-navy/20 transition-colors"
               aria-label="Close"
               onClick={requestClose}
             >
               <svg
-                className="w-5 h-5 text-night"
+                className="w-5 h-5 text-navy"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -278,7 +278,7 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
             data-lenis-prevent
           >
             {/* Item content */}
-            <div className="w-full text-night">
+            <div className="w-full text-navy">
               <h2
                 id="drawer-title"
                 className="heading-lg mb-fluid-7 text-center"
@@ -288,7 +288,7 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
 
               <div
                 id="drawer-description"
-                className="body-lg text-night/70 mb-8 grid w-full gap-5"
+                className="body-lg text-navy/70 mb-8 grid w-full gap-5"
               >
                 {descriptionParagraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>

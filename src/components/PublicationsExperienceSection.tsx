@@ -125,10 +125,10 @@ export function PublicationsExperienceSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden py-fluid-16 text-cream"
+      className="relative w-full overflow-hidden py-fluid-16 text-white"
       style={{
         background:
-          'linear-gradient(to bottom, var(--color-night) 0%, var(--color-night-blue) 50%, var(--color-night) 100%)',
+          'linear-gradient(to bottom, var(--color-navy) 0%, var(--color-indigo) 50%, var(--color-navy) 100%)',
       }}
     >
       <div className="relative z-10">
@@ -151,21 +151,21 @@ export function PublicationsExperienceSection() {
                 ref={(element) => {
                   serviceRefs.current[index] = element;
                 }}
-                className="border-t border-dashed border-cream/40 py-fluid-6 first:border-t-0"
+                className="border-t border-dashed border-white/40 py-fluid-6 first:border-t-0"
                 aria-labelledby={titleId}
               >
                 <h3
                   id={titleId}
                   className="publication-service-title heading-lg"
                   style={{
-                    WebkitTextStroke: '1px var(--color-cream)',
+                    WebkitTextStroke: '1px var(--color-white)',
                     color: 'transparent',
                   }}
                 >
                   {service.name}
                 </h3>
                 <p
-                  className="publication-service-description mt-fluid-2 max-w-[1100px] font-sans text-fluid-xl font-light leading-relaxed text-cream"
+                  className="publication-service-description mt-fluid-2 max-w-[1100px] font-sans text-fluid-xl font-light leading-relaxed text-white"
                   style={{ opacity: 0.3 }}
                 >
                   {service.description}
@@ -179,7 +179,7 @@ export function PublicationsExperienceSection() {
           <button
             type="button"
             onClick={() => setIsContactOpen(true)}
-            className="min-h-[65px] cursor-pointer rounded-full bg-pink px-10 font-sans text-xl font-extrabold uppercase tracking-[-0.02em] text-white transition-colors hover:bg-pink-light focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            className="min-h-[65px] cursor-pointer rounded-full bg-magenta px-10 font-sans text-xl font-extrabold uppercase tracking-[-0.02em] text-white transition-colors hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
             Work With Us
           </button>
