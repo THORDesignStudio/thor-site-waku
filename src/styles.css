@@ -37,12 +37,6 @@
     box-shadow: 0 8px 24px rgb(14 10 53 / 6%);
   }
 
-  .case-filter-nav {
-    position: sticky;
-    top: var(--site-header-clearance);
-    z-index: 30;
-  }
-
   .case-section-nav > div {
     min-height: var(--case-nav-height);
     scrollbar-width: thin;

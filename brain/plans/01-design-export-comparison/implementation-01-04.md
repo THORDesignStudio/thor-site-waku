@@ -7,7 +7,7 @@ Back to [[plans/01-design-export-comparison/overview]]
 - Phase 2: documented current widths, gutters and rhythm in `/styleguide`; reuse semantic typography and current shell/motion.
 - Phase 3: shared body template across all 17 studies, circle artwork, client/services metadata, overview, numbered achievement tiles and section links.
 - User correction: detail section pills scroll away; clicks use Lenis with sine in/out over 1.2–2.4 seconds based on distance, preserve URL fragments, clear the fixed header and focus the target. Reduced motion jumps immediately.
-- Listing retains its established composition; added sticky horizontal filtering, live count, canonical display labels, semantic summaries and pointer/reduced-motion-aware card interactions.
+- Listing retains its established composition; horizontal filtering, live count, canonical display labels, semantic summaries and pointer/reduced-motion-aware card interactions. Per user correction, the filter bar scrolls with the page.
 - Phase 4: accessible project-image lightbox with arrows/buttons, swipe, focus wrapping/restoration, Escape, body/Lenis locking and cleanup.
 - Existing related-work carousel and weighted ranking retained; reduced motion uses static project cards.
 - Existing case-study SEO optional-dimension typing error fixed in the touched template.

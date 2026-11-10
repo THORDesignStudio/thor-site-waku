@@ -75,7 +75,7 @@ export function CaseStudyFilterGrid({ studies }: { studies: CaseStudy[] }) {
 
   return (
     <section className="bg-white" aria-label="Case studies">
-      <div className="case-section-nav case-filter-nav">
+      <div className="case-section-nav">
         <div className="case-page-width flex items-center gap-4 py-3">
           <div
             role="group"

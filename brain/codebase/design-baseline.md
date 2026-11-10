@@ -7,7 +7,7 @@
 - Resolve Lenis anchor targets from document coordinates (`getBoundingClientRect().top + window.scrollY`); sync its start to the visible scroll position before moving. Coordinate fixes alone do not prevent stale-start jumps.
 - Section highlighting subscribes through `useLenis` scroll callbacks. Anchor movement uses sine in/out and a distance-based 1.2–2.4s duration; exponential out moved too far in the first frames on long jumps.
 - Direct section fragments reconcile after fonts settle; cancel pending correction when the user interacts. Verify `/case-studies/engineering-inc#related` on desktop and mobile.
-- The case-list filter rail remains sticky; topic spelling aliases live in `src/data/case-study-topics.ts` and accept legacy `?topic=` values.
+- The case-list filter rail scrolls with the page, just like the detail section bar. Topic spelling aliases live in `src/data/case-study-topics.ts` and accept legacy `?topic=` values.
 - Case-study slugs and 4/3/2 related-work ranking are stable. Draft status excludes studies from listing, static generation, and related work.
 - The related-work FlipbookCarousel was already complete; retain it. The detail wrapper supplies static related links for reduced motion.
 - `src/data/case-study-galleries.ts` contains 11 real five-image galleries and six existing composite fallbacks. Never import grey export placeholders as artwork.
