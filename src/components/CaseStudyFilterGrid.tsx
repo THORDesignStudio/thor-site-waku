@@ -65,7 +65,7 @@ export function CaseStudyFilterGrid({ studies }: { studies: CaseStudy[] }) {
       : studies.filter((study) => study.verticals.includes(filter));
 
   return (
-    <section className="bg-white py-fluid-8 px-fluid-6 lg:px-fluid-12">
+    <section className="bg-white py-fluid-8 px-fluid-6">
       <div className="mx-auto max-w-[1600px]">
         <div
           role="group"

@@ -2,7 +2,7 @@ import { caseStudies } from '../data/case-studies';
 import { SEO } from '../components/SEO';
 import { PageHero } from '../components/PageHero';
 import { CaseStudyFilterGrid } from '../components/CaseStudyFilterGrid';
-import { ChallengeCta } from '../components/ChallengeCta';
+import { ChallengePromo } from '../components/ChallengePromo';
 
 export default function CaseStudiesPage() {
   const sortedStudies = [...caseStudies.caseStudies].sort((a, b) =>
@@ -26,7 +26,7 @@ export default function CaseStudiesPage() {
 
       <CaseStudyFilterGrid studies={sortedStudies} />
 
-      <ChallengeCta />
+      <ChallengePromo />
     </>
   );
 }
