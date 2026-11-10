@@ -1,5 +1,6 @@
 import { staff, type Staff } from '../data/staff.js';
 import { SEO } from '../components/SEO';
+import { PageHero } from '../components/PageHero';
 
 export default async function AboutPage() {
   // Get all staff members from the first staff list
@@ -21,22 +22,19 @@ export default async function AboutPage() {
         ogImage="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
       />
 
-      <section className="relative min-h-[50vh] overflow-hidden bg-[var(--color-navy)]">
-        <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
-          <h1 className="mb-fluid-8 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
-            ABOUT THOR
-          </h1>
-          <div className="max-w-3xl">
-            <p className="section-subtitle font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal">
-              THOR is a collective of designers, developers, and digital experts
-              creating tailored solutions and premier publications. For over 15
-              years, we've blended creativity and technology to craft
-              user-focused websites, apps, and media that exceed expectations
-              and drive lasting success.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title="ABOUT"
+        highlight="THOR"
+        subtitle={
+          <>
+            THOR is a collective of designers, developers, and digital experts
+            creating tailored solutions and premier publications. For over 15
+            years, we've blended creativity and technology to craft
+            user-focused websites, apps, and media that exceed expectations and
+            drive lasting success.
+          </>
+        }
+      />
 
       {/* Featured Team Members */}
       {featuredMembers.map((member: Staff, index: number) => (

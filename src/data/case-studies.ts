@@ -36,7 +36,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'IBD Drug Guide',
       slug: 'ibd-drug-guide',
-      dek: 'A healthcare web application and clinical decision-support tool for physicians and patients battling IBD',
+      dek: 'Web app and clinical decision-support tool for IBD patients and physicians',
       projectBrief:
         "THOR Digital partnered with Knighten Health and the American Gastroenterological Association (AGA) to develop the IBD Drug Guide. The main goal of the project was to simplify treatment decision-making for patients with IBD (Inflammatory Bowel Disease) conditions like Ulcerative Colitis and Crohn's Disease.\n\nThis guide displays the full breadth of treatment options currently available but also uses an interactive Q&A funnel that walks users through the key treatment decision points. A complex pharmaceutical database becomes a personalized, quiz-driven experience for the user. This empowers patients to understand their treatment options while the research community gains insight into disease prevalence.",
       mainText:
@@ -76,7 +76,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'City Ratings',
       slug: 'city-ratings',
-      dek: 'A complex, data-centric site ranking bikeability in cities around the globe',
+      dek: 'Data-heavy site ranking how bikeable cities worldwide are',
       projectBrief:
         'THOR Digital and PeopleForBikes have been partners since 2020 producing annual editions of the City Ratings platform. This data-driven website ranks the bikeability of over 2500 cities across the globe. The platform translates complex mobility data into comparable scores and data visualizations that empower users to analyze what actually makes a city good for biking.',
       mainText:
@@ -118,7 +118,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Aerospace America Feature+ Articles',
       slug: 'aerospace-america-articles',
-      dek: 'Custom editorial content from a decade of aerospace and aeronautics publication design',
+      dek: 'Long-running custom editorial work for an aerospace publication',
       projectBrief:
         'THOR Digital partnered with American Institute of Aeronautics and Astronautics to expand the digital storytelling capabilities of Aerospace America through Feature+, a premium content format that transforms technical print stories into interactive web experiences. The initiative blends advanced data visualization, animation, and multimedia to deepen reader engagement.',
       mainText:
@@ -155,7 +155,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'MASH App',
       slug: 'mash-app',
-      dek: 'An Advanced App to Help Fight a Silent Epidemic',
+      dek: 'Advanced app aimed at a largely hidden health epidemic',
       projectBrief:
         'THOR Digital partnered with Knighten Health to develop the MASH clinical app, a streamlined tool for physicians managing metabolic dysfunction-associated steatohepatitis (MASH). Built around a validated scoring system, the app delivers rapid, accurate patient assessments, supports pediatric and adult care, and serves as an educational and data-driven resource. It exemplifies how strategy, design, and technology converge in high-stakes clinical environments.',
       mainText:
@@ -190,7 +190,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Chemonics Media Site',
       slug: 'chemonics-media-site',
-      dek: 'An extensive documentary film gallery supporting international development efforts',
+      dek: 'Large documentary film gallery backing international development work',
       projectBrief:
         'THOR Digital partnered with Chemonics International to create the Media Showcase, a dynamic microsite highlighting the organization’s documentary film portfolio. The campaign combines immersive video storytelling, refined design, and a flexible Webflow CMS to present impactful media projects. The design amplifies global development stories that enable Chemonics to promote and grow its film library.',
       mainText:
@@ -231,7 +231,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Construction Executive Magazine',
       slug: 'construction-executive-magazine',
-      dek: 'An Enhanced Experience for Digital and Print Readers',
+      dek: 'Upgraded experience for both digital and print readers',
       projectBrief:
         'THOR Digital partnered with the Association of Builders and Contractors to transform Construction Executive through a full print redesign, digital publication development, and ongoing print production. THOR created a unified, scalable platform that enhances user experience, streamlines advertising, and positions Construction Executive as a modern, authoritative resource for the engineering and construction community.',
       mainText:
@@ -268,7 +268,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'NIRI Investor Relations Rebrand',
       slug: 'niri-investor-relations-rebrand',
-      dek: 'A modern and scaleable brand for a financial institute, and one of THOR’s long time clients',
+      dek: 'Scalable modern brand for a financial institute and long-time client',
       projectBrief:
         'THOR Digital has partnered with NIRI for over two decades, delivering award-winning design solutions that elevate the association’s presence within the financial sector. From its flagship publication to a comprehensive brand overhaul, THOR has consistently translated complex investor relations messaging into clear, compelling visual communications across print, digital, and experiential platforms.',
       mainText:
@@ -304,7 +304,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Engineering Inc',
       slug: 'engineering-inc',
-      dek: 'World-class digital publication for a pre-eminent engineering association',
+      dek: 'Premier digital publication for a leading engineering association',
       projectBrief:
         'THOR Digital partnered with American Council of Engineering Companies to transform Engineering Inc. from a traditional print publication into a modern digital-first magazine platform. The new website delivers long-form editorial storytelling, scalable content architecture, and integrated sponsorship opportunities—equipping ACEC with a flexible publishing system built for sustained audience growth and efficient editorial management.',
       mainText:
@@ -344,7 +344,7 @@ export const caseStudies: CaseStudies = {
     {
       name: "Let's Beat HCM",
       slug: 'lets-beat-hcm',
-      dek: 'An awareness site dedicated to a serious heart condition affecting African-Americans',
+      dek: 'Awareness site for a serious heart condition affecting African Americans',
       projectBrief:
         'THOR Digital partnered with Knighten Health and the Association of Black Cardiologists to develop Let’s Beat HCM, a microsite raising awareness of hypertrophic cardiomyopathy (HCM) in Black patients. The site provides curated educational resources, regional expert trainer listings, event calendars, and peer-to-peer training materials, empowering primary care practitioners to identify and manage HCM effectively while addressing racial disparities in cardiovascular care.',
       mainText:
@@ -379,7 +379,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Leon Hotel',
       slug: 'leon-hotel',
-      dek: 'Emergency branding effort for a premium Manhattan hotel property',
+      dek: 'Rapid-response branding for an upscale Manhattan hotel',
       projectBrief:
         'THOR Digital partnered with the Leon Hotel in Manhattan after a trademark conflict forced an urgent rebrand. Within two weeks, the team rebuilt the brand from the ground up, developing a refined visual identity rooted in strategic positioning. The result was a cohesive, modern brand system applied across every guest touchpoint, restoring confidence and elevating the hotel’s market presence overall.',
       mainText:
@@ -412,7 +412,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Citiva',
       slug: 'citiva',
-      dek: 'Fashion-inspired branding for a sleek Manhattan medical marijuana dispensary',
+      dek: 'Fashion-driven branding for a Manhattan medical marijuana dispensary',
       projectBrief:
         'THOR Digital partnered with Citiva, a Manhattan-based medicinal cannabis brand, to create a premium identity that redefined expectations in the retail space. Inspired by luxury and fashion, the engagement encompassed packaging, apparel, and in-store design. The result was a cohesive, elevated brand experience that positioned Citiva at the forefront of modern cannabis retail.',
       mainText:
@@ -445,7 +445,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Hungry for Batteries',
       slug: 'hungry-for-batteries',
-      dek: 'A character driven campaign site encouraging the safe disposal of e-bike batteries',
+      dek: 'Character-led campaign promoting safe e-bike battery disposal',
       projectBrief:
         'THOR Digital partnered with People for Bikes to create Hungry for Batteries, a dynamic microsite promoting e-bike battery recycling. Through a character-driven narrative starring Watts and Rey, the site blends interactive storytelling, animation, and whimsical illustrations to educate users on responsible recycling practices. It demonstrates how creativity and technology converge to make environmental sustainability engaging and accessible.',
       mainText:
@@ -480,7 +480,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Keep Riding',
       slug: 'keep-riding',
-      dek: 'Campaign site encouraging cyclists to stay connected with their communities',
+      dek: 'Campaign urging cyclists to stay connected to their communities',
       projectBrief:
         'THOR Digital developed Keep Riding for People for Bikes, a campaign microsite encouraging cyclists to explore and connect with their communities. Built on WebFlow, the site leverages a low-code, rapid deployment approach with a simple CMS, brand-consistent design, curated cycling routes, and community-focused features. It empowers cyclists of all levels while fostering local engagement and promoting safe, enjoyable riding experiences.',
       mainText:
@@ -515,7 +515,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'No Kid Hungry',
       slug: 'no-kid-hungry',
-      dek: 'A campaign supporting No Kid Hungry helping to feed children across the US',
+      dek: 'Campaign helping feed children across the US',
       projectBrief:
         'THOR Digital developed an early campaign platform for No Kid Hungry, centered on the \"What Are You Hungry For\" initiative. The project engaged teens through an Instagram-driven photo contest that encouraged creative self-expression. By combining social participation, daily incentives, and thoughtful storytelling, the platform helped generate awareness, engagement, and early momentum for a growing national cause.',
       mainText:
@@ -549,7 +549,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'Mayflower',
       slug: 'mayflower',
-      dek: 'An online e-commerce portal for a Boston medicinal marijuana outlet',
+      dek: 'E-commerce portal for a Boston medical marijuana retailer',
       projectBrief:
         'THOR Digital designed and developed a sophisticated e-commerce platform for Mayflower, a leading Boston-based medicinal marijuana dispensary. The project unified multiple business systems—including retail locations, production, and distribution—into a seamless digital experience. With a strong focus on education, compliance, and user experience, the platform set a new standard for ethical, consumer-focused cannabis e-commerce.',
       mainText:
@@ -586,7 +586,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'NYSCheck',
       slug: 'nyscheck',
-      dek: 'A New York State - Mount Sinai Hospital System collaboration to help needy children stay healthy',
+      dek: 'Collaboration between New York State and a Mount Sinai hospital system to keep needy children healthy',
       projectBrief:
         'THOR Digital partnered with NYSCheck, a New York State - Mount Sinai Hospital collaboration, to reimagine its digital platform for delivering preventative health guidance. Through a rigorous discovery process and technical overhaul, THOR created a scalable, user-friendly system that enables healthcare providers to deliver personalized, non-clinical "prescriptions" based on environmental, regional, and seasonal health factors.',
       mainText:
@@ -620,7 +620,7 @@ export const caseStudies: CaseStudies = {
     {
       name: 'LTK',
       slug: 'ltk',
-      dek: 'A website supporting and celebrating a railroad development titan',
+      dek: 'Site celebrating and supporting a major railroad developer',
       projectBrief:
         'THOR Digital partnered with LTK, an international rail systems firm with over a century of history, to redesign and develop its primary website. Through an in-depth, on-site discovery process, THOR created a modern, CMS-driven platform that highlights LTK’s legacy, showcases decades of project work, and empowers internal teams to manage and scale content effectively.',
       mainText:

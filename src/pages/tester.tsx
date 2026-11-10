@@ -2,6 +2,7 @@ import { caseStudies } from '../data/case-studies';
 import FlipbookCarousel, {
   type FlipbookCarouselSlide,
 } from '../components/FlipbookCarousel/FlipbookCarousel';
+import { PageHero } from '../components/PageHero';
 
 const flipbookSlides: FlipbookCarouselSlide[] = caseStudies.caseStudies
   .slice(0, 8)
@@ -14,19 +15,7 @@ const flipbookSlides: FlipbookCarouselSlide[] = caseStudies.caseStudies
 export default function TesterPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[var(--color-navy)]">
-        <div className="relative z-10 min-h-[50vh] mx-auto max-w-[1350px] px-fluid-6 py-fluid-24">
-          <h1 className="mb-fluid-4 text-fluid-8xl font-display leading-tight tracking-fluid-tight text-white">
-            TESTER
-          </h1>
-          <div className="max-w-3xl">
-            <p className="section-subtitle font-sans font-light text-fluid-2xl text-white mt-fluid-2 leading-normal">
-              This is a tester page.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero title="TESTER" subtitle="This is a tester page." />
 
       {/* Case Studies Grid */}
       <section className="bg-white py-fluid-12 px-fluid-6 lg:px-fluid-12">
