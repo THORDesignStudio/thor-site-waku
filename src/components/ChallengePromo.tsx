@@ -10,7 +10,9 @@ export function ChallengePromo() {
     <section className="bg-cool px-fluid-6 py-fluid-12">
       <div
         className="mx-auto max-w-[1600px] overflow-hidden rounded-3xl bg-navy bg-cover bg-center px-fluid-8 py-fluid-8"
-        style={{ backgroundImage: "url('/images/promos/have-a-challenge.jpg')" }}
+        style={{
+          backgroundImage: "url('/images/promos/have-a-challenge.jpg')",
+        }}
       >
         <h2 className="type-cta-headline text-white">
           Have a <span className="text-magenta">challenge?</span>
