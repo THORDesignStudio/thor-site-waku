@@ -1,4 +1,7 @@
+import type { PageStatus } from './site-content';
+
 export interface CaseStudy {
+  status?: PageStatus;
   name: string;
   slug: string;
   dek: string;

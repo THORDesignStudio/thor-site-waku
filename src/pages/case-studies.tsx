@@ -3,10 +3,11 @@ import { SEO } from '../components/SEO';
 import { PageHero } from '../components/PageHero';
 import { CaseStudyFilterGrid } from '../components/CaseStudyFilterGrid';
 import { ChallengePromo } from '../components/ChallengePromo';
+import { getPublishedCaseStudies } from '../data/site-content';
 
 export default function CaseStudiesPage() {
-  const sortedStudies = [...caseStudies.caseStudies].sort((a, b) =>
-    a.name.localeCompare(b.name)
+  const sortedStudies = getPublishedCaseStudies(caseStudies.caseStudies).sort(
+    (a, b) => a.name.localeCompare(b.name)
   );
 
   return (

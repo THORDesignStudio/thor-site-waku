@@ -1,19 +1,22 @@
 import type { PageProps } from 'waku/router';
 import { caseStudies, type CaseStudy } from '../../data/case-studies';
+import { capabilities } from '../../data/capabilities';
+import { getCaseStudyGallery } from '../../data/case-study-galleries';
+import { getCaseStudyTopics } from '../../data/case-study-topics';
+import { getPublishedCaseStudies } from '../../data/site-content';
+import { getRelatedCaseStudies } from '../../utils/case-studies';
 import {
   parseContentBlocks,
   type ContentBlock,
 } from '../../utils/contentParser';
 import { SEO } from '../../components/SEO';
-import FlipbookCarousel, {
-  type FlipbookCarouselSlide,
-} from '../../components/FlipbookCarousel/FlipbookCarousel';
-
-interface CaseStudyHeaderProps {
-  study: CaseStudy;
-}
-
-const RELATED_CASE_STUDY_COUNT = 5;
+import { CaseStudyGallery } from '../../components/CaseStudyGallery';
+import {
+  CaseStudySectionNav,
+  type CaseStudySection,
+} from '../../components/CaseStudySectionNav';
+import { ChallengePromo } from '../../components/ChallengePromo';
+import FlipbookCarousel from '../../components/FlipbookCarousel/FlipbookCarousel';
 
 const CASE_STUDY_OG_IMAGE_DIMENSIONS: Record<
   string,
@@ -38,346 +41,126 @@ const CASE_STUDY_OG_IMAGE_DIMENSIONS: Record<
   nyscheck: { width: 1772, height: 993 },
 };
 
-function getWeightedTagSimilarity(
-  currentTags: string[],
-  candidateTags: string[],
-  weight: number
-) {
-  const current = new Set(currentTags);
-  const candidate = new Set(candidateTags);
-  const sharedCount = [...current].filter((tag) => candidate.has(tag)).length;
-  const unionCount = new Set([...current, ...candidate]).size;
-
-  if (unionCount === 0) return 0;
-
-  return (sharedCount / unionCount) * weight;
-}
-
-function getCaseStudySimilarity(current: CaseStudy, candidate: CaseStudy) {
-  return (
-    getWeightedTagSimilarity(current.verticals, candidate.verticals, 4) +
-    getWeightedTagSimilarity(current.programs, candidate.programs, 3) +
-    getWeightedTagSimilarity(current.capabilities, candidate.capabilities, 2)
-  );
-}
-
-function getRelatedCaseStudies(current: CaseStudy) {
-  return caseStudies.caseStudies
-    .map((candidate, index) => ({
-      study: candidate,
-      index,
-      score:
-        candidate.slug === current.slug
-          ? Number.NEGATIVE_INFINITY
-          : getCaseStudySimilarity(current, candidate),
-    }))
-    .filter(({ study }) => study.slug !== current.slug)
-    .sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      if (a.study.featured !== b.study.featured)
-        return a.study.featured ? -1 : 1;
-      return a.index - b.index;
-    })
-    .slice(0, RELATED_CASE_STUDY_COUNT)
-    .map(({ study }) => study);
-}
-
-function toFlipbookSlide(study: CaseStudy): FlipbookCarouselSlide {
-  return {
-    src: study.images.cardVertical,
-    label: study.name,
-    slug: study.slug,
-  };
-}
-
-function CaseStudyHeader({ study }: CaseStudyHeaderProps) {
-  return (
-    <section className="relative overflow-hide bg-white">
-      {/* iOS-specific top mask via @supports - only fades in from top, not out at bottom */}
-      <style>{`
-        @supports (-webkit-touch-callout: none) {
-          .header-image-ios {
-            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%) !important;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%) !important;
-          }
-        }
-      `}</style>
-
-      {/* Night background - shows through where mask is transparent at top */}
-      <div className="absolute top-0 left-0 right-0 h-[400px] bg-[var(--color-navy)]" />
-
-      {/* Smoke Background - behind title + dek */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[500px] sm:h-[500px] bg-no-repeat bg-[var(--color-navy)] header-image-ios"
-        style={{
-          backgroundImage: `url(/images/smoke-scene/smoke-bg-combined-titlebar.jpg)`,
-          backgroundPosition: 'left top',
-          backgroundSize: 'auto 500px',
-        }}
-      />
-
-      {/* Content Container */}
-      <div className="relative z-10 max-w-[1500px] mx-auto pl-fluid-6 pr-fluid-12 sm:bg-none">
-        <div className="pt-fluid-24 sm:pt-[150px] pb-fluid-4 flex flex-col md:flex-row md:min-h-[500px]">
-          {/* Left Column - Title + Dek - overflows onto right side */}
-          <div className="w-full md:w-[60%] relative z-20">
-            <p className="text-fluid-md text-white uppercase tracking-widest font-bold pb-fluid-1 pl-[0.3rem]">
-              Case Study
-            </p>
-            <h1 className="heading-lg text-white mb-fluid-2">
-              {study.name}
-            </h1>
-            <p className="font-sans font-light text-fluid-xl text-white/90 leading-relaxed">
-              {study.dek}
-            </p>
-          </div>
-
-          {/* Right Column - Gradient Circle + Header Image - pulled left to overlap */}
-          <div className="w-full md:w-1/2 relative  flex items-center justify-center py-fluid-8 md:py-0 md:-mb-fluid-24 md:-ml-[10%]">
-            {/* Shared container pins circle + image together */}
-            <div className="relative w-full md:w-[45vw] max-w-[600px] md:-mr-fluid-36">
-              <div
-                className="w-[75%] mx-auto aspect-square rounded-full"
-                style={{
-                  background:
-                    'linear-gradient(180deg, var(--color-magenta) 0%, var(--color-navy) 100%)',
-                }}
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <picture className="w-[115%]">
-                  <source srcSet={study.images.header.webp} type="image/webp" />
-                  <source srcSet={study.images.header.png} type="image/png" />
-                  <img
-                    src={study.images.header.png}
-                    alt={`${study.name} header`}
-                    className="w-full h-auto object-contain"
-                  />
-                </picture>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ProjectBriefCard({ study }: CaseStudyHeaderProps) {
-  return (
-    <div className="mx-fluid-6">
-      <div className="bg-deep-magenta rounded-4xl p-fluid-8 max-w-[1300px] mx-auto w-full md:mt-fluid-24">
-        <h3 className="text-fluid-lg font-bold text-white mb-fluid-3 uppercase tracking-widest">
-          Project Brief
-        </h3>
-        <div className=" font-sans font-light text-fluid-xl text-white/90 leading-relaxed whitespace-pre-line">
-          {study.projectBrief}
-        </div>
-        {study.url && (
-          <div className="flex justify-center pt-fluid-6 mx-fluid-6">
-            <a
-              href={study.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-fluid-6 py-4 bg-white text-navy text-center text-xl font-extrabold rounded-full transition-all shadow-lg uppercase cursor-pointer"
-              aria-label={`Visit ${study.name} website (opens in new tab)`}
-            >
-              Visit Website
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ProjectImageSection({ study }: CaseStudyHeaderProps) {
-  return (
-    <section className="bg-white pt-fluid-12 ">
-      <div className="max-w-[1600px] mx-auto px-fluid-6">
-        <picture>
-          <source srcSet={study.images.project.webp} type="image/webp" />
-          <source srcSet={study.images.project.png} type="image/png" />
-          <img
-            src={study.images.project.png}
-            alt={`${study.name} project mockup`}
-            className="w-full h-auto object-contain"
-          />
-        </picture>
-      </div>
-    </section>
-  );
-}
-
-function renderContentBlock(block: ContentBlock, index: number) {
-  if (block.type === 'list') {
-    const items = block.content as string[];
-    return (
-      <ul
-        key={index}
-        className="list-disc list-outside ml-fluid-6 space-y-fluid-2 mb-fluid-6"
-      >
-        {items.map((item, itemIndex) => (
-          <li
-            key={itemIndex}
-            className="font-sans font-light text-fluid-xl text-navy leading-normal pl-fluid-2"
-          >
-            {item}
-          </li>
+function ContentBlocks({ text }: { text: string }) {
+  return parseContentBlocks(text).map((block: ContentBlock, index) =>
+    block.type === 'list' ? (
+      <ul key={index} className="list-disc pl-6 space-y-3 mb-6">
+        {(block.content as string[]).map((item, itemIndex) => (
+          <li key={itemIndex}>{item}</li>
         ))}
       </ul>
-    );
-  }
-
-  return (
-    <p
-      key={index}
-      className="font-sans font-light text-fluid-xl text-navy mt-fluid-2 leading-normal mb-fluid-6"
-    >
-      {block.content as string}
-    </p>
+    ) : (
+      <p key={index} className="mb-6 last:mb-0">
+        {block.content as string}
+      </p>
+    )
   );
 }
 
-function MainContentSection({ study }: CaseStudyHeaderProps) {
-  const contentBlocks = parseContentBlocks(study.mainText);
-
+function CaseStudyHeader({ study }: { study: CaseStudy }) {
   return (
-    <section className="bg-white py-fluid-8">
-      <div className="max-w-[800px] mx-auto px-fluid-6">
-        <h3 className="text-fluid-lg font-bold text-navy mb-fluid-3 uppercase tracking-widest">
-          Project Overview
-        </h3>
-        <div className="w-full">
-          {contentBlocks.map((block, index) =>
-            renderContentBlock(block, index)
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AchievementItem({
-  achievement,
-  index,
-}: {
-  achievement: string;
-  index: number;
-}) {
-  const contentBlocks = parseContentBlocks(achievement);
-  const firstBlock = contentBlocks[0];
-
-  if (contentBlocks.length === 1 && firstBlock?.type === 'paragraph') {
-    // Simple single-paragraph achievement
-    return (
-      <li className="font-sans font-light text-fluid-lg text-white/90 leading-relaxed pl-fluid-2">
-        {firstBlock.content as string}
-      </li>
-    );
-  }
-
-  // Achievement with nested bullets or multiple blocks
-  return (
-    <li className="font-sans font-light text-fluid-lg text-white/90 leading-relaxed">
-      {contentBlocks.map((block, blockIndex) =>
-        block.type === 'paragraph' ? (
-          <p key={blockIndex} className="mb-fluid-2">
-            {block.content as string}
+    <header className="case-detail-hero relative overflow-hidden bg-navy text-white">
+      <div className="case-page-width relative grid items-center gap-fluid-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="min-w-0">
+          <p className="type-eyebrow !text-on-dark mb-5">
+            Case study · {getCaseStudyTopics(study)[0]}
           </p>
-        ) : (
-          <ul
-            key={blockIndex}
-            className="list-disc list-outside ml-fluid-6 space-y-fluid-1 mt-fluid-2"
-          >
-            {(block.content as string[]).map((item, itemIndex) => (
-              <li key={itemIndex} className="pl-fluid-2">
-                {item}
-              </li>
-            ))}
-          </ul>
-        )
-      )}
-    </li>
-  );
-}
-
-function AchievementsSection({ study }: CaseStudyHeaderProps) {
-  return (
-    <section className="bg-white">
-      <div className="max-w-[1400px] mx-auto pb-fluid-8 px-fluid-6">
-        <div className="bg-navy rounded-4xl px-fluid-6 py-fluid-8 md:px-fluid-6 md:py-fluid-8">
-          <h3 className="heading-lg text-white mb-fluid-6">Key Achievements</h3>
-          <ul className="list-disc list-outside ml-fluid-6 space-y-fluid-3">
-            {study.achievements.map((achievement, index) => (
-              <AchievementItem
-                key={index}
-                achievement={achievement}
-                index={index}
-              />
-            ))}
-          </ul>
+          <h1 className="type-page-headline case-detail-title">{study.name}</h1>
+          <p className="type-page-lede text-on-dark mt-fluid-6 max-w-3xl">
+            {study.dek}
+          </p>
+        </div>
+        <div className="case-hero-art">
+          <div className="case-hero-circle" />
+          <picture>
+            <source srcSet={study.images.header.webp} type="image/webp" />
+            <img
+              src={study.images.header.png}
+              alt={`${study.name} project artwork`}
+              fetchPriority="high"
+            />
+          </picture>
         </div>
       </div>
-    </section>
+    </header>
   );
 }
 
-function RelatedCaseStudiesSection({ study }: CaseStudyHeaderProps) {
-  const relatedSlides = getRelatedCaseStudies(study).map(toFlipbookSlide);
-
-  if (relatedSlides.length === 0) return null;
-
+function CaseStudyMeta({ study }: { study: CaseStudy }) {
+  const labels: Record<string, string> = {
+    design: 'Design',
+    discovery: 'Discovery',
+  };
+  const services = study.capabilities.map(
+    (slug) =>
+      capabilities.capabilities.find((item) => item.slug === slug)?.name ??
+      labels[slug] ??
+      slug.replaceAll('-', ' ')
+  );
   return (
-    <section className="bg-white pb-fluid-16 pt-fluid-4 px-fluid-6">
-      <div className="mx-auto max-w-[1100px]">
-        <h2 className="mb-fluid-6 text-center font-display text-fluid-5xl font-bold leading-tight text-navy">
-          Related Case Studies
-        </h2>
-        <FlipbookCarousel slides={relatedSlides} />
-      </div>
-    </section>
+    <div className="bg-cool py-fluid-6 text-navy">
+      <dl className="case-page-width grid gap-6 md:grid-cols-3">
+        {[
+          ['Client', study.client],
+          ['Sectors', getCaseStudyTopics(study).join(' · ')],
+          ['Services', services.join(' · ')],
+        ].map(([label, value]) => (
+          <div
+            key={label}
+            className="min-w-0 md:border-l md:border-divider-cool md:pl-6 first:border-0 first:pl-0"
+          >
+            <dt className="type-eyebrow !text-navy mb-3">{label}</dt>
+            <dd className="type-card-summary !text-navy font-semibold">
+              {value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
   );
 }
 
 export default async function CaseStudyPage({
   slug,
 }: PageProps<'/case-studies/[slug]'>) {
-  const study = caseStudies.caseStudies.find((s) => s.slug === slug);
-  const ogImageDimensions = study
-    ? CASE_STUDY_OG_IMAGE_DIMENSIONS[study.slug]
-    : undefined;
-
+  const published = getPublishedCaseStudies(caseStudies.caseStudies);
+  const study = published.find((item) => item.slug === slug);
   if (!study) {
-    // Return 404-like content if case study not found
     return (
       <>
         <SEO
           title="Case Study Not Found | THOR Digital"
           description="The requested case study could not be found."
           canonicalUrl={`https://www.thor-studio.com/case-studies/${slug}`}
-          ogImage="/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg"
-          ogImageAlt="THOR Studio"
+          noindex
         />
-        <section className="min-h-screen bg-white flex items-center justify-center">
+        <section className="min-h-screen bg-white flex items-center justify-center px-fluid-6">
           <div className="text-center">
-            <h1 className="heading-lg text-navy mb-fluid-4">
-              Case Study Not Found
+            <h1 className="type-section-heading text-navy mb-6">
+              Case study not found
             </h1>
-            <p className="font-sans font-light text-fluid-xl text-navy/70">
-              The case study you're looking for doesn't exist.
-            </p>
-            <a
-              href="/case-studies"
-              className="inline-block mt-fluid-6 px-fluid-6 py-fluid-3 bg-magenta text-white rounded-full font-sans font-medium text-fluid-base hover:opacity-90 transition-opacity"
-            >
-              View All Case Studies
+            <a href="/case-studies" className="btn btn-primary">
+              View all case studies
             </a>
           </div>
         </section>
       </>
     );
   }
+
+  const dimensions = CASE_STUDY_OG_IMAGE_DIMENSIONS[study.slug];
+  const gallery = getCaseStudyGallery(study);
+  const related = getRelatedCaseStudies(study, published);
+  const sections: CaseStudySection[] = [
+    { id: 'overview', label: 'Overview' },
+    ...(study.achievements.length
+      ? [{ id: 'results' as const, label: 'Results' }]
+      : []),
+    ...(gallery.length ? [{ id: 'gallery' as const, label: 'Gallery' }] : []),
+    ...(related.length
+      ? [{ id: 'related' as const, label: 'Related work' }]
+      : []),
+  ];
 
   return (
     <>
@@ -387,26 +170,126 @@ export default async function CaseStudyPage({
         canonicalUrl={`https://www.thor-studio.com/case-studies/${slug}`}
         ogImage={study.images.cardHorizontal}
         ogImageAlt={`${study.name} case study`}
-        ogImageWidth={ogImageDimensions?.width}
-        ogImageHeight={ogImageDimensions?.height}
+        {...(dimensions
+          ? { ogImageWidth: dimensions.width, ogImageHeight: dimensions.height }
+          : {})}
         ogType="article"
       />
-
-      <article className="bg-white">
+      <article className="bg-white text-ink">
         <CaseStudyHeader study={study} />
-        <ProjectBriefCard study={study} />
-        <ProjectImageSection study={study} />
-        <MainContentSection study={study} />
-        <AchievementsSection study={study} />
-        <RelatedCaseStudiesSection study={study} />
+        <CaseStudyMeta study={study} />
+        <CaseStudySectionNav sections={sections} url={study.url} />
+
+        <section id="overview" className="case-section" tabIndex={-1}>
+          <div className="case-page-width grid items-start gap-fluid-8 lg:grid-cols-[0.7fr_1.3fr]">
+            <div>
+              <p className="type-eyebrow mb-5">Project brief</p>
+              <h2 className="type-section-heading text-navy">
+                Project overview
+              </h2>
+            </div>
+            <div className="max-w-[var(--layout-article)]">
+              <div className="type-article-lede text-navy mb-fluid-8">
+                <ContentBlocks text={study.projectBrief} />
+              </div>
+              <div className="type-article-body">
+                <ContentBlocks text={study.mainText} />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {study.achievements.length > 0 && (
+          <section id="results" className="case-section !pt-0" tabIndex={-1}>
+            <div className="case-page-width">
+              <div className="rounded-[32px] bg-navy p-fluid-6 md:p-fluid-8">
+                <h2 className="type-section-heading text-white mb-fluid-8">
+                  Key <span className="text-magenta">achievements</span>
+                </h2>
+                <ol className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                  {study.achievements.map((achievement, index) => (
+                    <li
+                      key={index}
+                      className="rounded-2xl border border-divider-dark bg-white/5 p-6"
+                    >
+                      <span
+                        className="type-card-title text-magenta block mb-4"
+                        aria-hidden="true"
+                      >
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <div className="type-card-summary !text-on-dark">
+                        <ContentBlocks text={achievement} />
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {gallery.length > 0 && (
+          <section id="gallery" className="case-section !pt-0" tabIndex={-1}>
+            <div className="case-page-width">
+              <p className="type-eyebrow mb-5">Gallery</p>
+              <h2 className="type-section-heading text-navy mb-fluid-8">
+                The work
+              </h2>
+              <CaseStudyGallery images={gallery} name={study.name} />
+            </div>
+          </section>
+        )}
+
+        {related.length > 0 && (
+          <section
+            id="related"
+            className="case-section !pt-0 overflow-hidden"
+            tabIndex={-1}
+          >
+            <div className="case-page-width">
+              <h2 className="type-section-heading text-center text-navy mb-fluid-8">
+                Related case studies
+              </h2>
+              <div className="case-related-motion mx-auto max-w-[1100px]">
+                <FlipbookCarousel
+                  slides={related.map((item) => ({
+                    src: item.images.cardVertical,
+                    label: item.name,
+                    slug: item.slug,
+                  }))}
+                />
+              </div>
+              <div className="case-related-static gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {related.map((item) => (
+                  <a
+                    key={item.slug}
+                    href={`/case-studies/${item.slug}`}
+                    className="group"
+                  >
+                    <img
+                      src={item.images.cardHorizontal}
+                      alt=""
+                      className="w-full aspect-video rounded-2xl object-cover mb-4"
+                      loading="lazy"
+                    />
+                    <h3 className="type-card-title text-navy">{item.name}</h3>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </article>
+      <ChallengePromo />
     </>
   );
 }
 
-export const getConfig = async () => {
-  return {
+export const getConfig = async () =>
+  ({
     render: 'static',
-    staticPaths: caseStudies.caseStudies.map((s) => s.slug),
-  } as const;
-};
+    staticPaths: getPublishedCaseStudies(caseStudies.caseStudies).map(
+      (study) => study.slug
+    ),
+  }) as const;

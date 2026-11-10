@@ -2,6 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { CaseStudy } from '../data/case-studies';
+import {
+  getCaseStudyTopics,
+  resolveCaseStudyTopic,
+} from '../data/case-study-topics';
 
 const ALL = 'All';
 const QUERY_KEY = 'topic';
@@ -10,10 +14,10 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
     <a
       href={`/case-studies/${study.slug}`}
-      className="group flex flex-col transition-transform duration-300 ease-out hover:-translate-y-2"
+      className="case-study-card group flex flex-col"
     >
       <div
-        className="aspect-video w-full overflow-hidden rounded-[10px]"
+        className="aspect-video w-full overflow-hidden rounded-2xl"
         style={{
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15)',
         }}
@@ -21,19 +25,17 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
         <img
           src={study.images.cardHorizontal}
           alt={study.name}
-          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className="w-full h-full object-cover"
           loading="lazy"
         />
       </div>
 
       <div className="pt-fluid-4 flex flex-col gap-fluid-1">
-        <p className="type-eyebrow">{study.verticals[0]}</p>
+        <p className="type-eyebrow">{getCaseStudyTopics(study)[0]}</p>
 
         <h3 className="type-card-title text-navy">{study.name}</h3>
 
-        <p className="text-fluid-base font-light text-navy/80 leading-relaxed">
-          {study.dek}
-        </p>
+        <p className="type-card-summary">{study.dek}</p>
       </div>
     </a>
   );
@@ -41,14 +43,21 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
 
 export function CaseStudyFilterGrid({ studies }: { studies: CaseStudy[] }) {
   const topics = useMemo(
-    () => [ALL, ...new Set(studies.flatMap((study) => study.verticals))],
+    () => [ALL, ...new Set(studies.flatMap(getCaseStudyTopics))],
     [studies]
   );
   const [filter, setFilter] = useState(ALL);
 
   useEffect(() => {
-    const fromUrl = new URLSearchParams(window.location.search).get(QUERY_KEY);
-    if (fromUrl && topics.includes(fromUrl)) setFilter(fromUrl);
+    const sync = () => {
+      const fromUrl = new URLSearchParams(window.location.search).get(
+        QUERY_KEY
+      );
+      setFilter(resolveCaseStudyTopic(fromUrl, topics));
+    };
+    sync();
+    window.addEventListener('popstate', sync);
+    return () => window.removeEventListener('popstate', sync);
   }, [topics]);
 
   const selectFilter = (topic: string) => {
@@ -62,33 +71,50 @@ export function CaseStudyFilterGrid({ studies }: { studies: CaseStudy[] }) {
   const visible =
     filter === ALL
       ? studies
-      : studies.filter((study) => study.verticals.includes(filter));
+      : studies.filter((study) => getCaseStudyTopics(study).includes(filter));
 
   return (
-    <section className="bg-white py-fluid-8 px-fluid-6">
-      <div className="mx-auto max-w-[1600px]">
-        <div
-          role="group"
-          aria-label="Filter case studies by topic"
-          className="mb-fluid-8 flex flex-wrap gap-fluid-2"
-        >
-          {topics.map((topic) => {
-            const pressed = filter === topic;
-            return (
-              <button
-                key={topic}
-                type="button"
-                aria-pressed={pressed}
-                onClick={() => selectFilter(topic)}
-                className={`chip chip-light${pressed ? ' chip-active' : ''}`}
-              >
-                {topic}
-              </button>
-            );
-          })}
+    <section className="bg-white" aria-label="Case studies">
+      <div className="case-section-nav case-filter-nav">
+        <div className="case-page-width flex items-center gap-4 py-3">
+          <div
+            role="group"
+            aria-label="Filter case studies by topic"
+            className="flex flex-1 items-center gap-3 overflow-x-auto py-1"
+          >
+            {topics.map((topic) => {
+              const pressed = filter === topic;
+              return (
+                <button
+                  key={topic}
+                  type="button"
+                  aria-pressed={pressed}
+                  onClick={() => selectFilter(topic)}
+                  className={`chip chip-light shrink-0${pressed ? ' chip-active' : ''}`}
+                  aria-controls="case-study-results"
+                >
+                  {topic}
+                </button>
+              );
+            })}
+          </div>
+          <p
+            className="type-caption shrink-0"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {visible.length} <span className="hidden sm:inline">studies</span>
+            <span className="sr-only sm:hidden">studies</span>
+          </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-fluid-6">
+      <div className="case-page-width py-fluid-8">
+        <div
+          id="case-study-results"
+          className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-fluid-6"
+        >
           {visible.map((study) => (
             <CaseStudyCard key={study.slug} study={study} />
           ))}
