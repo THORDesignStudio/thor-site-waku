@@ -29,7 +29,7 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
       <div className="pt-fluid-4 flex flex-col gap-fluid-1">
         <p className="type-eyebrow">{study.verticals[0]}</p>
 
-        <h3 className="text-fluid-xl font-extrabold uppercase text-navy leading-tight tracking-wide">
+        <h3 className="type-card-title text-navy">
           {study.name}
         </h3>
 
