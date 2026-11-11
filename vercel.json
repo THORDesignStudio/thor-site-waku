@@ -66,72 +66,22 @@
       "permanent": true
     },
     {
+      "source": "/writing/headless-cms-sites",
+      "destination": "/writing/headless-websites",
+      "permanent": true
+    },
+    {
+      "source": "/writing/cms-sites",
+      "destination": "/writing/cms-websites",
+      "permanent": true
+    },
+    {
       "source": "/concept-vault",
       "destination": "/",
       "permanent": false
     },
     {
-      "source": "/writing/architecture",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/how-a-website-is-built",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/design-and-development",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/discovery-process",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/project-management",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/ongoing-publication-design",
-      "destination": "/",
-      "permanent": false
-    },
-    {
       "source": "/writing/how-is-a-magazine-born",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/publication-pacing",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/custom-websites",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/headless-cms-sites",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/no-code-websites",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/cms-sites",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/writing/the-rapidly-evolving-web",
       "destination": "/",
       "permanent": false
     },

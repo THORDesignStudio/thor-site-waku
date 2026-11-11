@@ -27,6 +27,8 @@ import type { getConfig as File_Tester_getConfig } from './pages/tester';
 import type { getConfig as File_VerticalsAerospace_getConfig } from './pages/verticals/aerospace';
 // prettier-ignore
 import type { getConfig as File_VerticalsPublications_getConfig } from './pages/verticals/publications';
+// prettier-ignore
+import type { getConfig as File_WritingSlug_getConfig } from './pages/writing/[slug]';
 
 // prettier-ignore
 type Page =
@@ -41,7 +43,8 @@ type Page =
 | ({ path: '/styleguide' } & GetConfigResponse<typeof File_Styleguide_getConfig>)
 | ({ path: '/tester' } & GetConfigResponse<typeof File_Tester_getConfig>)
 | ({ path: '/verticals/aerospace' } & GetConfigResponse<typeof File_VerticalsAerospace_getConfig>)
-| ({ path: '/verticals/publications' } & GetConfigResponse<typeof File_VerticalsPublications_getConfig>);
+| ({ path: '/verticals/publications' } & GetConfigResponse<typeof File_VerticalsPublications_getConfig>)
+| ({ path: '/writing/[slug]' } & GetConfigResponse<typeof File_WritingSlug_getConfig>);
 
 // prettier-ignore
 declare module 'waku/router' {

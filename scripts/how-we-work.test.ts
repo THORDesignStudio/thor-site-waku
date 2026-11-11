@@ -74,15 +74,11 @@ test('related capability destinations are published pages', () => {
     );
 });
 
-test('the landing route is enabled and article redirects remain until phase 9', () => {
+test('the landing and linked article routes are enabled', () => {
   assert.ok(!redirects.some((redirect) => redirect.source === '/how-we-work'));
-  assert.ok(
-    redirects.some(
-      (redirect) =>
-        redirect.source === '/writing/architecture' &&
-        redirect.destination === '/'
-    )
-  );
+  for (const group of howWeWorkGroups)
+    for (const article of group.articles)
+      assert.ok(!redirects.some((redirect) => redirect.source === article.url));
   assert.equal(
     footerMenu.sections.find((section) => section.title === 'How We Work')?.url,
     '/how-we-work'

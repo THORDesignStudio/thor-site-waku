@@ -18,8 +18,8 @@ export interface HowWeWorkGroup {
   articles: HowWeWorkArticle[];
 }
 
-// Topic previews are visible now. Phase 9 will supply article bodies and mark
-// records ready; until then no card links to disabled writing routes.
+// Article previews and series order for How We Work. Ready records have
+// matching bodies in articles.ts and canonical writing destinations.
 export const howWeWorkGroups: HowWeWorkGroup[] = [
   {
     id: 'hww-web',
@@ -34,7 +34,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'How a Website is Built',
         summary:
           'A top-level view of our methods and what you can expect in an engagement with THOR.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/how-a-website-is-built',
         image: {
           src: '/images/how-we-work/hw-hero.jpg',
           alt: 'How a Website is Built',
@@ -47,7 +48,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Discovery Process',
         summary:
           'Starting a web project without first conducting a discovery process is like putting on a blindfold and hiking the Grand Canyon.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/discovery-process',
         image: {
           src: '/images/how-we-work/a-blindfolded-hiker-standing-at-the-rim-of-a-974c91.png',
           alt: 'A blindfolded hiker standing at the rim of a canyon at sunset',
@@ -60,7 +62,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Architecture',
         summary:
           'Poorly functioning website? Backlog of unusable content? Search tools that aren’t working? The issues are almost certainly caused by overlooking the critical phase of Site Architecture.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/architecture',
         image: {
           src: '/images/how-we-work/ar-hero.jpg',
           alt: 'Architecture',
@@ -73,7 +76,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Project Management',
         summary:
           'Guiding a technical project to the finish line is an art and a science.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/project-management',
         image: {
           src: '/images/how-we-work/pm-hero.jpg',
           alt: 'Project Management',
@@ -86,7 +90,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Design and Development',
         summary:
           'Marrying content, design, accessibility and performance into a compelling package while staying on budget requires a seasoned team with deep experience.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/design-and-development',
         image: {
           src: '/images/how-we-work/dd-hero.jpg',
           alt: 'Design and Development',
@@ -109,7 +114,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Publication Redesign',
         summary:
           'The purpose of publication redesign is not only to improve the look of the magazine, but also to make 75% of the design decisions up front.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/publication-redesign',
         image: {
           src: '/images/how-we-work/pr-hero.jpg',
           alt: 'Publication Redesign',
@@ -122,7 +128,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Publication Pacing',
         summary:
           'If you like things that are boring, disorganized, and uninspired, then magazines without pacing are right up your alley.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/publication-pacing',
         image: {
           src: '/images/how-we-work/pp-hero.jpg',
           alt: 'Publication Pacing',
@@ -135,7 +142,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Ongoing Publication Design',
         summary:
           'At its simplest, our goal in publication design is to strike a balance between stunning visual elements and clear communication.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/ongoing-publication-design',
         image: {
           src: '/images/how-we-work/op-hero.jpg',
           alt: 'Ongoing Publication Design',
@@ -158,7 +166,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'The Rapidly Evolving Web',
         summary:
           'A quick digest of the most common types of sites and how they can meet the needs of your organization.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/the-rapidly-evolving-web',
         image: {
           src: '/images/how-we-work/re-hero.jpg',
           alt: 'The Rapidly Evolving Web',
@@ -171,7 +180,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'No Code Websites',
         summary:
           'No-code website platforms have finally reached maturity and the results are awesome.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/no-code-websites',
         image: {
           src: '/images/how-we-work/nc-hero.jpg',
           alt: 'No Code Websites',
@@ -184,7 +194,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Custom Websites',
         summary:
           'Like a perfectly tailored suit, a custom website can be the exact fit for your project.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/custom-websites',
         image: {
           src: '/images/how-we-work/cu-hero.jpg',
           alt: 'Custom Websites',
@@ -197,7 +208,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'CMS Websites',
         summary:
           'CMS sites are among the most common of present day web platforms.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/cms-websites',
         image: {
           src: '/images/how-we-work/cm-hero.jpg',
           alt: 'CMS Websites',
@@ -210,7 +222,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Headless Websites',
         summary:
           'In the world of web development, the Headless CMS reigns supreme and allows developers to create truly cutting-edge sites.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/headless-websites',
         image: {
           src: '/images/how-we-work/hl-hero.jpg',
           alt: 'Headless Websites',
@@ -233,7 +246,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Naming and Positioning',
         summary:
           'Clarify what makes your organization distinct, who it serves, and the message at the center of your brand.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/naming-and-positioning',
         image: {
           src: '/images/case-studies/cards-horizontal/niri.jpg',
           alt: 'NIRI brand identity project artwork',
@@ -246,7 +260,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
         title: 'Visual Identity Systems',
         summary:
           'Bring logos, color, type and motion together in a flexible system your team can use consistently.',
-        status: 'draft',
+        status: 'ready',
+        url: '/writing/visual-identity-systems',
         image: {
           src: '/images/case-studies/cards-horizontal/leon-hotel.jpg',
           alt: 'Leon Hotel brand project artwork',

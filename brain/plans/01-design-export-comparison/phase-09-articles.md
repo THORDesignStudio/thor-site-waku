@@ -2,6 +2,8 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- Full fifteen-article rollout completed 2026-11-11; see [[plans/01-design-export-comparison/implementation-09]]. User clarified that phase 09 includes completing and linking all articles, beyond the original pilot scope.
+
 ## Goal
 - Create a reusable editorial body without publishing unfinished article boards.
 

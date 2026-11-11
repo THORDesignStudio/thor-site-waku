@@ -15,18 +15,8 @@
 /case-studies/construction-executive-publication-redesign /case-studies/construction-executive-magazine 301 # Renamed case study
 /case-studies/clinical-care-app /case-studies/mash-app 301 # Renamed case study
 /case-studies/national-investor-relations-institute /case-studies/niri-investor-relations-rebrand 301 # Renamed case study
+/writing/headless-cms-sites /writing/headless-websites 301 # Legacy writing URL retained after article rollout
+/writing/cms-sites /writing/cms-websites 301 # Legacy writing URL retained after article rollout
 /concept-vault / 307 # Page temporarily disabled
-/writing/architecture / 307 # Writing archive temporarily redirected
-/writing/how-a-website-is-built / 307 # Writing archive temporarily redirected
-/writing/design-and-development / 307 # Writing archive temporarily redirected
-/writing/discovery-process / 307 # Writing archive temporarily redirected
-/writing/project-management / 307 # Writing archive temporarily redirected
-/writing/ongoing-publication-design / 307 # Writing archive temporarily redirected
 /writing/how-is-a-magazine-born / 307 # Writing archive temporarily redirected
-/writing/publication-pacing / 307 # Writing archive temporarily redirected
-/writing/custom-websites / 307 # Writing archive temporarily redirected
-/writing/headless-cms-sites / 307 # Writing archive temporarily redirected
-/writing/no-code-websites / 307 # Writing archive temporarily redirected
-/writing/cms-sites / 307 # Writing archive temporarily redirected
-/writing/the-rapidly-evolving-web / 307 # Writing archive temporarily redirected
 /case-studies/colorado-lawyer /case-studies 307 # Case study temporarily redirected to listing

@@ -112,6 +112,20 @@ export const redirects: Redirect[] = [
     comment: 'Renamed case study',
   },
 
+  // Legacy writing URLs
+  {
+    source: '/writing/headless-cms-sites',
+    destination: '/writing/headless-websites',
+    permanent: true,
+    comment: 'Legacy writing URL retained after article rollout',
+  },
+  {
+    source: '/writing/cms-sites',
+    destination: '/writing/cms-websites',
+    permanent: true,
+    comment: 'Legacy writing URL retained after article rollout',
+  },
+
   // ========================================================================
   // TEMPORARY REDIRECTS (307)
   // ========================================================================
@@ -123,79 +137,7 @@ export const redirects: Redirect[] = [
     comment: 'Page temporarily disabled',
   },
   {
-    source: '/writing/architecture',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/how-a-website-is-built',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/design-and-development',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/discovery-process',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/project-management',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/ongoing-publication-design',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
     source: '/writing/how-is-a-magazine-born',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/publication-pacing',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/custom-websites',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/headless-cms-sites',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/no-code-websites',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/cms-sites',
-    destination: '/',
-    permanent: false,
-    comment: 'Writing archive temporarily redirected',
-  },
-  {
-    source: '/writing/the-rapidly-evolving-web',
     destination: '/',
     permanent: false,
     comment: 'Writing archive temporarily redirected',
