@@ -122,6 +122,7 @@ interface CarouselControlsProps {
   canGoNext: boolean;
   currentIndex: number;
   total: number;
+  itemLabel: string;
 }
 
 function CarouselControls({
@@ -131,6 +132,7 @@ function CarouselControls({
   canGoNext,
   currentIndex,
   total,
+  itemLabel,
 }: CarouselControlsProps) {
   const buttonBase =
     'w-10 h-10 rounded-full border-2 border-magenta flex items-center justify-center transition-all duration-200';
@@ -144,7 +146,7 @@ function CarouselControls({
         onClick={onPrev}
         disabled={!canGoPrev}
         className={`${buttonBase} ${canGoPrev ? buttonEnabled : buttonDisabled}`}
-        aria-label={`Previous case study (showing ${currentIndex + 1} of ${total})`}
+        aria-label={`Previous ${itemLabel} (showing ${currentIndex + 1} of ${total})`}
       >
         <ArrowLeftIcon className="w-5 h-5" />
       </button>
@@ -155,7 +157,7 @@ function CarouselControls({
         onClick={onNext}
         disabled={!canGoNext}
         className={`${buttonBase} ${canGoNext ? buttonEnabled : buttonDisabled}`}
-        aria-label={`Next case study (showing ${currentIndex + 1} of ${total})`}
+        aria-label={`Next ${itemLabel} (showing ${currentIndex + 1} of ${total})`}
       >
         <ArrowRightIcon className="w-5 h-5" />
       </button>
@@ -163,37 +165,52 @@ function CarouselControls({
   );
 }
 
-// ============================================================================
-// Main Component
-// ============================================================================
-
-interface CaseStudyCarouselProps {
-  studies?: CaseStudy[];
-  header?: ReactNode;
-  label?: string;
+// The existing carousel interaction layer accepts composed slide content.
+export interface ContentCarouselSlide {
+  id: string;
+  title: string;
+  content: ReactNode;
 }
 
-export function CaseStudyCarousel({
-  studies: providedStudies,
+interface ContentCarouselProps {
+  slides: ContentCarouselSlide[];
+  header: ReactNode;
+  label: string;
+  itemLabel?: string;
+  className?: string;
+}
+
+export function ContentCarousel({
+  slides,
   header,
-  label = 'Case Studies Carousel',
-}: CaseStudyCarouselProps = {}) {
-  const studies = useMemo(
-    () =>
-      getPublishedCaseStudies(
-        providedStudies ?? caseStudies.caseStudies
-      ).filter((study) => providedStudies !== undefined || study.featured),
-    [providedStudies]
-  );
+  label,
+  itemLabel = 'item',
+  className = 'bg-white py-fluid-12 px-fluid-6',
+}: ContentCarouselProps) {
   // Selection belongs to this carousel, so curated pages cannot change the
   // homepage's index or inherit an out-of-range selection from it.
   const [activeIndex, setActiveIndex] = useState(0);
+  const [canScroll, setCanScroll] = useState(false);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const track = scrollContainerRef.current;
+    if (!track) return;
+    const update = () => {
+      const scrollable = track.scrollWidth > track.clientWidth + 1;
+      setCanScroll(scrollable);
+      if (!scrollable) setActiveIndex(0);
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [slides.length]);
 
   // Use shared hook for Lenis-ScrollTrigger sync
   useLenisScrollTrigger(sectionRef);
@@ -238,9 +255,10 @@ export function CaseStudyCarousel({
         const targets = headerRef.current?.querySelectorAll(
           '.section-title, .section-subtitle'
         );
-        if (targets) gsap.killTweensOf(targets);
+        if (targets?.length) gsap.killTweensOf(targets);
         ctx.revert();
-        if (targets) gsap.set(targets, { clearProps: 'opacity,transform' });
+        if (targets?.length)
+          gsap.set(targets, { clearProps: 'opacity,transform' });
       };
     });
     return () => media.revert();
@@ -330,14 +348,15 @@ export function CaseStudyCarousel({
     }
   }, []);
 
-  // Handle sidebar/button selection - single source of truth
+  // Handle button and keyboard selection from one state value.
   const handleSelectIndex = useCallback(
     (index: number) => {
-      const clampedIndex = Math.max(0, Math.min(index, studies.length - 1));
+      if (!canScroll) return;
+      const clampedIndex = Math.max(0, Math.min(index, slides.length - 1));
       setActiveIndex(clampedIndex);
       scrollToSlide(clampedIndex);
     },
-    [scrollToSlide, studies.length]
+    [scrollToSlide, slides.length, canScroll]
   );
 
   // Navigation handlers
@@ -371,23 +390,14 @@ export function CaseStudyCarousel({
   return (
     <section
       ref={sectionRef}
-      className="bg-white py-fluid-12 px-fluid-6"
+      className={className}
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
     >
       {/* Section Title */}
       <div ref={headerRef} className="mb-fluid-12">
-        {header ?? (
-          <>
-            <h2 className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-navy tracking-tight leading-none">
-              Case Studies
-            </h2>
-            <p className="section-subtitle font-sans font-light text-fluid-2xl text-navy pl-fluid-1 mt-fluid-2">
-              See how THOR delivered for our clients.
-            </p>
-          </>
-        )}
+        {header}
       </div>
 
       <div data-reveal className="min-w-0">
@@ -396,10 +406,11 @@ export function CaseStudyCarousel({
           <CarouselControls
             onPrev={goToPrev}
             onNext={goToNext}
-            canGoPrev={activeIndex > 0}
-            canGoNext={activeIndex < studies.length - 1}
+            canGoPrev={canScroll && activeIndex > 0}
+            canGoNext={canScroll && activeIndex < slides.length - 1}
             currentIndex={activeIndex}
-            total={studies.length}
+            total={slides.length}
+            itemLabel={itemLabel}
           />
         </div>
 
@@ -413,19 +424,19 @@ export function CaseStudyCarousel({
           }}
           tabIndex={0}
           role="region"
-          aria-label={`Case study slides (${studies.length} total)`}
+          aria-label={`${itemLabel.charAt(0).toUpperCase() + itemLabel.slice(1)} slides (${slides.length} total)`}
         >
-          {studies.map((study, index) => (
+          {slides.map((slide, index) => (
             <div
-              key={study.slug}
+              key={slide.id}
               ref={(el) => {
                 slideRefs.current[index] = el;
               }}
               className="shrink-0 snap-start w-[85vw] sm:w-[clamp(450px,35vw,650px)]"
               role="group"
-              aria-label={`Case study ${index + 1} of ${studies.length}: ${study.name}`}
+              aria-label={`${itemLabel.charAt(0).toUpperCase() + itemLabel.slice(1)} ${index + 1} of ${slides.length}: ${slide.title}`}
             >
-              <CaseStudyCard study={study} />
+              {slide.content}
             </div>
           ))}
         </div>
@@ -435,13 +446,57 @@ export function CaseStudyCarousel({
           <CarouselControls
             onPrev={goToPrev}
             onNext={goToNext}
-            canGoPrev={activeIndex > 0}
-            canGoNext={activeIndex < studies.length - 1}
+            canGoPrev={canScroll && activeIndex > 0}
+            canGoNext={canScroll && activeIndex < slides.length - 1}
             currentIndex={activeIndex}
-            total={studies.length}
+            total={slides.length}
+            itemLabel={itemLabel}
           />
         </div>
       </div>
     </section>
+  );
+}
+
+interface CaseStudyCarouselProps {
+  studies?: CaseStudy[];
+  header?: ReactNode;
+  label?: string;
+}
+
+export function CaseStudyCarousel({
+  studies: providedStudies,
+  header,
+  label = 'Case Studies Carousel',
+}: CaseStudyCarouselProps = {}) {
+  const studies = useMemo(
+    () =>
+      getPublishedCaseStudies(
+        providedStudies ?? caseStudies.caseStudies
+      ).filter((study) => providedStudies !== undefined || study.featured),
+    [providedStudies]
+  );
+  return (
+    <ContentCarousel
+      slides={studies.map((study) => ({
+        id: study.slug,
+        title: study.name,
+        content: <CaseStudyCard study={study} />,
+      }))}
+      label={label}
+      itemLabel="case study"
+      header={
+        header ?? (
+          <>
+            <h2 className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-navy tracking-tight leading-none">
+              Case Studies
+            </h2>
+            <p className="section-subtitle font-sans font-light text-fluid-2xl text-navy pl-fluid-1 mt-fluid-2">
+              See how THOR delivered for our clients.
+            </p>
+          </>
+        )
+      }
+    />
   );
 }

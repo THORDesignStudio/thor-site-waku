@@ -2,6 +2,8 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- Implemented 2026-11-11; see [[plans/01-design-export-comparison/implementation-08]]. Article destinations remain phase 09.
+
 ## Goal
 - Introduce the four content groups with stable anchors.
 

@@ -12,8 +12,8 @@ export const Footer = () => {
 
   useEffect(() => {
     // Detect iOS devices
-    const isIOSDevice = 
-      /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+    const isIOSDevice =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     setIsIOS(isIOSDevice);
   }, []);
@@ -27,16 +27,18 @@ export const Footer = () => {
       {/* iOS gradient overlays */}
       {isIOS && (
         <>
-          <div 
+          <div
             className="absolute top-0 left-0 right-0 h-[30%] z-[5] pointer-events-none"
-            style={{ 
-              background: 'linear-gradient(to bottom, #18133e 0%, transparent 100%)'
+            style={{
+              background:
+                'linear-gradient(to bottom, #18133e 0%, transparent 100%)',
             }}
           />
-          <div 
+          <div
             className="absolute bottom-0 left-0 right-0 h-[30%] z-[5] pointer-events-none"
-            style={{ 
-              background: 'linear-gradient(to top, #18133e 0%, transparent 100%)'
+            style={{
+              background:
+                'linear-gradient(to top, #18133e 0%, transparent 100%)',
             }}
           />
         </>
@@ -74,9 +76,18 @@ export const Footer = () => {
         <div className="xl:max-w-[max(700px,37vw)] grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[2.33em] gap-[1.25em] font-sans md:gap-y-[2em]">
           {footerMenu.sections.map((section) => (
             <div key={section.title}>
-              <span className="text-fluid-sm font-sans font-extrabold">
-                {section.title}
-              </span>
+              {section.url ? (
+                <a
+                  href={section.url}
+                  className={`text-fluid-sm font-sans font-extrabold ${linkClassName}`}
+                >
+                  {section.title}
+                </a>
+              ) : (
+                <span className="text-fluid-sm font-sans font-extrabold">
+                  {section.title}
+                </span>
+              )}
               <ul className="paragraph-md space-y-vw-2 mt-2">
                 {section.links.map((link) => (
                   <li key={link.url}>

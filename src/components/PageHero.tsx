@@ -22,7 +22,7 @@ export function PageHero({
       className={`relative overflow-hidden bg-[var(--color-navy)] ${className}`}
     >
       {/* Top padding clears the fixed nav in Header.tsx */}
-      <div className="relative z-10 mx-auto max-w-[var(--layout-hero)] px-fluid-6 pt-32 sm:pt-36 pb-fluid-10">
+      <div className="relative z-10 mx-auto max-w-[var(--layout-hero)] lg:max-w-[var(--layout-page)] px-fluid-6 pt-[9.6rem] sm:pt-[10.8rem] pb-[calc(var(--spacing-fluid-10)*1.2)]">
         {eyebrow && (
           <p className="type-eyebrow !text-on-dark mb-5">{eyebrow}</p>
         )}

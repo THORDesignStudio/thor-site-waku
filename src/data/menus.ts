@@ -7,6 +7,7 @@ interface MenuLink {
 
 interface MenuSection {
   title: string;
+  url?: string;
   links: MenuLink[];
 }
 
@@ -37,6 +38,7 @@ export const footerMenu: FooterMenu = {
     },
     {
       title: 'How We Work',
+      url: '/how-we-work',
       links: [
         {
           name: 'Capabilities',

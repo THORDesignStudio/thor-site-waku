@@ -9,6 +9,7 @@
 - Phase 07 Web Development pilot implemented on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07]].
 - Phase 07 rollout across all nine capabilities completed on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-rollout]].
 - Capability landing page and global navigation added on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-landing]].
+- Phase 08 How We Work implemented on 2026-11-11; see [[plans/01-design-export-comparison/implementation-08]].
 - No existing `brain/index.md`, `brain/principles.md`, or local AGENTS.md found. No project principles invented. TaskCreate/TaskUpdate tools are unavailable.
 
 ## Scope

@@ -17,6 +17,7 @@
 - Platform/detail cards use natural content height on all widths; the user rolled back the oversized mobile portrait ratio. Overview matches the hero's 1350px container; the hero background is mirrored independently of its content.
 - `ContactButton`, exported alongside `ChallengePromo`, opens the same existing contact overlay from the hero or challenge band.
 - `CaseStudyCarousel` accepts optional `studies`, `header` and accessible `label`; the no-prop homepage version still selects featured studies.
+- `CaseStudyCarousel` adapts study data to the shared `ContentCarousel`; How We Work composes article cards into the same scrolling implementation. Controls disable when all cards fit.
 - Each carousel owns its selection state; selections do not leak between the homepage and capability pages.
 - Reuse arrows, native horizontal scrolling, keyboard controls and the GSAP/Lenis hook. The user removed the sidebar from both homepage and capability carousels. Custom headers use `.section-title` / `.section-subtitle` for the existing reveal.
 - Reduced motion leaves headings visible and scrolls slides immediately. Clean up active GSAP tweens and inline transforms when changing preferences.

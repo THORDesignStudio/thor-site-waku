@@ -143,13 +143,13 @@ export const Header = () => {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 pt-3 pb-6 sm:pb-6 sm:pt-6 px-fluid-6"
+        className="fixed top-0 left-0 right-0 z-50 pt-3 pb-6 sm:pb-6 sm:pt-6 px-fluid-6 lg:max-w-[var(--layout-page)] mx-auto"
         id="header"
       >
         <nav
           className={`
             flex flex-col bg-navy/97  transition-all
-            rounded-4xl p-2 shadow-lg max-w-[1300px] w-full mx-auto border-2 border-white/60
+            rounded-4xl p-2 shadow-lg max-w-[1300px] lg:max-w-none w-full mx-auto border-2 border-white/60
             backface-visible will-change-scroll
             ${isMenuOpen ? 'max-sm:rounded-3xl bg-navy/97' : ''}
             ${isContactOpen ? 'max-sm:rounded-3xl bg-navy/97' : ''}

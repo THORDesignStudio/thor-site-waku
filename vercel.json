@@ -71,11 +71,6 @@
       "permanent": false
     },
     {
-      "source": "/how-we-work",
-      "destination": "/",
-      "permanent": false
-    },
-    {
       "source": "/writing/architecture",
       "destination": "/",
       "permanent": false

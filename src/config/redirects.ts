@@ -123,12 +123,6 @@ export const redirects: Redirect[] = [
     comment: 'Page temporarily disabled',
   },
   {
-    source: '/how-we-work',
-    destination: '/',
-    permanent: false,
-    comment: 'Page temporarily disabled',
-  },
-  {
     source: '/writing/architecture',
     destination: '/',
     permanent: false,
