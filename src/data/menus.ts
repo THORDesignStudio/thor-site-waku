@@ -40,7 +40,7 @@ export const footerMenu: FooterMenu = {
       links: [
         {
           name: 'Capabilities',
-          url: '#',
+          url: '/capabilities',
         },
         {
           name: 'Programs',

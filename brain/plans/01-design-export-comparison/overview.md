@@ -5,7 +5,10 @@
 - v2 contains 49 desktop and 12 mobile HTML boards; this repo supplies the application, data, integrations, and motion.
 - User direction: reuse existing motion guidance; mostly retain this repo's header/footer; treat the existing case-study landing as the new implementation baseline.
 - Initial deliverable was planning only; the user subsequently authorized phases 1–4 across all 17 case studies.
-- Phases 1–4 implemented on 2026-11-10; see [[plans/01-design-export-comparison/implementation-01-04]]. Later phases remain proposed.
+- Phases 1–4 implemented on 2026-11-10; see [[plans/01-design-export-comparison/implementation-01-04]].
+- Phase 07 Web Development pilot implemented on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07]].
+- Phase 07 rollout across all nine capabilities completed on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-rollout]].
+- Capability landing page and global navigation added on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-landing]].
 - No existing `brain/index.md`, `brain/principles.md`, or local AGENTS.md found. No project principles invented. TaskCreate/TaskUpdate tools are unavailable.
 
 ## Scope

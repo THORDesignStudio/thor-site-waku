@@ -2,6 +2,9 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- Web Development pilot implemented 2026-11-11; see [[plans/01-design-export-comparison/implementation-07]].
+- All nine capability pages completed after user approval to build the remainder; see [[plans/01-design-export-comparison/implementation-07-rollout]].
+
 ## Goal
 - Offer full pages while preserving useful existing capability drawers.
 

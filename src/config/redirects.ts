@@ -36,6 +36,20 @@ export const redirects: Redirect[] = [
     comment: 'Studio page consolidated into About',
   },
 
+  // Legacy capability URLs
+  {
+    source: '/capabilities/event-registration',
+    destination: '/capabilities/event-solutions',
+    permanent: true,
+    comment: 'Legacy capability URL retained after full page rollout',
+  },
+  {
+    source: '/capabilities/e-commerce',
+    destination: '/capabilities/e-commerce-solutions',
+    permanent: true,
+    comment: 'Legacy capability URL retained after full page rollout',
+  },
+
   // Case study renames and consolidations
   {
     source: '/case-studies/branding',

@@ -1,11 +1,19 @@
 'use client';
 
-import { useRef, useEffect, useCallback, useLayoutEffect } from 'react';
-import { useAtom } from 'jotai';
+import {
+  useRef,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useState,
+  useMemo,
+  type ReactNode,
+} from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { activeCaseStudyIndexAtom } from '../atoms/siteAtoms';
 import { caseStudies, type CaseStudy } from '../data/case-studies';
+import { getPublishedCaseStudies } from '../data/site-content';
+import { getCaseStudyTopics } from '../data/case-study-topics';
 import { useLenisScrollTrigger } from '../hooks/useLenisScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -63,7 +71,7 @@ function CaseStudyCard({ study }: CaseStudyCardProps) {
     <article className="flex flex-col pt-[var(--spacing-fluid-4)]">
       {/* Card Image */}
       <div
-        className="aspect-video w-full overflow-hidden rounded-[10px]"
+        className="aspect-video w-full overflow-hidden rounded-2xl"
         style={{
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15)',
         }}
@@ -79,24 +87,19 @@ function CaseStudyCard({ study }: CaseStudyCardProps) {
       {/* Card Content */}
       <div className="pt-[var(--spacing-fluid-4)] flex flex-col gap-[var(--spacing-fluid-1)]">
         {/* Subtitle - vertical */}
-        <p className="text-fluid-xs text-navy/50 uppercase tracking-widest font-bold">
-          {study.verticals[0]}
-        </p>
+        <p className="type-eyebrow">{getCaseStudyTopics(study)[0]}</p>
 
         {/* Title */}
-        <h3 className="text-fluid-2xl font-extrabold uppercase text-navy leading-tight tracking-wide">
-          {study.name}
-        </h3>
+        <h3 className="type-card-title text-navy">{study.name}</h3>
 
         {/* Description / Dek */}
-        <p className="text-fluid-base font-light text-navy leading-relaxed">
-          {study.dek}
-        </p>
+        <p className="type-card-summary">{study.dek}</p>
 
         {/* Read More Link */}
         <div className="pt-fluid-2">
           <a
             href={`/case-studies/${study.slug}`}
+            aria-label={`Read ${study.name} case study`}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-magenta text-white rounded-full hover:opacity-80 hover:-translate-y-1 transition-all duration-300 ease-out text-fluid-sm font-extrabold uppercase"
           >
             Read More
@@ -105,55 +108,6 @@ function CaseStudyCard({ study }: CaseStudyCardProps) {
         </div>
       </div>
     </article>
-  );
-}
-
-// ============================================================================
-// Sidebar Component
-// ============================================================================
-
-interface SidebarProps {
-  studies: CaseStudy[];
-  activeIndex: number;
-  onSelectIndex: (index: number) => void;
-}
-
-function Sidebar({ studies, activeIndex, onSelectIndex }: SidebarProps) {
-  return (
-    <aside className="shrink-0 lg:w-[280px] hidden lg:block" aria-label="Case study navigation">
-      {/* Section Title */}
-      <h2 className="text-fluid-xl font-extrabold uppercase text-navy mb-fluid-4 tracking-wide">
-        Select Work
-      </h2>
-
-      {/* Desktop: List */}
-      <nav className="hidden lg:block" aria-label="Case study list">
-        <ul className="flex flex-col gap-fluid-2" role="tablist">
-          {studies.map((study, index) => {
-            const isActive = index === activeIndex;
-            const number = String(index + 1).padStart(2, '0');
-            return (
-              <li key={study.slug} role="presentation">
-                <button
-                  onClick={() => onSelectIndex(index)}
-                  className={`
-                    w-full text-left text-fluid-base transition-all duration-300 hover:cursor-pointer
-                    ${isActive ? 'font-bold text-navy' : 'text-navy/60 hover:text-navy/80'}
-                  `}
-                  aria-label={`Case Study ${number}: ${study.name}`}
-                  aria-pressed={isActive}
-                  role="tab"
-                  aria-selected={isActive}
-                  tabIndex={isActive ? 0 : -1}
-                >
-                  {study.name}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    </aside>
   );
 }
 
@@ -213,9 +167,27 @@ function CarouselControls({
 // Main Component
 // ============================================================================
 
-export function CaseStudyCarousel() {
-  const studies = caseStudies.caseStudies.filter((study) => study.featured);
-  const [activeIndex, setActiveIndex] = useAtom(activeCaseStudyIndexAtom);
+interface CaseStudyCarouselProps {
+  studies?: CaseStudy[];
+  header?: ReactNode;
+  label?: string;
+}
+
+export function CaseStudyCarousel({
+  studies: providedStudies,
+  header,
+  label = 'Case Studies Carousel',
+}: CaseStudyCarouselProps = {}) {
+  const studies = useMemo(
+    () =>
+      getPublishedCaseStudies(
+        providedStudies ?? caseStudies.caseStudies
+      ).filter((study) => providedStudies !== undefined || study.featured),
+    [providedStudies]
+  );
+  // Selection belongs to this carousel, so curated pages cannot change the
+  // homepage's index or inherit an out-of-range selection from it.
+  const [activeIndex, setActiveIndex] = useState(0);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
@@ -230,43 +202,30 @@ export function CaseStudyCarousel() {
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Animate section header (title and subtitle)
-      const headerEl = headerRef.current;
-      if (headerEl) {
-        const sectionTitle = headerEl.querySelector('.section-title');
-        const sectionSubtitle = headerEl.querySelector('.section-subtitle');
-
-        // Set initial state with GSAP
-        gsap.set(sectionTitle, { opacity: 0, y: 30 });
-        gsap.set(sectionSubtitle, { opacity: 0, y: 30 });
-
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        const headerEl = headerRef.current;
+        if (!headerEl) return;
+        const targets = headerEl.querySelectorAll(
+          '.section-title, .section-subtitle'
+        );
+        if (!targets.length) return;
+        gsap.set(targets, { opacity: 0, y: 30 });
         ScrollTrigger.create({
           trigger: headerEl,
           start: 'top 80%',
           onEnter: () => {
-            gsap.to(sectionTitle, {
+            gsap.to(targets, {
               opacity: 1,
               y: 0,
               duration: 0.8,
-              ease: 'power2.out',
-            });
-            gsap.to(sectionSubtitle, {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              delay: 0.2,
+              stagger: 0.2,
               ease: 'power2.out',
             });
           },
           onLeaveBack: () => {
-            gsap.to(sectionTitle, {
-              opacity: 0,
-              y: 30,
-              duration: 0.5,
-              ease: 'power2.out',
-            });
-            gsap.to(sectionSubtitle, {
+            gsap.to(targets, {
               opacity: 0,
               y: 30,
               duration: 0.5,
@@ -274,12 +233,17 @@ export function CaseStudyCarousel() {
             });
           },
         });
-      }
-    }, sectionRef);
-
-    return () => {
-      ctx.revert();
-    };
+      }, sectionRef);
+      return () => {
+        const targets = headerRef.current?.querySelectorAll(
+          '.section-title, .section-subtitle'
+        );
+        if (targets) gsap.killTweensOf(targets);
+        ctx.revert();
+        if (targets) gsap.set(targets, { clearProps: 'opacity,transform' });
+      };
+    });
+    return () => media.revert();
   }, []);
 
   // Calculate which slide is most visible based on scroll position
@@ -287,29 +251,23 @@ export function CaseStudyCarousel() {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return 0;
 
-    const scrollLeft = scrollContainer.scrollLeft;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+    if (scrollWidth <= clientWidth || scrollLeft < 2) return 0;
+    if (scrollWidth - clientWidth - scrollLeft < 2)
+      return Math.max(0, slideRefs.current.length - 1);
 
-    // Find which slide the scroll position has passed (or is at)
-    let activeIdx = 0;
-
-    for (let i = 0; i < slideRefs.current.length; i++) {
-      const slide = slideRefs.current[i];
-      if (!slide) continue;
-
-      if (scrollLeft >= slide.offsetLeft - 50) {
-        activeIdx = i;
-      } else {
-        break;
+    const left = scrollContainer.getBoundingClientRect().left;
+    let active = 0;
+    let nearest = Infinity;
+    slideRefs.current.forEach((slide, index) => {
+      if (!slide) return;
+      const distance = Math.abs(slide.getBoundingClientRect().left - left);
+      if (distance < nearest) {
+        nearest = distance;
+        active = index;
       }
-    }
-
-    // +1 offset to fix the off-by-one issue, clamped to array bounds
-    const correctedIdx = Math.min(activeIdx + 1, slideRefs.current.length - 1);
-
-    // But if we're at the very start, keep it at 0
-    if (scrollLeft < 10) return 0;
-
-    return correctedIdx;
+    });
+    return active;
   }, []);
 
   // Handle scroll events (for user-initiated scrolls)
@@ -348,17 +306,26 @@ export function CaseStudyCarousel() {
     const slide = slideRefs.current[index];
     const scrollContainer = scrollContainerRef.current;
     if (slide && scrollContainer) {
-      isProgrammaticScroll.current = true;
-
       // Calculate position relative to container
       const containerRect = scrollContainer.getBoundingClientRect();
       const slideRect = slide.getBoundingClientRect();
       const relativeOffset =
         slideRect.left - containerRect.left + scrollContainer.scrollLeft;
 
+      const destination = Math.max(
+        0,
+        Math.min(
+          relativeOffset,
+          scrollContainer.scrollWidth - scrollContainer.clientWidth
+        )
+      );
+      if (Math.abs(destination - scrollContainer.scrollLeft) < 1) return;
+      isProgrammaticScroll.current = true;
       scrollContainer.scrollTo({
-        left: relativeOffset,
-        behavior: 'smooth',
+        left: destination,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
       });
     }
   }, []);
@@ -402,87 +369,77 @@ export function CaseStudyCarousel() {
   }, [goToPrev, goToNext]);
 
   return (
-    <section 
-      ref={sectionRef} 
+    <section
+      ref={sectionRef}
       className="bg-white py-fluid-12 px-fluid-6"
       role="region"
       aria-roledescription="carousel"
-      aria-label="Case Studies Carousel"
+      aria-label={label}
     >
       {/* Section Title */}
       <div ref={headerRef} className="mb-fluid-12">
-        <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-navy tracking-tight">
-            Case Studies
-          </span>
-          <p className="section-subtitle font-sans font-light text-fluid-2xl text-navy pl-fluid-1 mt-fluid-2">
-            See how THOR delivered for our clients.
-          </p>
-        </h1>
+        {header ?? (
+          <>
+            <h2 className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl text-navy tracking-tight leading-none">
+              Case Studies
+            </h2>
+            <p className="section-subtitle font-sans font-light text-fluid-2xl text-navy pl-fluid-1 mt-fluid-2">
+              See how THOR delivered for our clients.
+            </p>
+          </>
+        )}
       </div>
 
-      {/* Desktop Layout: Sidebar + Carousel */}
-      <div className="flex flex-col lg:flex-row gap-fluid-8">
-        {/* Sidebar */}
-        <Sidebar
-          studies={studies}
-          activeIndex={activeIndex}
-          onSelectIndex={handleSelectIndex}
-        />
+      <div data-reveal className="min-w-0">
+        {/* Controls - Above carousel on desktop, below on mobile */}
+        <div className="hidden lg:flex justify-start">
+          <CarouselControls
+            onPrev={goToPrev}
+            onNext={goToNext}
+            canGoPrev={activeIndex > 0}
+            canGoNext={activeIndex < studies.length - 1}
+            currentIndex={activeIndex}
+            total={studies.length}
+          />
+        </div>
 
-        {/* Main Content Area */}
-        <div className="flex-1 min-w-0">
-          {/* Controls - Above carousel on desktop, below on mobile */}
-          <div className="hidden lg:flex justify-start">
-            <CarouselControls
-              onPrev={goToPrev}
-              onNext={goToNext}
-              canGoPrev={activeIndex > 0}
-              canGoNext={activeIndex < studies.length - 1}
-              currentIndex={activeIndex}
-              total={studies.length}
-            />
-          </div>
+        {/* Carousel Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-[var(--spacing-fluid-3)] overflow-x-auto scroll-smooth snap-x snap-mandatory pr-[var(--spacing-fluid-6)]"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+          tabIndex={0}
+          role="region"
+          aria-label={`Case study slides (${studies.length} total)`}
+        >
+          {studies.map((study, index) => (
+            <div
+              key={study.slug}
+              ref={(el) => {
+                slideRefs.current[index] = el;
+              }}
+              className="shrink-0 snap-start w-[85vw] sm:w-[clamp(450px,35vw,650px)]"
+              role="group"
+              aria-label={`Case study ${index + 1} of ${studies.length}: ${study.name}`}
+            >
+              <CaseStudyCard study={study} />
+            </div>
+          ))}
+        </div>
 
-          {/* Carousel Container */}
-          <div
-            ref={scrollContainerRef}
-            className="flex gap-[var(--spacing-fluid-3)] overflow-x-auto scroll-smooth snap-x snap-mandatory pr-[var(--spacing-fluid-6)]"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
-            tabIndex={0}
-            role="tabpanel"
-            aria-label={`Case study slides (${studies.length} total)`}
-          >
-            {studies.map((study, index) => (
-              <div
-                key={study.slug}
-                ref={(el) => {
-                  slideRefs.current[index] = el;
-                }}
-                className="shrink-0 snap-start w-[85vw] sm:w-[clamp(450px,35vw,650px)]"
-                role="group"
-                aria-label={`Case study ${index + 1} of ${studies.length}: ${study.name}`}
-                aria-hidden={index !== activeIndex}
-              >
-                <CaseStudyCard study={study} />
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile Controls - Below carousel */}
-          <div className="lg:hidden flex justify-center mt-[var(--spacing-fluid-6)]">
-            <CarouselControls
-              onPrev={goToPrev}
-              onNext={goToNext}
-              canGoPrev={activeIndex > 0}
-              canGoNext={activeIndex < studies.length - 1}
-              currentIndex={activeIndex}
-              total={studies.length}
-            />
-          </div>
+        {/* Mobile Controls - Below carousel */}
+        <div className="lg:hidden flex justify-center mt-[var(--spacing-fluid-6)]">
+          <CarouselControls
+            onPrev={goToPrev}
+            onNext={goToNext}
+            canGoPrev={activeIndex > 0}
+            canGoNext={activeIndex < studies.length - 1}
+            currentIndex={activeIndex}
+            total={studies.length}
+          />
         </div>
       </div>
     </section>

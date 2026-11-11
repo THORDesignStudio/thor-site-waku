@@ -83,6 +83,14 @@ export function CapabilityDrawer({
     name: capability.name,
     description: capability.description,
     url: capability.url,
+    ...(capability.page?.status === 'ready'
+      ? {
+          pageLink: {
+            href: capability.url,
+            label: `Explore ${capability.name}`,
+          },
+        }
+      : {}),
     relatedSlides:
       scoreCaseStudiesForCapability(capability).map(toRelatedSlide),
   };

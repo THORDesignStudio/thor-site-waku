@@ -3,6 +3,8 @@
 # Do not edit directly - run `npm run generate:redirects` instead
 
 /our-studio /about 301 # Studio page consolidated into About
+/capabilities/event-registration /capabilities/event-solutions 301 # Legacy capability URL retained after full page rollout
+/capabilities/e-commerce /capabilities/e-commerce-solutions 301 # Legacy capability URL retained after full page rollout
 /case-studies/branding /case-studies/leon-hotel 301 # Renamed case study
 /case-studies/chemonics-media-showcase /case-studies/chemonics-media-site 301 # Renamed case study
 /case-studies/knighten-health-drug-guide /case-studies/ibd-drug-guide 301 # Renamed case study

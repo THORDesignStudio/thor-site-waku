@@ -1,0 +1,24 @@
+# Capability pages
+
+- `/capabilities` is the public landing page, with the shared mirrored hero, introduction and a numbered grid from `getPublishedCapabilities()` (three columns desktop, two tablet, one phone).
+- The landing page is one static presentation: no hero/grid entrance animations or page motion wrapper. Capability detail pages retain their scroll-triggered motion.
+- Global desktop/mobile navigation order is About Us → Capabilities → Case Studies. The footer Capabilities link and detail-page “What we do” eyebrow also point to the landing page.
+- Keep compact desktop-nav spacing below 768px so all three links stay on one line; wider desktop spacing follows the existing header.
+- All nine capabilities have full pages: Web Development, Publication Design, Event Solutions, E-Commerce Solutions, Mobile Apps, Data Visualization, User Experience, Branding and Content Strategy.
+- `src/data/capability-pages.ts` owns structured body copy. `Capability.page` links it to the catalog with explicit draft/ready status. Only `getPublishedCapabilities()` entries enter static route generation.
+- Canonical page URLs use `/capabilities/{slug}`. Legacy `/capabilities/event-registration` and `/capabilities/e-commerce` remain lookup aliases with permanent redirects to the canonical pages.
+- `getCapabilityCaseStudies()` selects published studies whose `capabilities` include the capability slug, preserving source order. `data/case-studies.ts` is the selection source of truth; there is no separate manual project list.
+- Branding and Content Strategy memberships were added from the matching handoff project lists. Preserve these tags when editing case-study metadata.
+- Section labels, highlighted headings and work titles come from page content; keep the shared template free of Web Development-specific copy.
+- Full capability pages reuse `PageHero`, `CaseStudyCarousel` and `ChallengePromo` with the established header/footer/layout baseline.
+- On each detail page, the first three sections (hero/What we do, Overview, Services/Platforms) are static and immediately visible. Details, project work and the challenge band retain motion.
+- `CapabilityPageMotion` uses the shared Lenis–ScrollTrigger hook for later section entrances: homepage-style 30px rise, 0.8s `power2.out` fade, 0.2s stagger, and 0.5s reverse timing.
+- Reveal markers on shared components only animate inside the capability motion wrapper. Cards have independent triggers so long mobile stacks reveal as each card enters view.
+- Platform/detail cards use natural content height on all widths; the user rolled back the oversized mobile portrait ratio. Overview matches the hero's 1350px container; the hero background is mirrored independently of its content.
+- `ContactButton`, exported alongside `ChallengePromo`, opens the same existing contact overlay from the hero or challenge band.
+- `CaseStudyCarousel` accepts optional `studies`, `header` and accessible `label`; the no-prop homepage version still selects featured studies.
+- Each carousel owns its selection state; selections do not leak between the homepage and capability pages.
+- Reuse arrows, native horizontal scrolling, keyboard controls and the GSAP/Lenis hook. The user removed the sidebar from both homepage and capability carousels. Custom headers use `.section-title` / `.section-subtitle` for the existing reveal.
+- Reduced motion leaves headings visible and scrolls slides immediately. Clean up active GSAP tweens and inline transforms when changing preferences.
+- A ready capability drawer exposes an explicit `pageLink`; generic program drawers and unpublished capabilities do not gain dead page links.
+- Run `npm run test:capabilities`, `npm run test:case-studies` and `npm run build` when changing publication or capability-tag selection.

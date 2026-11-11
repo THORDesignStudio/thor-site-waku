@@ -186,7 +186,7 @@ export const Header = () => {
             <div
               id="desktop-nav"
               className={`
-                hidden sm:flex items-center gap-6 lg:gap-8 pl-8
+                hidden sm:flex items-center gap-4 md:gap-6 lg:gap-8 pl-4 md:pl-8
                 transition-all duration-300 ease-out
                 ${isContactOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}
               `}
@@ -194,20 +194,27 @@ export const Header = () => {
               <Link
                 to="/about"
                 onClick={handleLinkClick}
-                className="text-sm font-medium text-white/90 hover:text-white transition-colors"
+                className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 About Us
               </Link>
               <Link
+                to="/capabilities"
+                onClick={handleLinkClick}
+                className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
+              >
+                Capabilities
+              </Link>
+              <Link
                 to="/case-studies"
                 onClick={handleLinkClick}
-                className="text-sm font-medium text-white/90 hover:text-white transition-colors"
+                className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 Case Studies
               </Link>
               <button
                 onClick={openContactForm}
-                className="px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
+                className="px-6 md:px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
               >
                 Work With Us
               </button>
@@ -284,7 +291,9 @@ export const Header = () => {
                 <span
                   className={[
                     'absolute left-0 right-0 h-0.5 bg-white rounded-full transition-all duration-300 origin-center',
-                    isMenuOpen ? 'bottom-1/2 translate-y-1/2 -rotate-45' : 'bottom-0',
+                    isMenuOpen
+                      ? 'bottom-1/2 translate-y-1/2 -rotate-45'
+                      : 'bottom-0',
                   ].join(' ')}
                   style={{ transitionTimingFunction: 'var(--ease-out-back)' }}
                 />
@@ -324,7 +333,9 @@ export const Header = () => {
           <div
             className={[
               'sm:hidden overflow-hidden transition-all',
-              isMenuOpen ? 'max-h-80 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0',
+              isMenuOpen
+                ? 'max-h-80 opacity-100 mt-4'
+                : 'max-h-0 opacity-0 mt-0',
             ].join(' ')}
             style={{
               transitionDuration: 'var(--spring-bounce-duration)',
@@ -338,6 +349,13 @@ export const Header = () => {
                 className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
               >
                 About Us
+              </Link>
+              <Link
+                to="/capabilities"
+                onClick={handleLinkClick}
+                className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
+              >
+                Capabilities
               </Link>
               <Link
                 to="/case-studies"

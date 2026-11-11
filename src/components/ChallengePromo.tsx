@@ -3,11 +3,22 @@
 import { useSetAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
 
-export function ChallengePromo() {
+export function ContactButton() {
   const setIsContactOpen = useSetAtom(isContactModalOpenAtom);
-
   return (
-    <section className="bg-cool px-fluid-6 py-fluid-12">
+    <button
+      type="button"
+      onClick={() => setIsContactOpen(true)}
+      className="btn btn-primary"
+    >
+      Work with us
+    </button>
+  );
+}
+
+export function ChallengePromo() {
+  return (
+    <section data-section-reveal className="bg-cool px-fluid-6 py-fluid-12">
       <div
         className="mx-auto max-w-[1600px] overflow-hidden rounded-3xl bg-navy bg-cover bg-center px-fluid-8 py-fluid-8"
         style={{
@@ -23,13 +34,7 @@ export function ChallengePromo() {
             <br />
             who do the work.
           </p>
-          <button
-            type="button"
-            onClick={() => setIsContactOpen(true)}
-            className="btn btn-primary"
-          >
-            Work with us
-          </button>
+          <ContactButton />
         </div>
       </div>
     </section>

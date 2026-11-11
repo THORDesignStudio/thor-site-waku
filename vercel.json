@@ -6,6 +6,16 @@
       "permanent": true
     },
     {
+      "source": "/capabilities/event-registration",
+      "destination": "/capabilities/event-solutions",
+      "permanent": true
+    },
+    {
+      "source": "/capabilities/e-commerce",
+      "destination": "/capabilities/e-commerce-solutions",
+      "permanent": true
+    },
+    {
       "source": "/case-studies/branding",
       "destination": "/case-studies/leon-hotel",
       "permanent": true

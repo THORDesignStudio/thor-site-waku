@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "test:case-studies": "node --import=tsx --test scripts/case-studies.test.ts",
+    "test:capabilities": "node --import=tsx --test scripts/capabilities.test.ts",
     "generate:redirects": "node --import=tsx scripts/generate-redirects.ts"
   },
   "dependencies": {

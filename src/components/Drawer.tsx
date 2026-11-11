@@ -15,6 +15,7 @@ interface Item {
   name: string;
   description: string;
   url: string;
+  pageLink?: { href: string; label: string };
   relatedSlides?: FlipbookCarouselSlide[];
 }
 
@@ -285,6 +286,14 @@ export function Drawer({ item, open, onOpenChange }: DrawerProps) {
               >
                 {item.name}
               </h2>
+
+              {item.pageLink && (
+                <div className="flex justify-center mb-8">
+                  <a href={item.pageLink.href} className="btn btn-primary">
+                    {item.pageLink.label}
+                  </a>
+                </div>
+              )}
 
               <div
                 id="drawer-description"
