@@ -2,6 +2,8 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- Completed 2026-11-11; see [[plans/01-design-export-comparison/implementation-11-12]].
+
 ## Goal
 - Apply editorial/team layout using the current site shell and motion.
 

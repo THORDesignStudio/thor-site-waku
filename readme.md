@@ -2,6 +2,12 @@
 
 This is the main site for THOR Digital and THOR Studio (our print publication division). It's a pretty simple site based on the [Waku framework](https://waku.gg), which is a spiritual successor to the now deprecated Gatsby project.
 
+## LLM and project guidance
+
+`public/llms.txt` is the public guide to the studio, current routes, capabilities, and article series. Update it when public content, canonical URLs, or landing-page visibility changes; do not promote unfinished content or describe past events as upcoming.
+
+Start at `brain/index.md` for implementation decisions, layout and motion constraints, content sources, contact behavior, and phased rollout notes. The typed data and route files remain the source of truth.
+
 ## Inspiration
 
 We had to pull together many teachings to make the site you're seeing a reality. Below are some of the inspirations and lessons:

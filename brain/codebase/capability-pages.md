@@ -2,8 +2,8 @@
 
 - `/capabilities` is the public landing page, with the shared mirrored hero, introduction and a numbered grid from `getPublishedCapabilities()` (three columns desktop, two tablet, one phone).
 - The landing page is one static presentation: no hero/grid entrance animations or page motion wrapper. Capability detail pages retain their scroll-triggered motion.
-- Global desktop/mobile navigation order is About Us → Capabilities → Case Studies. The footer Capabilities link and detail-page “What we do” eyebrow also point to the landing page.
-- Keep compact desktop-nav spacing below 768px so all three links stay on one line; wider desktop spacing follows the existing header.
+- Global desktop/mobile navigation order is About Us → How We Work → Capabilities → Case Studies. The footer Capabilities link and detail-page “What we do” eyebrow also point to the landing page.
+- Mobile navigation shows below 768px. Keep compact desktop-nav spacing at 768–1023px so all four links fit; wider desktop spacing follows the existing header.
 - All nine capabilities have full pages: Web Development, Publication Design, Event Solutions, E-Commerce Solutions, Mobile Apps, Data Visualization, User Experience, Branding and Content Strategy.
 - `src/data/capability-pages.ts` owns structured body copy. `Capability.page` links it to the catalog with explicit draft/ready status. Only `getPublishedCapabilities()` entries enter static route generation.
 - Canonical page URLs use `/capabilities/{slug}`. Legacy `/capabilities/event-registration` and `/capabilities/e-commerce` remain lookup aliases with permanent redirects to the canonical pages.

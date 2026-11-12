@@ -5,3 +5,5 @@
 - [[codebase/how-we-work]]
 - [[codebase/articles]]
 - [[codebase/sector-pages]]
+- [[codebase/about-and-contact]]
+- [[codebase/llm-guidance]]

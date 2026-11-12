@@ -1,21 +1,15 @@
 'use client';
 
 import { Link } from 'waku';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
 import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
 import { useEscapeKey } from '../hooks/useEscapeKey';
-import { useTurnstile } from '../hooks/useTurnstile';
+import { useContactForm } from '../hooks/useContactForm';
 import { useDelayedState } from '../hooks/useDelayedState';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { ContactForm } from './ContactForm';
-
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,19 +17,22 @@ export const Header = () => {
   // Use delayed state for form visibility - adds 300ms delay when opening for animation
   const isFormVisible = useDelayedState(isContactOpen, 300);
 
-  // Form state
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const [isSmUp, setIsSmUp] = useState(false);
+  const {
+    formData,
+    isSubmitting,
+    submitStatus,
+    turnstileToken,
+    turnstileContainerRef,
+    handleInputChange,
+    handleSubmit,
+    clearForm,
+  } = useContactForm({
+    isActive: isFormVisible,
+    size: isSmUp ? 'flexible' : 'compact',
+    attachmentKey: isSmUp ? 'desktop' : 'mobile',
+    source: 'header_nav',
+  });
 
   // Analytics hook
   const { trackEvent } = useAnalytics();
@@ -51,15 +48,6 @@ export const Header = () => {
   // Use extracted hooks - lock scroll and escape key when form is actually visible
   useLockBodyScroll(isFormVisible);
   useEscapeKey(() => closeContactForm(), isFormVisible);
-  useTurnstile({
-    isActive: isFormVisible,
-    containerRef: turnstileContainerRef,
-    onTokenChange: setTurnstileToken,
-    attachmentKey: isSmUp ? 'desktop' : 'mobile',
-    // `flexible` needs ≥300px of width; narrow phones don't have it, so use
-    // the 150×140 `compact` layout on mobile to avoid horizontal overflow.
-    size: isSmUp ? 'flexible' : 'compact',
-  });
 
   const handleLinkClick = () => {
     setIsMenuOpen(false);
@@ -83,62 +71,8 @@ export const Header = () => {
   const closeContactForm = useCallback(() => {
     // Close contact form (form immediately hides, nav fades in)
     setIsContactOpen(false);
-    // Reset form after animation completes
-    setTimeout(() => {
-      setFormData({ name: '', email: '', message: '' });
-      setSubmitStatus('idle');
-      setTurnstileToken(null);
-    }, 300);
-  }, [setIsContactOpen]);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!turnstileToken) {
-      alert('Please complete the security check.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    try {
-      const response = await fetch('/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          turnstileToken,
-        }),
-      });
-
-      if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTurnstileToken(null);
-
-        // Track successful contact form submission
-        trackEvent('generate_lead', {
-          event_category: 'conversion',
-          event_label: 'contact_form',
-          value: 1,
-        });
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    clearForm();
+  }, [setIsContactOpen, clearForm]);
 
   return (
     <>
@@ -151,8 +85,8 @@ export const Header = () => {
             flex flex-col bg-navy/97  transition-all
             rounded-4xl p-2 shadow-lg max-w-[1300px] lg:max-w-none w-full mx-auto border-2 border-white/60
             backface-visible will-change-scroll
-            ${isMenuOpen ? 'max-sm:rounded-3xl bg-navy/97' : ''}
-            ${isContactOpen ? 'max-sm:rounded-3xl bg-navy/97' : ''}
+            ${isMenuOpen ? 'max-md:rounded-3xl bg-navy/97' : ''}
+            ${isContactOpen ? 'max-md:rounded-3xl bg-navy/97' : ''}
           `}
           style={{
             transitionDuration: 'var(--spring-bounce-duration)',
@@ -185,10 +119,11 @@ export const Header = () => {
             {/* Desktop navigation - hidden when contact form open */}
             <div
               id="desktop-nav"
+              inert={isContactOpen}
               className={`
-                hidden sm:flex items-center gap-4 md:gap-6 lg:gap-8 pl-4 md:pl-8
+                hidden md:flex items-center gap-4 lg:gap-8 pl-4 lg:pl-8
                 transition-all duration-300 ease-out
-                ${isContactOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}
+                ${isContactOpen ? 'absolute right-0 opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}
               `}
             >
               <Link
@@ -197,6 +132,13 @@ export const Header = () => {
                 className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 About Us
+              </Link>
+              <Link
+                to="/how-we-work"
+                onClick={handleLinkClick}
+                className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
+              >
+                How We Work
               </Link>
               <Link
                 to="/capabilities"
@@ -214,7 +156,7 @@ export const Header = () => {
               </Link>
               <button
                 onClick={openContactForm}
-                className="px-6 md:px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
+                className="px-5 lg:px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
               >
                 Work With Us
               </button>
@@ -236,6 +178,7 @@ export const Header = () => {
                 transitionDelay: isFormVisible ? '0ms' : '15ms',
               }}
               aria-label="Close contact form"
+              tabIndex={isFormVisible ? 0 : -1}
               id="close-contact-form-button"
             >
               <svg
@@ -266,12 +209,13 @@ export const Header = () => {
                 setIsMenuOpen(!isMenuOpen);
               }}
               className={`
-                sm:hidden flex items-center justify-center w-12 h-12 mr-2 rounded-full
+                md:hidden flex items-center justify-center w-12 h-12 mr-2 rounded-full
                 hover:bg-white/10 transition-colors
                 ${isContactOpen ? 'hidden' : ''}
               `}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
+              aria-controls="mobile-nav"
             >
               <span className="relative w-6 h-5 flex flex-col justify-between">
                 <span
@@ -331,10 +275,12 @@ export const Header = () => {
 
           {/* Mobile navigation menu - standard collapse/expand behavior */}
           <div
+            id="mobile-nav"
+            inert={!isMenuOpen}
             className={[
-              'sm:hidden overflow-hidden transition-all',
+              'md:hidden overflow-hidden transition-all',
               isMenuOpen
-                ? 'max-h-80 opacity-100 mt-4'
+                ? 'max-h-96 opacity-100 mt-4'
                 : 'max-h-0 opacity-0 mt-0',
             ].join(' ')}
             style={{
@@ -349,6 +295,13 @@ export const Header = () => {
                 className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
               >
                 About Us
+              </Link>
+              <Link
+                to="/how-we-work"
+                onClick={handleLinkClick}
+                className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
+              >
+                How We Work
               </Link>
               <Link
                 to="/capabilities"

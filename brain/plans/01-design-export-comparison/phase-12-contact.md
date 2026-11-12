@@ -2,6 +2,8 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- Standalone page selected and completed 2026-11-11; see [[plans/01-design-export-comparison/implementation-11-12]]. Header overlay remains available.
+
 ## Goal
 - Reuse the real contact flow if a standalone page is selected.
 

@@ -99,33 +99,29 @@ export const useTurnstile = ({
       return;
     }
 
-    const existingScript = document.querySelector('script[data-turnstile]');
-
-    if (!existingScript) {
-      // Load script
-      const script = document.createElement('script');
+    let script = document.querySelector<HTMLScriptElement>(
+      'script[data-turnstile]'
+    );
+    const isNewScript = !script;
+    if (!script) {
+      script = document.createElement('script');
       script.src =
         'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
       script.async = true;
       script.defer = true;
       script.setAttribute('data-turnstile', 'true');
-      script.onload = initTurnstile;
-      document.head.appendChild(script);
-    } else if (window.turnstile) {
-      // Script already loaded, initialize immediately
-      initTurnstile();
-    } else {
-      // Script loading, wait for it
-      const checkInterval = setInterval(() => {
-        if (window.turnstile) {
-          clearInterval(checkInterval);
-          initTurnstile();
-        }
-      }, 100);
-      setTimeout(() => clearInterval(checkInterval), 10000);
     }
+    let active = true;
+    const initialize = () => {
+      if (active) initTurnstile();
+    };
+    script.addEventListener('load', initialize);
+    if (window.turnstile) initialize();
+    if (isNewScript) document.head.appendChild(script);
 
     return () => {
+      active = false;
+      script.removeEventListener('load', initialize);
       // Cleanup on unmount
       if (widgetIdRef.current && window.turnstile) {
         window.turnstile.remove(widgetIdRef.current);

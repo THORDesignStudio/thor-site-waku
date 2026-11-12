@@ -1,16 +1,12 @@
 'use client';
 
 import { RefObject } from 'react';
-
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
+import { ContactFields } from './ContactFields';
+import type { ContactFormData } from '../hooks/useContactForm';
 
 interface ContactFormProps {
   isVisible: boolean;
-  formData: FormData;
+  formData: ContactFormData;
   isSubmitting: boolean;
   submitStatus: 'idle' | 'success' | 'error';
   turnstileToken: string | null;
@@ -18,7 +14,9 @@ interface ContactFormProps {
   turnstileContainerRef: RefObject<HTMLDivElement | null> | null;
   idPrefix?: string;
   variant: 'desktop' | 'mobile';
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onSubmit: (e: React.FormEvent) => void;
 }
 
@@ -61,6 +59,7 @@ export const ContactForm = ({
 
   return (
     <div
+      inert={!isVisible}
       className={`
         ${styles.container} overflow-hidden transition-all
         ${isVisible ? 'max-h-[2000px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}
@@ -87,115 +86,30 @@ export const ContactForm = ({
           data-lenis-prevent
           className={isVisible ? styles.scrollContainer : 'overflow-hidden'}
         >
-        <h1 className={`block font-sans font-extrabold ${styles.title} text-white tracking-tight`}>
-          Work with us
-        </h1>
-
-        <p className={`font-sans font-light ${styles.description} text-white leading-normal`}>
-          Contact John and Colby to talk about your new project.
-        </p>
-
-        <form onSubmit={onSubmit} className={`${styles.form} max-w-xl`}>
-          <div>
-            <label
-              htmlFor={`${idPrefix}-name`}
-              className="block font-sans text-sm text-white mb-2"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id={`${idPrefix}-name`}
-              name="name"
-              value={formData.name}
-              onChange={onInputChange}
-              required
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 transition-colors text-base"
-              placeholder="Your name"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor={`${idPrefix}-email`}
-              className="block font-sans text-sm text-white mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id={`${idPrefix}-email`}
-              name="email"
-              value={formData.email}
-              onChange={onInputChange}
-              required
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 transition-colors text-base"
-              placeholder="your@email.com"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor={`${idPrefix}-message`}
-              className="block font-sans text-sm text-white mb-2"
-            >
-              Message
-            </label>
-            <textarea
-              id={`${idPrefix}-message`}
-              name="message"
-              value={formData.message}
-              onChange={onInputChange}
-              required
-              rows={4}
-              className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 transition-colors resize-none text-base"
-              placeholder="Tell us about your project..."
-            />
-          </div>
-
-          <div>
-            <span className="block font-sans text-sm text-white mb-2">
-              Security check
-            </span>
-            <div
-              className={`
-                rounded-lg border border-white/30 bg-white/[0.07] px-3 py-3
-                shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
-                max-w-full overflow-hidden
-                ${isVisible ? '' : 'opacity-0'}
-              `}
-            >
-              <div
-                ref={turnstileContainerRef ?? undefined}
-                className={`flex w-full max-w-full items-center justify-center sm:justify-start ${isVisible ? 'min-h-[68px]' : 'min-h-0 overflow-hidden'}`}
-              />
-            </div>
-          </div>
-
-          <div aria-live="polite" aria-atomic="true" className="sr-only">
-            {submitStatus === 'success' && 'Message sent successfully. We will be in touch soon.'}
-            {submitStatus === 'error' && 'Error sending message. Please try again.'}
-          </div>
-
-          {submitStatus === 'success' && (
-            <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-white text-center text-sm" role="status">
-              Thank you! We&apos;ll be in touch soon.
-            </div>
-          )}
-          {submitStatus === 'error' && (
-            <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-white text-center text-sm" role="alert">
-              Something went wrong. Please try again.
-            </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={isSubmitting || !turnstileToken}
-            className={`px-8 py-4 bg-magenta text-white font-extrabold rounded-full transition-all duration-300 shadow-lg uppercase tracking-wide hover:opacity-80 disabled:cursor-not-allowed text-sm ${styles.buttonDisabled}`}
+          <h2
+            className={`block font-sans font-extrabold ${styles.title} text-white tracking-tight`}
           >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </button>
-        </form>
+            Work with us
+          </h2>
+
+          <p
+            className={`font-sans font-light ${styles.description} text-white leading-normal`}
+          >
+            Contact John and Colby to talk about your new project.
+          </p>
+
+          <form onSubmit={onSubmit} className={`${styles.form} max-w-xl`}>
+            <ContactFields
+              formData={formData}
+              isSubmitting={isSubmitting}
+              submitStatus={submitStatus}
+              turnstileToken={turnstileToken}
+              turnstileContainerRef={turnstileContainerRef}
+              idPrefix={idPrefix}
+              onInputChange={onInputChange}
+              disabled={!isVisible}
+            />
+          </form>
         </div>
       </div>
     </div>

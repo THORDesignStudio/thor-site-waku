@@ -9,9 +9,7 @@ export interface PageRecord {
 
 // Remaining destinations stay unpublished; their existing redirects remain valid.
 // Individual capability pilots publish through getPublishedCapabilities.
-export const plannedPages: PageRecord[] = [
-  { path: '/work-with-us', status: 'draft' },
-];
+export const plannedPages: PageRecord[] = [];
 
 export function getReadyPages(pages: readonly PageRecord[]) {
   return pages.filter((page) => page.status === 'ready');
