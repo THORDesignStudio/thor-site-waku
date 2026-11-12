@@ -6,6 +6,7 @@
 - User direction: reuse existing motion guidance; mostly retain this repo's header/footer; treat the existing case-study landing as the new implementation baseline.
 - Initial deliverable was planning only; the user subsequently authorized phases 1–4 across all 17 case studies.
 - Phases 1–4 implemented on 2026-11-10; see [[plans/01-design-export-comparison/implementation-01-04]].
+- Phases 05–06 homepage completed on 2026-11-12 with all three featured slides and lower sections; see [[plans/01-design-export-comparison/implementation-05-06]].
 - Phase 07 Web Development pilot implemented on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07]].
 - Phase 07 rollout across all nine capabilities completed on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-rollout]].
 - Capability landing page and global navigation added on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-landing]].

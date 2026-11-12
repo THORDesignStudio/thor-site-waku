@@ -2,6 +2,8 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- All three featured slides completed 2026-11-12 using the HTML and two user-provided PDF comps; see [[plans/01-design-export-comparison/implementation-05-06]].
+
 ## Goal
 - Introduce the v2 featured composition using existing motion infrastructure.
 

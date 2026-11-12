@@ -25,8 +25,8 @@
 - Use explicit draft/ready status for new pages; unfinished entries must not enter static route generation or navigation.
 
 ## Content decisions before publication
-- City Ratings: export says both 3,500+ and 2,500+ cities; existing data says 2,500+ in 2026. Obtain approved metric before changing it.
-- “10+ YRS” relationship metric is unconfirmed; current copy says partnership since 2020.
+- City Ratings: user approved 3,500+ cities on 2026-11-12; homepage, case study and LLM guide now match.
+- City Ratings relationship remains since 2020. Its export’s “10+ YRS” placeholder is unused. Aerospace’s separate 10+ years/100+ issues figures come from the user-provided second-slide PDF.
 - Construction page contains lorem ipsum; branding articles have substantial missing copy.
 - Six galleries contain five placeholder boxes each: Citiva, Construction Executive, Engineering Inc, MASH, No Kid Hungry, NYSCheck.
 - Associations board has [CONFIRM WCAG LEVEL]; use approved wording before publication.

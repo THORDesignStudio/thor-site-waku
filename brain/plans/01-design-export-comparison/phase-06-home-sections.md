@@ -2,6 +2,8 @@
 
 Back to [[plans/01-design-export-comparison/overview]]
 
+- Completed 2026-11-12; see [[plans/01-design-export-comparison/implementation-05-06]]. Social content is static per user direction; existing results/testimonials/challenge components are reused.
+
 ## Goal
 - Extend the established baseline through the lower home sections.
 

@@ -7,6 +7,7 @@ import { Footer } from '../components/Footer';
 import { ChatButton } from '../components/ChatButton';
 import { SmoothScroll } from '../layouts/SmoothScroll';
 import { JotaiProvider } from '../components/JotaiProvider';
+import { PageTransitions } from '../components/PageTransitions';
 
 type RootLayoutProps = { children: ReactNode };
 
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           >
             Skip to main content
           </a>
+          <PageTransitions />
           <Header />
           <main id="main-content">{children}</main>
           <Footer />

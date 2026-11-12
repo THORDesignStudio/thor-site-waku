@@ -39,7 +39,7 @@ export default function CapabilitiesPage() {
               </h2>
             </div>
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {capabilities.map((capability, index) => (
+              {capabilities.map((capability) => (
                 <li key={capability.slug}>
                   <a
                     href={capability.url}
@@ -47,12 +47,6 @@ export default function CapabilitiesPage() {
                     aria-labelledby={`capability-${capability.slug}-title`}
                     aria-describedby={`capability-${capability.slug}-summary`}
                   >
-                    <span
-                      className="type-card-title mb-5 block text-magenta"
-                      aria-hidden="true"
-                    >
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
                     <h3
                       id={`capability-${capability.slug}-title`}
                       className="type-card-title text-navy"

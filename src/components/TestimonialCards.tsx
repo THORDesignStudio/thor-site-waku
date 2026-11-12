@@ -1,6 +1,13 @@
 'use client';
 
-import { useMemo, useState, useRef, useLayoutEffect, useEffect, useCallback } from 'react';
+import {
+  useMemo,
+  useState,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from 'react';
 import { useAtom } from 'jotai';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -118,7 +125,7 @@ function getDeterministicColor(str: string, index: number): PinkColor {
   let hash = 0;
   for (let i = 0; i < combined.length; i++) {
     const char = combined.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32bit integer
   }
   const colorIndex = Math.abs(hash) % pinkColors.length;
@@ -149,7 +156,9 @@ export function TestimonialCards() {
   const [expandedIndex, setExpandedIndex] = useState<number>(0);
 
   // Mobile: carousel uses Jotai atom
-  const [activeMobileIndex, setActiveMobileIndex] = useAtom(activeTestimonialIndexAtom);
+  const [activeMobileIndex, setActiveMobileIndex] = useAtom(
+    activeTestimonialIndexAtom
+  );
 
   // Refs for desktop section animations
   const sectionRef = useRef<HTMLElement>(null);
@@ -164,80 +173,110 @@ export function TestimonialCards() {
   // Use shared hook for Lenis-ScrollTrigger sync
   useLenisScrollTrigger(sectionRef);
 
+  // A short active quote should not inherit the height of offscreen quotes.
+  useLayoutEffect(() => {
+    const track = scrollContainerRef.current;
+    const card = slideRefs.current[activeMobileIndex]?.querySelector('article');
+    if (!track || !card) return;
+    const mobile = window.matchMedia('(max-width: 767.98px)');
+    let frame = 0;
+    const resize = () => {
+      const height = mobile.matches
+        ? `${Math.ceil(card.getBoundingClientRect().height)}px`
+        : '';
+      if (track.style.height === height) return;
+      track.style.height = height;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(card);
+    mobile.addEventListener('change', resize);
+    return () => {
+      observer.disconnect();
+      mobile.removeEventListener('change', resize);
+      cancelAnimationFrame(frame);
+      track.style.removeProperty('height');
+    };
+  }, [activeMobileIndex]);
+
   // Set up scroll-triggered animations for section header and background
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
-    const ctx = gsap.context(() => {
-      const sectionEl = sectionRef.current;
-      const headerEl = headerRef.current;
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        const sectionEl = sectionRef.current;
+        const headerEl = headerRef.current;
 
-      if (sectionEl && headerEl) {
-        const sectionTitle = headerEl.querySelector('.section-title');
-        const sectionSubtitle = headerEl.querySelector('.section-subtitle');
+        if (sectionEl && headerEl) {
+          const sectionTitle = headerEl.querySelector('.section-title');
+          const sectionSubtitle = headerEl.querySelector('.section-subtitle');
 
-        // Set initial state
-        gsap.set(sectionTitle, { opacity: 0, y: 30, color: '#18133e' }); // night
-        gsap.set(sectionSubtitle, { opacity: 0, y: 30, color: '#18133e' }); // night
-        gsap.set(sectionEl, { backgroundColor: '#faf5f2' }); // cream
+          // Set initial state
+          gsap.set(sectionTitle, { opacity: 0, y: 30, color: '#18133e' }); // night
+          gsap.set(sectionSubtitle, { opacity: 0, y: 30, color: '#18133e' }); // night
+          gsap.set(sectionEl, { backgroundColor: '#faf5f2' }); // cream
 
-        ScrollTrigger.create({
-          trigger: headerEl,
-          start: 'top 80%',
-          onEnter: () => {
-            // Animate header in
-            gsap.to(sectionTitle, {
-              opacity: 1,
-              y: 0,
-              color: '#faf5f2', // cream
-              duration: 0.8,
-              ease: 'power2.out',
-            });
-            gsap.to(sectionSubtitle, {
-              opacity: 1,
-              y: 0,
-              color: '#faf5f2', // cream
-              duration: 0.8,
-              delay: 0.2,
-              ease: 'power2.out',
-            });
-            // Animate background to night
-            gsap.to(sectionEl, {
-              backgroundColor: '#18133e', // night
-              duration: 0.8,
-              ease: 'power2.out',
-            });
-          },
-          onLeaveBack: () => {
-            // Animate header out
-            gsap.to(sectionTitle, {
-              opacity: 0,
-              y: 30,
-              color: '#18133e', // night
-              duration: 0.5,
-              ease: 'power2.out',
-            });
-            gsap.to(sectionSubtitle, {
-              opacity: 0,
-              y: 30,
-              color: '#18133e', // night
-              duration: 0.5,
-              ease: 'power2.out',
-            });
-            // Animate background back to cream
-            gsap.to(sectionEl, {
-              backgroundColor: '#faf5f2', // cream
-              duration: 0.5,
-              ease: 'power2.out',
-            });
-          },
-        });
-      }
-    }, sectionRef);
+          ScrollTrigger.create({
+            trigger: headerEl,
+            start: 'top 80%',
+            onEnter: () => {
+              // Animate header in
+              gsap.to(sectionTitle, {
+                opacity: 1,
+                y: 0,
+                color: '#faf5f2', // cream
+                duration: 0.8,
+                ease: 'power2.out',
+              });
+              gsap.to(sectionSubtitle, {
+                opacity: 1,
+                y: 0,
+                color: '#faf5f2', // cream
+                duration: 0.8,
+                delay: 0.2,
+                ease: 'power2.out',
+              });
+              // Animate background to night
+              gsap.to(sectionEl, {
+                backgroundColor: '#18133e', // night
+                duration: 0.8,
+                ease: 'power2.out',
+              });
+            },
+            onLeaveBack: () => {
+              // Animate header out
+              gsap.to(sectionTitle, {
+                opacity: 0,
+                y: 30,
+                color: '#18133e', // night
+                duration: 0.5,
+                ease: 'power2.out',
+              });
+              gsap.to(sectionSubtitle, {
+                opacity: 0,
+                y: 30,
+                color: '#18133e', // night
+                duration: 0.5,
+                ease: 'power2.out',
+              });
+              // Animate background back to cream
+              gsap.to(sectionEl, {
+                backgroundColor: '#faf5f2', // cream
+                duration: 0.5,
+                ease: 'power2.out',
+              });
+            },
+          });
+        }
+      }, sectionRef);
 
-    return () => {
-      ctx.revert();
-    };
+      return () => ctx.revert();
+    });
+    return () => media.revert();
   }, []);
 
   // ============================================================================
@@ -249,24 +288,18 @@ export function TestimonialCards() {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return 0;
 
-    const scrollLeft = scrollContainer.scrollLeft;
+    const left = scrollContainer.getBoundingClientRect().left;
     let activeIdx = 0;
-
-    for (let i = 0; i < slideRefs.current.length; i++) {
-      const slide = slideRefs.current[i];
-      if (!slide) continue;
-
-      if (scrollLeft >= slide.offsetLeft - 50) {
-        activeIdx = i;
-      } else {
-        break;
+    let nearest = Infinity;
+    slideRefs.current.forEach((slide, index) => {
+      if (!slide) return;
+      const distance = Math.abs(slide.getBoundingClientRect().left - left);
+      if (distance < nearest) {
+        nearest = distance;
+        activeIdx = index;
       }
-    }
-
-    const correctedIdx = Math.min(activeIdx + 1, slideRefs.current.length - 1);
-    if (scrollLeft < 10) return 0;
-
-    return correctedIdx;
+    });
+    return activeIdx;
   }, []);
 
   // Handle scroll events for mobile carousel
@@ -311,7 +344,9 @@ export function TestimonialCards() {
 
       scrollContainer.scrollTo({
         left: relativeOffset,
-        behavior: 'smooth',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
       });
     }
   }, []);
@@ -324,10 +359,18 @@ export function TestimonialCards() {
   }, [activeMobileIndex, setActiveMobileIndex, scrollToSlide]);
 
   const goToNext = useCallback(() => {
-    const newIndex = Math.min(displayTestimonials.length - 1, activeMobileIndex + 1);
+    const newIndex = Math.min(
+      displayTestimonials.length - 1,
+      activeMobileIndex + 1
+    );
     setActiveMobileIndex(newIndex);
     scrollToSlide(newIndex);
-  }, [activeMobileIndex, displayTestimonials.length, setActiveMobileIndex, scrollToSlide]);
+  }, [
+    activeMobileIndex,
+    displayTestimonials.length,
+    setActiveMobileIndex,
+    scrollToSlide,
+  ]);
 
   // Keyboard navigation for desktop panels
   useEffect(() => {
@@ -343,7 +386,9 @@ export function TestimonialCards() {
         setExpandedIndex((prev) => Math.max(0, prev - 1));
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
-        setExpandedIndex((prev) => Math.min(displayTestimonials.length - 1, prev + 1));
+        setExpandedIndex((prev) =>
+          Math.min(displayTestimonials.length - 1, prev + 1)
+        );
       }
     };
 
@@ -354,21 +399,21 @@ export function TestimonialCards() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-[100vh] px-fluid-6 py-fluid-12 font-sans"
+      className="min-h-[100vh] bg-cool px-fluid-6 py-fluid-12 font-sans text-navy"
       role="region"
       aria-roledescription="testimonial gallery"
       aria-label="Client Testimonials"
       tabIndex={0}
     >
       <div ref={headerRef} className="mb-fluid-12">
-        <h1 className="leading-none">
-          <span className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl tracking-tight">
+        <div className="leading-none">
+          <h2 className="section-title block font-sans font-extrabold text-fluid-6xl sm:text-fluid-8xl tracking-tight">
             Testimonials
-          </span>
+          </h2>
           <p className="section-subtitle font-sans font-light text-fluid-2xl pl-fluid-1 mt-fluid-2">
             Learn what it's like to partner with THOR.
           </p>
-        </h1>
+        </div>
       </div>
 
       <div className="hidden min-h-[clamp(560px,72vh,840px)] gap-fluid-2 min-[1000px]:flex">
@@ -455,7 +500,7 @@ export function TestimonialCards() {
       </div>
 
       {/* Mobile Carousel */}
-      <div 
+      <div
         className="flex flex-col gap-fluid-6 min-[1000px]:hidden"
         role="tabpanel"
         aria-label={`Testimonial slides (${displayTestimonials.length} total)`}

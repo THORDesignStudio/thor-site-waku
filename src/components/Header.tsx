@@ -1,6 +1,5 @@
 'use client';
 
-import { Link } from 'waku';
 import { useState, useCallback, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
@@ -51,7 +50,6 @@ export const Header = () => {
 
   const handleLinkClick = () => {
     setIsMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const openContactForm = useCallback(() => {
@@ -99,8 +97,8 @@ export const Header = () => {
             className="flex items-center justify-between w-full relative"
             id="nav-container"
           >
-            <Link
-              to="/"
+            <a
+              href="/"
               className="flex items-center pl-6 transition-all duration-300"
               onClick={() => {
                 if (isContactOpen) {
@@ -114,7 +112,7 @@ export const Header = () => {
                 alt="THOR Studio"
                 className="h-6 md:h-7 w-auto"
               />
-            </Link>
+            </a>
 
             {/* Desktop navigation - hidden when contact form open */}
             <div
@@ -126,34 +124,34 @@ export const Header = () => {
                 ${isContactOpen ? 'absolute right-0 opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}
               `}
             >
-              <Link
-                to="/about"
+              <a
+                href="/about"
                 onClick={handleLinkClick}
                 className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 About Us
-              </Link>
-              <Link
-                to="/how-we-work"
+              </a>
+              <a
+                href="/how-we-work"
                 onClick={handleLinkClick}
                 className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 How We Work
-              </Link>
-              <Link
-                to="/capabilities"
+              </a>
+              <a
+                href="/capabilities"
                 onClick={handleLinkClick}
                 className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 Capabilities
-              </Link>
-              <Link
-                to="/case-studies"
+              </a>
+              <a
+                href="/case-studies"
                 onClick={handleLinkClick}
                 className="text-sm font-medium whitespace-nowrap text-white/90 hover:text-white transition-colors"
               >
                 Case Studies
-              </Link>
+              </a>
               <button
                 onClick={openContactForm}
                 className="px-5 lg:px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase cursor-pointer"
@@ -289,34 +287,34 @@ export const Header = () => {
             }}
           >
             <div className="flex flex-col items-center gap-4 pb-4">
-              <Link
-                to="/about"
+              <a
+                href="/about"
                 onClick={handleLinkClick}
                 className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
               >
                 About Us
-              </Link>
-              <Link
-                to="/how-we-work"
+              </a>
+              <a
+                href="/how-we-work"
                 onClick={handleLinkClick}
                 className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
               >
                 How We Work
-              </Link>
-              <Link
-                to="/capabilities"
+              </a>
+              <a
+                href="/capabilities"
                 onClick={handleLinkClick}
                 className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
               >
                 Capabilities
-              </Link>
-              <Link
-                to="/case-studies"
+              </a>
+              <a
+                href="/case-studies"
                 onClick={handleLinkClick}
                 className="text-base font-medium text-white/90 hover:text-white transition-colors py-2"
               >
                 Case Studies
-              </Link>
+              </a>
               <button
                 onClick={openContactForm}
                 className="px-8 py-4 bg-magenta text-white text-sm font-extrabold rounded-full transition-colors shadow-lg whitespace-nowrap uppercase mt-2 cursor-pointer"

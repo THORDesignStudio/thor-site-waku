@@ -7,3 +7,5 @@
 - [[codebase/sector-pages]]
 - [[codebase/about-and-contact]]
 - [[codebase/llm-guidance]]
+- [[codebase/homepage]]
+- [[codebase/page-transitions]]

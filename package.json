@@ -14,6 +14,7 @@
     "test:how-we-work": "node --import=tsx --test scripts/how-we-work.test.ts",
     "test:articles": "node --import=tsx --test scripts/articles.test.ts",
     "test:sectors": "node --import=tsx --test scripts/sectors.test.ts",
+    "test:home": "node --import=tsx --test scripts/home.test.ts",
     "generate:redirects": "node --import=tsx scripts/generate-redirects.ts"
   },
   "dependencies": {
