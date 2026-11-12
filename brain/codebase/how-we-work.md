@@ -5,7 +5,7 @@
 - Each group reuses `ContentCarousel`, extracted from `CaseStudyCarousel`, with composed article cards and group headings. Keep native scrolling, keyboard controls and existing arrows; no sidebar.
 - Fifteen previews cover web development, publications, client guidance and branding. Images come from the export and existing case-study artwork.
 - Article publication is separate from preview visibility: `getHowWeWorkArticleUrl()` returns a destination only for ready records with a URL. Draft previews have no anchor or Read article CTA.
-- All fifteen cards link to ready article pages, with Read article CTAs. See [[codebase/articles]] for publication rules and legacy writing aliases.
+- The landing currently shows thirteen cards across the first three groups. The brand section is hidden at the user's request pending content; omit its footer anchor too. Existing article records remain in place. See [[codebase/articles]] for publication rules and legacy writing aliases.
 - The footer How We Work heading links to this landing. Group capability links resolve through the published capability catalog.
 - Stable section anchors use fixed-header scroll clearance. Verify fresh navigation with fragments as well as ordinary page loading.
 - Run `npm run test:how-we-work` for content, publication gating, assets and route checks.

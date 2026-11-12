@@ -1,13 +1,15 @@
-# Sector page pilot
+# Sector pages
 
 Back to [[plans/01-design-export-comparison/overview]]
+
+- Completed both new sector pages 2026-11-11; see [[plans/01-design-export-comparison/implementation-10]]. User explicitly retained the existing Publications page.
 
 ## Goal
 - Adapt sector content without discarding richer existing vertical pages.
 
 ## Changes
-- Files: src/data/sectors.ts (proposed); src/pages/verticals/[slug].tsx (proposed); src/data/case-studies.ts.
-- Pilot an approved associations/nonprofits page, using normalized topic links. Keep existing publications/aerospace routes authoritative; avoid duplicate static/dynamic paths. Construction waits for real copy; publications refresh is a separate later slice using existing carousels.
+- Files: src/data/sectors.ts; src/pages/verticals/[slug].tsx; src/data/menus.ts. Case-study taxonomy remains unchanged.
+- Implement associations/nonprofits and construction/engineering using normalized topic links. Keep existing publications/aerospace routes authoritative; avoid duplicate static/dynamic paths. Replace construction placeholders with copy grounded in existing work.
 - Reuse existing motion and retained header/footer per [[plans/01-design-export-comparison/motion-reuse]].
 - Each pilot can ship independently; repeat additional pages in separate bounded slices once content is ready.
 

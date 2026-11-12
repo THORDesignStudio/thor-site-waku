@@ -5,7 +5,7 @@ import { WebGLShader } from './WebGLShader/WebGLShader';
 import { footerMenu } from '../data/menus';
 
 const linkClassName =
-  'inline-flex items-center whitespace-nowrap pointer-events-auto transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]';
+  'inline-block pointer-events-auto rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white transition-all duration-300 ease-in-out hover:[text-shadow:0_0_30px_rgba(250,245,242,0.6),0_0_20px_rgba(250,245,242,0.5),0_0_10px_rgba(250,245,242,0.4)]';
 
 export const Footer = () => {
   const [isIOS, setIsIOS] = useState(false);
@@ -19,7 +19,7 @@ export const Footer = () => {
   }, []);
 
   return (
-    <div className="relative w-full overflow-hidden min-h-[40vh]">
+    <footer className="relative w-full overflow-hidden min-h-[40vh]">
       <div className="absolute inset-0 w-full h-full z-0">
         <WebGLShader minWidth={320} responsiveHeight={true} seed={30005} />
       </div>
@@ -44,67 +44,122 @@ export const Footer = () => {
         </>
       )}
 
-      <div className="relative z-10 container flex flex-col justify-between w-full h-full xl:flex-row gap-x-vw-12 gap-y-vw-12 lg:gap-y-vw-20 paragraph-md py-fluid-6 px-fluid-6 text-white max-w-[1600px] mx-auto">
-        <div className="flex flex-col w-full gap-y-[2em] flex-1 justify-between">
+      <div className="relative z-10 mx-auto max-w-[var(--layout-page)] px-fluid-6 pt-fluid-6 pb-fluid-6 font-sans text-white">
+        <div className="grid items-start gap-fluid-10 xl:grid-cols-[minmax(220px,0.95fr)_2.6fr]">
           <div>
-            <img
-              src="/images/THOR_logo_WHITE.svg"
-              alt="THOR Digital and THOR Studio"
-              className="max-w-[400px] w-full"
-            />
-            <p className="text-fluid-xl font-sans font-extrabold uppercase mt-6 tracking-widest">
-              Discoverers of elusive solutions.{' '}
-              <span className="sm:block">Purveyors of fine design.</span>
+            <a
+              href="/"
+              aria-label="THOR home"
+              className={`${linkClassName} block w-full max-w-[360px]`}
+            >
+              <img
+                src="/images/THOR_logo_WHITE.svg"
+                alt="THOR"
+                className="block w-full h-auto"
+              />
+            </a>
+            <p className="mt-7 text-[clamp(1rem,1.3vw,1.25rem)] font-extrabold uppercase leading-[1.6] tracking-[0.12em]">
+              Design, development
+              <br />
+              and branding.
+              <br />
+              Austin, TX.
             </p>
-          </div>
-
-          <ul className="text-fluid-sm flex flex-col">
-            <li>THOR Digital LLC • {new Date().getFullYear()}</li>
-            <li>
-              The site is{' '}
+            <div className="mt-8 flex gap-3">
               <a
-                href="https://github.com/THORDesignStudio/thor-site-waku"
-                className="underline"
+                href="https://www.instagram.com/thor_design_studio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="THOR on Instagram"
+                className="flex size-12 items-center justify-center rounded-full border-2 border-white transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
               >
-                open source
-              </a>{' '}
-              and waiting for your contributions.
-            </li>
-          </ul>
-        </div>
-
-        <div className="xl:max-w-[max(700px,37vw)] grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[2.33em] gap-[1.25em] font-sans md:gap-y-[2em]">
-          {footerMenu.sections.map((section) => (
-            <div key={section.title}>
-              {section.url ? (
-                <a
-                  href={section.url}
-                  className={`text-fluid-sm font-sans font-extrabold ${linkClassName}`}
+                <svg
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
                 >
-                  {section.title}
-                </a>
-              ) : (
-                <span className="text-fluid-sm font-sans font-extrabold">
-                  {section.title}
-                </span>
-              )}
-              <ul className="paragraph-md space-y-vw-2 mt-2">
-                {section.links.map((link) => (
-                  <li key={link.url}>
-                    <a
-                      className={linkClassName}
-                      id={`footer-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}-link`}
-                      href={link.url}
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/thor-design-studio-inc"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="THOR on LinkedIn"
+                className="flex size-12 items-center justify-center rounded-full border-2 border-white transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11.5H3V9.75Zm6.5 0h3.83v1.57h.06c.53-1 1.84-2.07 3.78-2.07 4.04 0 4.78 2.66 4.78 6.12v5.88h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75v5.29h-4V9.75Z" />
+                </svg>
+              </a>
             </div>
-          ))}
+          </div>
+          <nav
+            aria-label="Footer"
+            className="grid gap-8 sm:grid-cols-[0.8fr_1.25fr_1.15fr] lg:gap-10"
+          >
+            {footerMenu.sections.map((section) => (
+              <div key={section.title}>
+                <h2 className="text-[clamp(0.8125rem,1.1vw,1rem)] font-extrabold uppercase leading-normal tracking-[0.12em]">
+                  {section.url ? (
+                    <a href={section.url} className={linkClassName}>
+                      {section.title}
+                    </a>
+                  ) : (
+                    section.title
+                  )}
+                </h2>
+                <ul className="mt-4 space-y-3 text-[clamp(1rem,1.3vw,1.25rem)] leading-[1.5]">
+                  {section.links.map((link) => (
+                    <li key={link.url}>
+                      <a
+                        className={linkClassName}
+                        id={`footer-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}-link`}
+                        href={link.url}
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
+        <div className="mt-fluid-12 flex flex-col gap-3 border-t border-white/30 pt-fluid-6 text-[clamp(0.875rem,1.1vw,1rem)] sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+          <p className="shrink-0">
+            THOR Digital LLC · {new Date().getFullYear()}
+          </p>
+          <p className="sm:text-right">
+            The site is{' '}
+            <a
+              href="https://github.com/THORDesignStudio/thor-site-waku"
+              className={`${linkClassName} underline underline-offset-2`}
+            >
+              open source
+            </a>{' '}
+            and waiting for your contributions.
+          </p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };

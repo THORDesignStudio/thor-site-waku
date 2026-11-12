@@ -13,6 +13,7 @@
     "test:capabilities": "node --import=tsx --test scripts/capabilities.test.ts",
     "test:how-we-work": "node --import=tsx --test scripts/how-we-work.test.ts",
     "test:articles": "node --import=tsx --test scripts/articles.test.ts",
+    "test:sectors": "node --import=tsx --test scripts/sectors.test.ts",
     "generate:redirects": "node --import=tsx scripts/generate-redirects.ts"
   },
   "dependencies": {

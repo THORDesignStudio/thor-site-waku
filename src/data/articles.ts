@@ -32,8 +32,6 @@ export interface Article {
   status: PageStatus;
   lede: string;
   imageAlt?: string;
-  author?: { name: string; bio?: string };
-  publishedAt?: string;
   sections: ArticleSection[];
 }
 
@@ -1360,25 +1358,10 @@ export function getArticleContext(slug: string) {
     group,
     preview,
     series,
+    position: index + 1,
     previous: series[index - 1],
     next: series[index + 1],
   };
-}
-
-export function getArticleReadingMinutes(article: Article) {
-  const text = [
-    article.lede,
-    ...article.sections.map((section) =>
-      section.type === 'phases'
-        ? section.items.map((item) => `${item.title} ${item.text}`).join(' ')
-        : section.type === 'list'
-          ? section.items.join(' ')
-          : section.type === 'image'
-            ? (section.caption ?? '')
-            : section.text
-    ),
-  ].join(' ');
-  return Math.max(1, Math.ceil(text.trim().split(/\s+/).length / 200));
 }
 
 export function getArticlePreview(slug: string): HowWeWorkArticle | undefined {

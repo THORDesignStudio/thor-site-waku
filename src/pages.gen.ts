@@ -24,6 +24,8 @@ import type { getConfig as File_Styleguide_getConfig } from './pages/styleguide'
 // prettier-ignore
 import type { getConfig as File_Tester_getConfig } from './pages/tester';
 // prettier-ignore
+import type { getConfig as File_VerticalsSlug_getConfig } from './pages/verticals/[slug]';
+// prettier-ignore
 import type { getConfig as File_VerticalsAerospace_getConfig } from './pages/verticals/aerospace';
 // prettier-ignore
 import type { getConfig as File_VerticalsPublications_getConfig } from './pages/verticals/publications';
@@ -42,6 +44,7 @@ type Page =
 | ({ path: '/' } & GetConfigResponse<typeof File_Index_getConfig>)
 | ({ path: '/styleguide' } & GetConfigResponse<typeof File_Styleguide_getConfig>)
 | ({ path: '/tester' } & GetConfigResponse<typeof File_Tester_getConfig>)
+| ({ path: '/verticals/[slug]' } & GetConfigResponse<typeof File_VerticalsSlug_getConfig>)
 | ({ path: '/verticals/aerospace' } & GetConfigResponse<typeof File_VerticalsAerospace_getConfig>)
 | ({ path: '/verticals/publications' } & GetConfigResponse<typeof File_VerticalsPublications_getConfig>)
 | ({ path: '/writing/[slug]' } & GetConfigResponse<typeof File_WritingSlug_getConfig>);

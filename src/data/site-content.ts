@@ -10,8 +10,6 @@ export interface PageRecord {
 // Remaining destinations stay unpublished; their existing redirects remain valid.
 // Individual capability pilots publish through getPublishedCapabilities.
 export const plannedPages: PageRecord[] = [
-  { path: '/verticals/construction-engineering', status: 'draft' },
-  { path: '/verticals/associations-nonprofits', status: 'draft' },
   { path: '/work-with-us', status: 'draft' },
 ];
 

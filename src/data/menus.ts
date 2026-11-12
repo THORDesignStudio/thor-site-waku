@@ -31,8 +31,12 @@ export const footerMenu: FooterMenu = {
           url: '/about',
         },
         {
-          name: 'Events',
-          url: '/events',
+          name: 'Capabilities',
+          url: '/capabilities',
+        },
+        {
+          name: 'Case Studies',
+          url: '/case-studies',
         },
       ],
     },
@@ -41,16 +45,16 @@ export const footerMenu: FooterMenu = {
       url: '/how-we-work',
       links: [
         {
-          name: 'Capabilities',
-          url: '/capabilities',
+          name: 'How We Build for the Web',
+          url: '/how-we-work#hww-web',
         },
         {
-          name: 'Programs',
-          url: '#',
+          name: 'How We Design Publications',
+          url: '/how-we-work#hww-pubs',
         },
         {
-          name: 'Case Studies',
-          url: '#',
+          name: 'How We Guide Our Clients',
+          url: '/how-we-work#hww-guide',
         },
       ],
     },
@@ -59,23 +63,15 @@ export const footerMenu: FooterMenu = {
       links: [
         {
           name: 'Associations & Non-Profits',
-          url: '#',
+          url: '/verticals/associations-nonprofits',
         },
         {
           name: 'Construction & Engineering',
-          url: '#',
-        },
-        {
-          name: 'Health Care',
-          url: '#',
+          url: '/verticals/construction-engineering',
         },
         {
           name: 'Publications',
           url: '/verticals/publications',
-        },
-        {
-          name: 'Outdoor',
-          url: '#',
         },
       ],
     },

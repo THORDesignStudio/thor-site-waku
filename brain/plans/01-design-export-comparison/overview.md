@@ -11,6 +11,7 @@
 - Capability landing page and global navigation added on 2026-11-11; see [[plans/01-design-export-comparison/implementation-07-landing]].
 - Phase 08 How We Work implemented on 2026-11-11; see [[plans/01-design-export-comparison/implementation-08]].
 - Phase 09 article template and all fifteen articles completed on 2026-11-11; see [[plans/01-design-export-comparison/implementation-09]].
+- Phase 10 Associations and Construction sector pages completed on 2026-11-11; existing Publications/Aerospace retained. See [[plans/01-design-export-comparison/implementation-10]].
 - No existing `brain/index.md`, `brain/principles.md`, or local AGENTS.md found. No project principles invented. TaskCreate/TaskUpdate tools are unavailable.
 
 ## Scope

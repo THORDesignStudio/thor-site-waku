@@ -5,7 +5,6 @@ import {
   articles,
   getArticle,
   getArticleContext,
-  getArticleReadingMinutes,
   getPublishedArticles,
   getArticlePreview,
 } from '../src/data/articles';
@@ -51,8 +50,6 @@ test('published body and metadata contain no placeholders, duplicate anchors or 
       ),
       article.slug
     );
-    assert.ok(Number.isInteger(getArticleReadingMinutes(article)));
-    assert.ok(getArticleReadingMinutes(article) > 0);
     const ids = article.sections.flatMap((section) =>
       section.type === 'heading' || section.type === 'subheading'
         ? [section.id]
@@ -74,6 +71,7 @@ test('series navigation follows each group and stops at its boundaries', () => {
     for (const [index, preview] of group.articles.entries()) {
       const context = getArticleContext(preview.slug)!;
       assert.equal(context.group.id, group.id);
+      assert.equal(context.position, index + 1);
       assert.deepEqual(
         context.series.map((item) => item.slug),
         group.articles.map((item) => item.slug)

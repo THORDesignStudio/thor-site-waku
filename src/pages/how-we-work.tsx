@@ -47,17 +47,21 @@ function ArticlePreview({ article }: { article: HowWeWorkArticle }) {
 
 export default function HowWeWorkPage() {
   const capabilities = getPublishedCapabilities();
+  // Keep the brand series off the landing page until its content is ready.
+  const visibleGroups = howWeWorkGroups.filter(
+    (group) => group.id !== 'hww-brands'
+  );
   return (
     <>
       <SEO
         title="How We Work | THOR Digital"
-        description="Explore THOR’s approach to building websites, designing publications, guiding clients and creating memorable brands."
+        description="Explore THOR’s approach to building websites, designing publications and guiding clients."
         canonicalUrl="https://www.thor-studio.com/how-we-work"
         ogImage="/images/how-we-work/hw-hero.jpg"
       />
       <PageSectionMotion>
         <PageHero title="How we" highlight="work" className="capability-hero" />
-        {howWeWorkGroups.map((group, index) => {
+        {visibleGroups.map((group, index) => {
           const capability = capabilities.find(
             (item) => item.slug === group.capabilitySlug
           );

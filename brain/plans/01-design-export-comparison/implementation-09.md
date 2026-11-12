@@ -11,7 +11,7 @@ Back to [[plans/01-design-export-comparison/overview]]
 - Previous/next navigation stays within its series, related cards exclude the current article, and introductory phase links resolve to actual pages.
 - Contact callouts open the existing contact overlay. Portfolio callouts link to `/case-studies`.
 - Removed exact redirects for published pages. Legacy CMS/headless URLs permanently redirect to their matching canonical articles; unrelated unpublished How Is a Magazine Born remains redirected.
-- Author/date/bio placeholders are omitted; reading time is computed from real text. No attribution or date invented.
+- Articles are evergreen firm-authored series: no author/date/bio or reading time. Solid navy article heroes show “Part N of M · Series title”; other page heroes keep their established backgrounds.
 
 ## Verification
 - Build passes: 103 generated static files.

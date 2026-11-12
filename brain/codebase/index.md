@@ -4,3 +4,4 @@
 - [[codebase/capability-pages]]
 - [[codebase/how-we-work]]
 - [[codebase/articles]]
+- [[codebase/sector-pages]]

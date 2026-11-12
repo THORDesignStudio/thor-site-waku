@@ -1,8 +1,9 @@
 # Design baseline
 
 - Keep the existing Header, Footer, production footer shader, and motion infrastructure; the sibling v2 export is a reference for page bodies.
+- Footer content now follows the comp: logo/tagline/social block, three navigation groups, and a separate legal row with divider. Keep the production shader, props and iOS gradient handling untouched. Menu data lives in `src/data/menus.ts`; Explore Our Firm includes Capabilities between About / Team and Case Studies.
 - `/styleguide` and `/case-studies` are the established implementation baseline, not unfinished screens to replace wholesale.
-- Layout tokens in `src/styles.css`: 1600px page canvas, 1350px page hero, 800px article column; existing fluid-6 gutters and fluid-12 section rhythm.
+- Layout tokens in `src/styles.css`: 1600px page canvas, 1350px base hero, 800px article column; existing fluid-6 gutters and fluid-12 section rhythm. Shared PageHero uses the 1600px canvas on desktop, matching navigation and wider content, with top/bottom padding increased 20% per user direction.
 - The detail-page section pill bar must scroll away normally. Anchor clicks use the existing root Lenis instance, clear the fixed header, and jump immediately for reduced motion.
 - Resolve Lenis anchor targets from document coordinates (`getBoundingClientRect().top + window.scrollY`); sync its start to the visible scroll position before moving. Coordinate fixes alone do not prevent stale-start jumps.
 - Section highlighting subscribes through `useLenis` scroll callbacks. Anchor movement uses sine in/out and a distance-based 1.2–2.4s duration; exponential out moved too far in the first frames on long jumps.

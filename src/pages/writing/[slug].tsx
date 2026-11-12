@@ -2,7 +2,6 @@ import type { PageProps } from 'waku/router';
 import {
   getArticle,
   getArticleContext,
-  getArticleReadingMinutes,
   getPublishedArticles,
 } from '../../data/articles';
 import { ArticleBody } from '../../components/ArticleBody';
@@ -29,7 +28,7 @@ export default function ArticlePage({ slug }: PageProps<'/writing/[slug]'>) {
         </PageHero>
       </>
     );
-  const { group, preview, series, previous, next } = context;
+  const { group, preview, series, position, previous, next } = context;
   const related = series.filter((item) => item.slug !== slug);
   return (
     <>
@@ -47,7 +46,6 @@ export default function ArticlePage({ slug }: PageProps<'/writing/[slug]'>) {
         <PageHero
           title={preview.title}
           subtitle={article.lede}
-          className="capability-hero"
           eyebrow={
             <>
               <a href="/how-we-work" className="hover:underline">
@@ -62,18 +60,9 @@ export default function ArticlePage({ slug }: PageProps<'/writing/[slug]'>) {
             </>
           }
         >
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-on-dark text-sm">
-            {article.author && <span>{article.author.name}</span>}
-            {article.publishedAt && (
-              <time dateTime={article.publishedAt}>
-                {new Intl.DateTimeFormat('en-US', {
-                  dateStyle: 'long',
-                  timeZone: 'UTC',
-                }).format(new Date(article.publishedAt))}
-              </time>
-            )}
-            <span>{getArticleReadingMinutes(article)} min read</span>
-          </div>
+          <p className="text-on-dark text-sm">
+            Part {position} of {series.length} · {group.title}
+          </p>
         </PageHero>
         <div className="bg-[linear-gradient(to_bottom,var(--color-navy)_50%,white_50%)]">
           <div className="mx-auto max-w-[var(--layout-hero)] lg:max-w-[var(--layout-page)] px-fluid-6">
@@ -89,14 +78,6 @@ export default function ArticlePage({ slug }: PageProps<'/writing/[slug]'>) {
         </div>
         <div className="mx-auto max-w-[calc(var(--layout-article)+2*var(--layout-gutter))] px-fluid-6 py-fluid-12">
           <ArticleBody sections={article.sections} />
-          {article.author?.bio && (
-            <aside className="mt-fluid-10 border-y border-divider py-fluid-6">
-              <h2 className="type-eyebrow mb-3">About the author</h2>
-              <p className="type-article-body">
-                <strong>{article.author.name}</strong> — {article.author.bio}
-              </p>
-            </aside>
-          )}
           {(previous || next) && (
             <nav
               aria-label="Article series"
