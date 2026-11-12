@@ -1,5 +1,5 @@
 import {
-  howWeWorkGroups,
+  getVisibleHowWeWorkGroups,
   getHowWeWorkArticleUrl,
   type HowWeWorkArticle,
 } from '../data/how-we-work';
@@ -48,9 +48,7 @@ function ArticlePreview({ article }: { article: HowWeWorkArticle }) {
 export default function HowWeWorkPage() {
   const capabilities = getPublishedCapabilities();
   // Keep the brand series off the landing page until its content is ready.
-  const visibleGroups = howWeWorkGroups.filter(
-    (group) => group.id !== 'hww-brands'
-  );
+  const visibleGroups = getVisibleHowWeWorkGroups();
   return (
     <>
       <SEO
@@ -58,6 +56,9 @@ export default function HowWeWorkPage() {
         description="Explore THOR’s approach to building websites, designing publications and guiding clients."
         canonicalUrl="https://www.thor-studio.com/how-we-work"
         ogImage="/images/how-we-work/hw-hero.jpg"
+        ogImageAlt="Location markers along a desert highway at sunset"
+        ogImageWidth={1672}
+        ogImageHeight={941}
       />
       <PageSectionMotion>
         <PageHero title="How we" highlight="work" className="capability-hero" />

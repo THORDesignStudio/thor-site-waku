@@ -15,6 +15,9 @@ export default function HomePage() {
         description="THOR builds data-rich websites, brands and publications that help mission-driven organizations thrive."
         canonicalUrl="https://www.thor-studio.com/"
         ogImage="/images/home/city-ratings.jpg"
+        ogImageAlt="A cyclist rides through a city illuminated in orange, pink, and blue"
+        ogImageWidth={1600}
+        ogImageHeight={897}
       />
       <div className="home-page w-full">
         <section className="home-intro bg-navy text-white">

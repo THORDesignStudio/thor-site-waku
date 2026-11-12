@@ -17,6 +17,9 @@ export default function CaseStudiesPage() {
         description="See how THOR has delivered for our clients."
         canonicalUrl="https://www.thor-studio.com/case-studies"
         ogImage="/images/case-studies/cards-horizontal/aerospace-america-articles.jpg"
+        ogImageAlt="Aerospace America article designs by THOR Studio"
+        ogImageWidth={1600}
+        ogImageHeight={900}
       />
 
       <PageHero

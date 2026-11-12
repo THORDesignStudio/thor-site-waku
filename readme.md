@@ -8,6 +8,12 @@ This is the main site for THOR Digital and THOR Studio (our print publication di
 
 Start at `brain/index.md` for implementation decisions, layout and motion constraints, content sources, contact behavior, and phased rollout notes. The typed data and route files remain the source of truth.
 
+## Sitemap and discovery
+
+`npm run build` regenerates `public/sitemap.xml` and the deployed `dist/public/sitemap.xml` from the canonical URLs in Waku’s built HTML. Noindex pages, redirect sources, and the brand article series held off the How We Work landing page are excluded. The landing page and sitemap share that series visibility rule in `src/data/how-we-work.ts`.
+
+`public/robots.txt` advertises the sitemap. After an existing build, use `npm run generate:sitemap` to regenerate it, and `npm run test:sitemap` to check sitemap filtering plus the public links in `llms.txt`. The sitemap omits modification dates because the content has no authoritative per-page update timestamps.
+
 ## Inspiration
 
 We had to pull together many teachings to make the site you're seeing a reality. Below are some of the inspirations and lessons:

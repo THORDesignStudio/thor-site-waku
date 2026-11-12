@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "waku dev",
-    "build": "npm run generate:redirects && waku build",
+    "build": "npm run generate:redirects && waku build && npm run generate:sitemap",
     "start": "waku start",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
@@ -15,7 +15,9 @@
     "test:articles": "node --import=tsx --test scripts/articles.test.ts",
     "test:sectors": "node --import=tsx --test scripts/sectors.test.ts",
     "test:home": "node --import=tsx --test scripts/home.test.ts",
-    "generate:redirects": "node --import=tsx scripts/generate-redirects.ts"
+    "generate:redirects": "node --import=tsx scripts/generate-redirects.ts",
+    "generate:sitemap": "node --import=tsx scripts/generate-sitemap.ts",
+    "test:sitemap": "node --import=tsx --test scripts/sitemap.test.ts"
   },
   "dependencies": {
     "@emotion/css": "11.13.5",

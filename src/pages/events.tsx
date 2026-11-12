@@ -6,10 +6,10 @@ export default function EventsPage() {
     <>
       <SEO
         title="Events | THOR Studio"
-        description="Join THOR Studio for a virtual roundtable on healthcare marketing in 2026."
+        description="Explore THOR Studio’s conversations and events on healthcare marketing, design, and digital strategy."
         canonicalUrl="https://www.thor-studio.com/events"
         ogImage="/images/medical-event.jpg"
-        ogImageAlt="THOR Studio | Events"
+        ogImageAlt="A healthcare professional illuminated in blue and pink light"
         ogImageWidth={1726}
         ogImageHeight={852}
       />

@@ -3,6 +3,7 @@ import {
   getPublishedCapabilities,
   type CapabilityHeading,
 } from '../../data/capabilities';
+import { CASE_STUDY_OG_IMAGE_DIMENSIONS } from '../../data/social-images';
 import { caseStudies } from '../../data/case-studies';
 import { getCapabilityCaseStudies } from '../../utils/capabilities';
 import { PageHero } from '../../components/PageHero';
@@ -53,6 +54,10 @@ export default async function CapabilityPage({
   }
   const content = capability.page;
   const work = getCapabilityCaseStudies(capability, caseStudies.caseStudies);
+  const shareStudy = work[0];
+  const shareDimensions = shareStudy
+    ? CASE_STUDY_OG_IMAGE_DIMENSIONS[shareStudy.slug]
+    : undefined;
 
   return (
     <>
@@ -61,9 +66,20 @@ export default async function CapabilityPage({
         description={capability.dek}
         canonicalUrl={`https://www.thor-studio.com${capability.url}`}
         ogImage={
-          work[0]?.images.cardHorizontal ??
+          shareStudy?.images.cardHorizontal ??
           '/images/hero-hammers/THOR_Hammer_OG_1200x630px.jpg'
         }
+        {...(shareStudy
+          ? {
+              ogImageAlt: `${shareStudy.name} — ${capability.name} work by THOR`,
+            }
+          : {})}
+        {...(shareDimensions
+          ? {
+              ogImageWidth: shareDimensions.width,
+              ogImageHeight: shareDimensions.height,
+            }
+          : {})}
       />
       <CapabilityPageMotion>
         <article className="bg-white text-ink">

@@ -276,3 +276,8 @@ export const howWeWorkGroups: HowWeWorkGroup[] = [
 export function getHowWeWorkArticleUrl(article: HowWeWorkArticle) {
   return article.status === 'ready' ? article.url : undefined;
 }
+
+// Shared discovery policy for the landing page and sitemap.
+export function getVisibleHowWeWorkGroups() {
+  return howWeWorkGroups.filter((group) => group.id !== 'hww-brands');
+}

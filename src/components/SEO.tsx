@@ -44,10 +44,14 @@ export function SEO({
   const fullCanonicalUrl = canonicalUrl || defaultSEO.baseUrl;
   const imageAlt = ogImageAlt || defaultSEO.defaultOgImageAlt;
   const imageType = getImageType(fullOgImage);
+  const isDefaultImage =
+    fullOgImage === `${defaultSEO.baseUrl}${defaultSEO.defaultOgImage}`;
   const imageWidth =
-    ogImageWidth ?? (ogImage ? undefined : defaultSEO.defaultOgImageWidth);
+    ogImageWidth ??
+    (isDefaultImage ? defaultSEO.defaultOgImageWidth : undefined);
   const imageHeight =
-    ogImageHeight ?? (ogImage ? undefined : defaultSEO.defaultOgImageHeight);
+    ogImageHeight ??
+    (isDefaultImage ? defaultSEO.defaultOgImageHeight : undefined);
 
   return (
     <>
