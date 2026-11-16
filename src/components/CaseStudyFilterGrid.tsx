@@ -80,7 +80,7 @@ export function CaseStudyFilterGrid({ studies }: { studies: CaseStudy[] }) {
           <div
             role="group"
             aria-label="Filter case studies by topic"
-            className="flex flex-1 items-center gap-3 overflow-x-auto py-1"
+            className="flex flex-1 items-center gap-3 overflow-x-auto py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {topics.map((topic) => {
               const pressed = filter === topic;

@@ -31,16 +31,13 @@ export function HomeSections() {
             </div>
           </div>
           <div className="mt-fluid-10 grid gap-fluid-8 lg:grid-cols-3">
-            {getHomeDisciplines().map((discipline, index) => (
+            {getHomeDisciplines().map((discipline) => (
               <article
                 key={discipline.title}
                 data-section-reveal
                 data-reveal-self
                 className="home-capability-group flex flex-col border-t-4 border-magenta pt-fluid-6"
               >
-                <p className="type-eyebrow mb-3">
-                  {String(index + 1).padStart(2, '0')}
-                </p>
                 <h3 className="type-section-heading text-white">
                   {discipline.title}
                 </h3>
