@@ -867,6 +867,14 @@
     letter-spacing: var(--tracking-fluid-widest);
   }
 
+  /* Balance display copy across lines instead of filling each line greedily. */
+  .type-page-headline,
+  .type-section-heading,
+  .type-cta-headline,
+  .type-card-title {
+    text-wrap: balance;
+  }
+
   .type-page-headline {
     font-family: var(--font-family-display);
     font-weight: 600;
@@ -1797,5 +1805,35 @@
   }
   ::view-transition-group(*) {
     animation-duration: 0s !important;
+  }
+}
+/* Native disclosure semantics, with GSAP height/fade matching page motion. */
+@media (max-width: 639px) {
+  .capability-hero-ai-cybersecurity .type-page-headline {
+    font-size: clamp(1.75rem, 8.5vw, 3.5rem);
+  }
+}
+
+.accordion-trigger {
+  list-style: none;
+  touch-action: manipulation;
+}
+.accordion-trigger::-webkit-details-marker {
+  display: none;
+}
+.accordion-trigger:focus-visible {
+  outline: 2px solid var(--color-magenta);
+  outline-offset: 4px;
+}
+.accordion-icon-line {
+  transform: rotate(90deg);
+  transition: transform 200ms var(--ease-out-cubic);
+}
+.accordion-item[open] .accordion-icon-line {
+  transform: rotate(0deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion-icon-line {
+    transition: none;
   }
 }

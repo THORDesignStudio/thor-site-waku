@@ -24,6 +24,7 @@ const disciplines = [
       'mobile-apps',
       'e-commerce-solutions',
       'event-solutions',
+      'ai-cybersecurity',
     ],
     proofSlug: 'city-ratings',
   },

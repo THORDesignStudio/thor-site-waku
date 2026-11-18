@@ -11,6 +11,7 @@ import { CaseStudyCarousel } from '../../components/CaseStudyCarousel';
 import { ChallengePromo, ContactButton } from '../../components/ChallengePromo';
 import { SEO } from '../../components/SEO';
 import { CapabilityPageMotion } from '../../components/CapabilityPageMotion';
+import { CapabilityServiceSections } from '../../components/CapabilityServiceSections';
 
 function Heading({ heading }: { heading: CapabilityHeading }) {
   return (
@@ -62,8 +63,8 @@ export default async function CapabilityPage({
   return (
     <>
       <SEO
-        title={`${capability.name} | THOR Digital`}
-        description={capability.dek}
+        title={content.seo?.title ?? `${capability.name} | THOR Digital`}
+        description={content.seo?.description ?? capability.dek}
         canonicalUrl={`https://www.thor-studio.com${capability.url}`}
         ogImage={
           shareStudy?.images.cardHorizontal ??
@@ -91,20 +92,29 @@ export default async function CapabilityPage({
                 href="/capabilities"
                 className="hover:underline underline-offset-4"
               >
-                What we do
+                {content.heroEyebrow ?? 'What we do'}
               </a>
             }
-            subtitle={capability.dek}
-            className="capability-hero"
+            subtitle={content.heroSubtitle ?? capability.dek}
+            className={`capability-hero capability-hero-${capability.slug}`}
           >
-            <ContactButton />
+            {content.heroIntro && (
+              <p className="type-article-body !text-on-dark max-w-3xl mb-fluid-6">
+                {content.heroIntro}
+              </p>
+            )}
+            <div className="flex flex-wrap items-center gap-6">
+              <ContactButton
+                {...(content.reviewCta ? { label: content.reviewCta } : {})}
+              />
+            </div>
           </PageHero>
 
           <section
             className="py-[var(--layout-section)]"
             aria-labelledby="capability-overview"
           >
-            <div className="mx-auto w-full max-w-[var(--layout-hero)] px-fluid-6 grid items-start gap-fluid-8 lg:grid-cols-[0.7fr_1.3fr]">
+            <div className="mx-auto w-full max-w-[var(--layout-hero)] px-fluid-6 grid grid-cols-1 items-start gap-fluid-8 lg:grid-cols-[0.9fr_1.1fr]">
               <div>
                 <p className="type-eyebrow mb-5">Overview</p>
                 <h2
@@ -137,17 +147,11 @@ export default async function CapabilityPage({
                   <Heading heading={content.platformsHeading} />
                 </h2>
                 <ol className="grid gap-5 lg:grid-cols-3">
-                  {content.platforms.map((platform, index) => (
+                  {content.platforms.map((platform) => (
                     <li
                       key={platform.title}
                       className="rounded-2xl border border-divider-dark bg-white/5 p-6 md:p-8"
                     >
-                      <span
-                        className="type-tile-title block text-magenta mb-4"
-                        aria-hidden="true"
-                      >
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
                       <h3 className="type-card-title text-white">
                         {platform.title}
                       </h3>
@@ -157,6 +161,11 @@ export default async function CapabilityPage({
                     </li>
                   ))}
                 </ol>
+                {content.callout && (
+                  <p className="type-article-body !text-on-dark mt-fluid-8 border-t border-divider-dark pt-fluid-6">
+                    {content.callout}
+                  </p>
+                )}
               </div>
             </div>
           </section>
@@ -167,13 +176,13 @@ export default async function CapabilityPage({
           >
             <div
               data-section-reveal
-              className="case-page-width grid items-start gap-fluid-8 lg:grid-cols-[0.9fr_1.1fr]"
+              className="case-page-width grid grid-cols-1 items-start gap-fluid-8 lg:grid-cols-[0.9fr_1.1fr]"
             >
               <div data-reveal>
                 <p className="type-eyebrow mb-5">Details</p>
                 <h2
                   id="capability-details"
-                  className="type-section-heading text-navy"
+                  className="type-section-heading break-words text-navy"
                 >
                   <Heading heading={content.detailsHeading} />
                 </h2>
@@ -201,6 +210,8 @@ export default async function CapabilityPage({
             </div>
           </section>
 
+          <CapabilityServiceSections content={content} />
+
           {work.length > 0 && (
             <div
               data-section-reveal
@@ -223,7 +234,9 @@ export default async function CapabilityPage({
             </div>
           )}
         </article>
-        <ChallengePromo />
+        <ChallengePromo
+          {...(content.reviewCta ? { reviewCta: content.reviewCta } : {})}
+        />
       </CapabilityPageMotion>
     </>
   );

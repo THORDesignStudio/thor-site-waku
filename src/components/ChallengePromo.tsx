@@ -3,7 +3,7 @@
 import { useSetAtom } from 'jotai';
 import { isContactModalOpenAtom } from '../atoms/contactAtoms';
 
-export function ContactButton() {
+export function ContactButton({ label = 'Work with us' }: { label?: string }) {
   const setIsContactOpen = useSetAtom(isContactModalOpenAtom);
   return (
     <button
@@ -11,12 +11,12 @@ export function ContactButton() {
       onClick={() => setIsContactOpen(true)}
       className="btn btn-primary"
     >
-      Work with us
+      {label}
     </button>
   );
 }
 
-export function ChallengePromo() {
+export function ChallengePromo({ reviewCta }: { reviewCta?: string }) {
   return (
     <section data-section-reveal className="bg-cool px-fluid-6 py-fluid-12">
       <div
@@ -26,15 +26,29 @@ export function ChallengePromo() {
         }}
       >
         <h2 className="type-cta-headline text-white">
-          Have a <span className="text-magenta">challenge?</span>
+          {reviewCta ? (
+            <>
+              Start with a <span className="text-magenta">review.</span>
+            </>
+          ) : (
+            <>
+              Have a <span className="text-magenta">challenge?</span>
+            </>
+          )}
         </h2>
         <div className="mt-fluid-4 flex flex-col items-start gap-fluid-6 sm:flex-row sm:items-center">
           <p className="type-page-lede text-white">
-            Talk with the principals
-            <br />
-            who do the work.
+            {reviewCta ? (
+              'Know what is exposed. Make a plan to fix it.'
+            ) : (
+              <>
+                Talk with the principals
+                <br />
+                who do the work.
+              </>
+            )}
           </p>
-          <ContactButton />
+          <ContactButton {...(reviewCta ? { label: reviewCta } : {})} />
         </div>
       </div>
     </section>

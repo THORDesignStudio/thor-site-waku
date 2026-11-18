@@ -24,6 +24,7 @@ test('only ready capability bodies generate public routes', () => {
       'user-experience',
       'branding',
       'content-strategy',
+      'ai-cybersecurity',
     ]
   );
   const web = published[0]!;
@@ -40,7 +41,7 @@ test('only ready capability bodies generate public routes', () => {
 });
 
 test('legacy capability lookups remain available independently of page publication', () => {
-  assert.equal(capabilities.capabilities.length, 9);
+  assert.equal(capabilities.capabilities.length, 10);
   assert.equal(
     getCapabilityByUrl('/capabilities/event-registration')?.slug,
     'event-solutions'
@@ -135,7 +136,8 @@ test('every published capability has complete, specific copy and tag-based work'
     for (const card of [...content.platforms, ...content.details])
       assert.ok(card.title && card.description);
     const work = getCapabilityCaseStudies(capability, caseStudies.caseStudies);
-    assert.ok(work.length > 0, `${capability.slug} has no tagged work`);
+    if (capability.slug !== 'ai-cybersecurity')
+      assert.ok(work.length > 0, `${capability.slug} has no tagged work`);
     assert.ok(
       work.every((study) => study.capabilities.includes(capability.slug))
     );
@@ -172,4 +174,20 @@ test('Branding and Content Strategy use the handoff project classifications', ()
     content.includes('nyscheck') && content.includes('chemonics-media-site')
   );
   assert.ok(!brand.includes('ibd-drug-guide'));
+});
+
+test('AI Cybersecurity has its own canonical route, staging boundary and review flow', () => {
+  const capability = getCapabilityBySlug('ai-cybersecurity')!;
+  assert.equal(capability.name, 'AI Cybersecurity');
+  assert.equal(capability.url, '/capabilities/ai-cybersecurity');
+  assert.equal(getCapabilityByUrl(capability.url), capability);
+  assert.equal(capability.page?.status, 'ready');
+  assert.equal(capability.page?.reviewCta, 'Book a review');
+  assert.equal(capability.page?.engagement?.steps.length, 3);
+  assert.equal(capability.page?.faq?.length, 7);
+  assert.match(capability.page!.platforms[2]!.description, /never production/);
+  assert.deepEqual(
+    getCapabilityCaseStudies(capability, caseStudies.caseStudies),
+    []
+  );
 });

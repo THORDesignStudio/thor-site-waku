@@ -4,7 +4,11 @@
 - The landing page is one static presentation: no hero/grid entrance animations or page motion wrapper. Capability detail pages retain their scroll-triggered motion.
 - Global desktop/mobile navigation order is About Us → How We Work → Capabilities → Case Studies. The footer Capabilities link and detail-page “What we do” eyebrow also point to the landing page.
 - Mobile navigation shows below 768px. Keep compact desktop-nav spacing at 768–1023px so all four links fit; wider desktop spacing follows the existing header.
-- All nine capabilities have full pages: Web Development, Publication Design, Event Solutions, E-Commerce Solutions, Mobile Apps, Data Visualization, User Experience, Branding and Content Strategy.
+- All ten capabilities have full pages: Web Development, Publication Design, Event Solutions, E-Commerce Solutions, Mobile Apps, Data Visualization, User Experience, Branding, Content Strategy and AI Cybersecurity.
+- AI Cybersecurity uses `/capabilities/ai-cybersecurity`, with optional hero/SEO copy, service sections and a reusable `Accordion`. Copy lives in `capability-pages.ts`; this is a PR experiment with owner-confirmed deliverables, without invented past security projects.
+- `Accordion` uses native details/summary with interruptible 200ms GSAP height/opacity and `power2.out` easing. Keyboard/reduced-motion content toggles are immediate, and each settled resize refreshes ScrollTrigger. Native disclosure still works without JavaScript.
+- `reviewCta` customizes the existing contact button and closing review band; both open the same existing contact overlay. Existing pages retain their defaults.
+- Homepage discovery uses explicit slug groups in `home-sections.ts`; adding a catalog entry alone does not add its homepage link. AI Cybersecurity is grouped under Development.
 - `src/data/capability-pages.ts` owns structured body copy. `Capability.page` links it to the catalog with explicit draft/ready status. Only `getPublishedCapabilities()` entries enter static route generation.
 - Canonical page URLs use `/capabilities/{slug}`. Legacy `/capabilities/event-registration` and `/capabilities/e-commerce` remain lookup aliases with permanent redirects to the canonical pages.
 - `getCapabilityCaseStudies()` selects published studies whose `capabilities` include the capability slug, preserving source order. `data/case-studies.ts` is the selection source of truth; there is no separate manual project list.
@@ -15,6 +19,8 @@
 - `CapabilityPageMotion` uses the shared Lenis–ScrollTrigger hook for later section entrances: homepage-style 30px rise, 0.8s `power2.out` fade, 0.2s stagger, and 0.5s reverse timing.
 - Reveal markers on shared components only animate inside the capability motion wrapper. Cards have independent triggers so long mobile stacks reveal as each card enters view.
 - Platform/detail cards use natural content height on all widths; the user rolled back the oversized mobile portrait ratio. Overview matches the hero's 1350px container; the hero background is mirrored independently of its content.
+- Shared display/page/section/card headings use `text-wrap: balance`. Capability overview columns use 0.9fr/1.1fr on desktop so short opening words can stay with the next word; verify actual Rift font rendering rather than forcing line breaks into copy.
+- Approach/platform cards and engagement steps have no visible 01/02/03 labels on any capability page; retain their content order and list semantics.
 - `ContactButton`, exported alongside `ChallengePromo`, opens the same existing contact overlay from the hero or challenge band.
 - `CaseStudyCarousel` accepts optional `studies`, `header` and accessible `label`; the no-prop homepage version still selects featured studies.
 - `CaseStudyCarousel` adapts study data to the shared `ContentCarousel`; How We Work composes article cards into the same scrolling implementation. Controls disable when all cards fit.

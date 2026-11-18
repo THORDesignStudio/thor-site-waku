@@ -26,6 +26,15 @@ export interface CapabilityPageContent {
   detailsIntro: string;
   details: CapabilityCard[];
   workHeading: string;
+  heroEyebrow?: string;
+  heroSubtitle?: string;
+  heroIntro?: string;
+  seo?: { title: string; description: string };
+  reviewCta?: string;
+  callout?: string;
+  audience?: { heading: string; body: string; boundary: string };
+  engagement?: { heading: string; steps: CapabilityCard[] };
+  faq?: { question: string; answer: string }[];
 }
 
 export interface Capability {
@@ -141,6 +150,17 @@ export const capabilities: Capabilities = {
       url: '/capabilities/content-strategy',
       backgroundColor: '#E5E7EB',
       page: capabilityPages['content-strategy'],
+    },
+    {
+      name: 'AI Cybersecurity',
+      slug: 'ai-cybersecurity',
+      short: 'AI cybersecurity',
+      dek: 'Shrink your attack surface, test your systems, and fix what matters.',
+      description:
+        'AI cybersecurity for businesses without a security team. THOR reduces what your business exposes, assesses test environments with AI agents, and implements the fixes.\n\nStart with a fixed-scope attack-surface review, close the priority risks, and keep systems hardened with a monthly engineering retainer.',
+      url: '/capabilities/ai-cybersecurity',
+      backgroundColor: '#F3F4F6',
+      page: capabilityPages['ai-cybersecurity'],
     },
   ],
 };

@@ -3,6 +3,135 @@ import type { CapabilityPageContent } from './capabilities';
 // Complete capability body copy from the design handoff; Publication Design
 // uses the existing site content. Project selection remains tag-driven.
 export const capabilityPages = {
+  'ai-cybersecurity': {
+    status: 'ready',
+    title: 'AI',
+    highlight: 'cybersecurity',
+    heroEyebrow: 'Capabilities',
+    heroSubtitle: 'Security Engineering for the AI Era',
+    seo: {
+      title: 'AI Cybersecurity & Attack Surface Management | THOR',
+      description:
+        'Attack surface management for small and mid-size businesses. THOR reduces exposure, assesses test environments with AI agents, and implements the fixes.',
+    },
+    reviewCta: 'Book a review',
+    overviewHeading: 'The economics of hacking just changed',
+    overviewIntro:
+      'AI agents can automate parts of the work of finding weaknesses in business systems. That lowers the effort needed to probe potential targets, including small and mid-size businesses.',
+    overviewBody:
+      'The same tools can help with defense. Combined with the cloud services you already use, they give a small team a practical way to find exposures and prioritize fixes. THOR brings the engineering work to put those fixes in place.',
+    platformsLabel: 'Our approach',
+    platformsHeading: { text: 'Three moves to', highlight: 'reduce your risk' },
+    platforms: [
+      {
+        title: 'Reduce your attack surface',
+        description:
+          'Every out-of-date server, forgotten plugin, and legacy system is another potential door. We help you move to trusted cloud services and retire what is no longer maintained. Fewer systems means fewer places to break in.',
+      },
+      {
+        title: 'Know what is where, and who can reach it',
+        description:
+          'We build a plain record of what kind of data lives in each cloud service, then review who has access to it. We close stale accounts and tighten permissions so access reflects the people who actually need it.',
+      },
+      {
+        title: 'Attack yourself first',
+        description:
+          'We point an AI agent at your test or staging environments, never production, to find and rank risks. You get your top five exposures and a plan to close them, with THOR engineers implementing the fixes.',
+      },
+    ],
+    detailsHeading: {
+      text: 'White-glove maintenance,',
+      highlight: 'not a report that sits in a drawer',
+    },
+    detailsIntro:
+      'THOR is a development studio. We do engineering work on the systems your business runs on: removing what is exposed, migrating what is out of date, locking down access, and implementing the fixes an agent finds. A named THOR engineer knows your systems and reports to ownership in plain English.',
+    details: [
+      {
+        title: 'Remove what is exposed',
+        description:
+          'Retire unused systems, forgotten plugins, and unnecessary entry points.',
+      },
+      {
+        title: 'Move what is out of date',
+        description:
+          'Migrate aging systems to maintained cloud services and help establish a test environment when needed.',
+      },
+      {
+        title: 'Lock down access',
+        description:
+          'Map where your data lives, review permissions, and close accounts that should no longer have access.',
+      },
+      {
+        title: 'Find and fix new risks',
+        description:
+          'Assess test environments monthly, prioritize the findings, and implement the fixes as your systems and staff change.',
+      },
+    ],
+    audience: {
+      heading: 'Built for firms that do not have a security team',
+      body: 'Professional services firms, associations and publishers, manufacturers, construction and engineering companies, and businesses running on a mix of cloud tools and aging systems. If you have between a handful and a few hundred staff and no one whose job is security, this is for you.',
+      boundary:
+        'This is not a replacement for a 24/7 security operations center or a regulated compliance program. If you need one, we will tell you and help you find the right partner.',
+    },
+    engagement: {
+      heading: 'Start with the review',
+      steps: [
+        {
+          title: 'Attack-surface review',
+          description:
+            'A fixed-scope engagement: we map your systems, data, and access, run the first agent assessment against a test environment, and deliver your top-five risks with a remediation plan.',
+        },
+        {
+          title: 'Close the big ones',
+          description:
+            'We fix what matters most, and you see the difference before committing to anything ongoing.',
+        },
+        {
+          title: 'Keep it that way',
+          description:
+            'Move to a monthly hardening retainer so new risks are assessed and addressed as your systems and staff change.',
+        },
+      ],
+    },
+    faq: [
+      {
+        question: 'What is attack surface management?',
+        answer:
+          'The ongoing work of finding the systems, services, and accounts an attacker could reach, removing or hardening what you do not need, and re-checking as things change. THOR does it for small and mid-size businesses as engineering work, with AI agents supporting discovery and THOR engineers doing the fixes.',
+      },
+      {
+        question: 'Will you run an AI agent against our live systems?',
+        answer:
+          'No. Agents are only ever pointed at test or staging environments. We will help you stand one up if you do not have one.',
+      },
+      {
+        question: 'Do we have to buy new security software?',
+        answer:
+          'Usually not. We start with the cloud providers and AI tools your firm already uses. Where a specific tool is worth adding, we will say so and why.',
+      },
+      {
+        question: 'Is THOR a cybersecurity company?',
+        answer:
+          'THOR is a design and development studio. We build, host, and maintain business systems, and this service applies AI tools to help protect them. For incident response, forensics, or a formal compliance audit, we bring in specialist partners.',
+      },
+      {
+        question: 'Is this managed IT or a help desk?',
+        answer:
+          'No. We do not run your help desk, monitor your network, or manage your laptops. This is engineering work on the systems your business runs on: removing what is exposed, moving what is out of date, and fixing what an agent finds.',
+      },
+      {
+        question: 'What does “white glove” mean here?',
+        answer:
+          'A named THOR engineer who knows your systems, implements the fixes rather than describing them, and reports to ownership in plain English.',
+      },
+      {
+        question: 'How is this different from a penetration test?',
+        answer:
+          'A penetration test is typically a scoped assessment at a point in time. This service combines recurring monthly assessments of test environments with ongoing engineering remediation. It does not replace a specialist penetration test where one is required.',
+      },
+    ],
+    workHeading: 'AI cybersecurity work',
+  },
   'web-development': {
     status: 'ready',
     title: 'Web',

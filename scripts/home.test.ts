@@ -53,14 +53,14 @@ test('featured artwork exists and has explicit dimensions', () => {
     );
   }
 });
-test('What We Do links all nine ready capabilities and real proof projects', () => {
+test('What We Do links all ready capabilities and real proof projects', () => {
   const groups = getHomeDisciplines();
   assert.deepEqual(
     groups.map((g) => g.title),
     ['Design', 'Development', 'Branding']
   );
   const urls = groups.flatMap((g) => g.capabilities.map((c) => c.url));
-  assert.equal(new Set(urls).size, 9);
+  assert.equal(new Set(urls).size, urls.length);
   assert.deepEqual(
     [...urls].sort(),
     getPublishedCapabilities()
